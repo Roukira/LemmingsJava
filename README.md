@@ -1,5 +1,5 @@
 # LemmingsJava
-Little university project
+Little university project.
 
 ## Random ideas :
 Bunch of ideas which are not decided yet to be into the program.
