@@ -9,4 +9,7 @@ Bunch of ideas which are not decided yet to be into the program.
 * Comment the code.
 * Lemmings movement
 * Establish code hierarchy
+  * public abstract class Thing
+    * Living Thing
+    * Item
 * World separated in background and foreground
