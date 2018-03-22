@@ -23,6 +23,9 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	private BufferedImage imageRightStep;		//Image du lemmings avancant sur la droite en marchant
 	private BufferedImage imageLeft;		//Image du lemmings avancant sur la gauche
 	private BufferedImage imageLeftStep;		//Image du lemmings avancant sur la gauche en marchant
+	private BufferedImage deathFirst;
+	private BufferedImage deathSecond;
+	private int iDeath = 0;
 	private static int height;		//Taille de l'image d'un Lemming standard
 	private static int width;			//Largeur de l'image d'un Lemming standard
 	private boolean inAir = false;			//Boolean pour savoir si le lemmingsest en train de tomber
@@ -51,6 +54,8 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 			imageRightStep = ImageIO.read(new File("lemmings1step.png"));
 			imageLeft = ImageIO.read(new File("lemmings2.png"));
 			imageLeftStep = ImageIO.read(new File("lemmings2step.png"));
+			deathFirst = ImageIO.read(new File("death1.png"));
+			deathSecond = ImageIO.read(new File("death2.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
@@ -83,8 +88,10 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 				else g.drawImage(imageLeft,posX,posY-height,null);
 			}
 		}
-		else{
-			System.out.println("dessiner la mort");
+		else if (iDeath != 0){
+			if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
+			else g.drawImage(deathSecond,posX-width,posY-height,null);
+			iDeath--;
 		}
 	}
 	
@@ -169,7 +176,7 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public void kill(){
 		alive = false;
-		
+		iDeath = 20;
 	}
 	
 	
