@@ -3,6 +3,8 @@ Little university project.
 
 ## Random ideas :
 Bunch of ideas which are not decided yet to be into the program.
+### World separated in background and foreground
+
 
 ## To do for v1.0 :
 
@@ -28,4 +30,3 @@ Bunch of ideas which are not decided yet to be into the program.
       * Spawn
       * Outside
       
-### World separated in background and foreground
