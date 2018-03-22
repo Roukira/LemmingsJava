@@ -23,7 +23,7 @@ Bunch of ideas which are not decided yet to be into the program.
         * Abstract Shifter
           * Floater
           * Climber
-    * public abstract class Item
+    * Abstract Item
       * Spawn
       * Outside
 * World separated in background and foreground
