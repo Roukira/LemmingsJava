@@ -6,9 +6,10 @@ Bunch of ideas which are not decided yet to be into the program.
 
 ## To do for v1.0 :
 
-* Comment the code.
-* Lemmings movement
-* Establish code hierarchy
+### Comment the code.
+### Lemmings movement
+### Establish code hierarchy
+
   * Abstract Thing
     * Abstract Living Thing
       * Lemmings
@@ -26,4 +27,5 @@ Bunch of ideas which are not decided yet to be into the program.
     * Abstract Item
       * Spawn
       * Outside
-* World separated in background and foreground
+      
+### World separated in background and foreground
