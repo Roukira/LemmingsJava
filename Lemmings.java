@@ -60,7 +60,7 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		}catch(Exception e){e.printStackTrace();}
 		width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
 		height = imageRight.getHeight();
-		maxFall = 5*height; 
+		maxFall = 5*height;
 	}	
 
 

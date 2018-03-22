@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.awt.Color;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class World{
 	//classe qui represente le monde actuel dans la fenetre principale
@@ -19,6 +21,11 @@ public class World{
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
+	public static final int settingsLines = 4;
+	private int spawnX;
+	private int spawnY;
+	private int outsideX;
+	private int outsideY;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -28,6 +35,8 @@ public class World{
 		this.height = height;
 		fillMap();
 		initAirCst();
+		setSettings();
+		
 		try{
 			mapImage = ImageIO.read(new File("world"+id+".png")); //lit l'image de la carte et la stocke en fonction de l'identifiant
 		}catch(Exception e){e.printStackTrace();}
@@ -45,6 +54,39 @@ public class World{
 	}
 	
 //===================== METHODES =========================
+	
+	public void setSettings(){
+		BufferedReader br = null;
+		FileReader fr = null;
+		int[] settings = new int[4];
+		try{
+			fr = new FileReader("world"+id+"settings.txt");
+			br = new BufferedReader(fr);
+			String currentLine;
+			for (int i=0;i<settingsLines;i++){
+				currentLine = br.readLine();
+				settings[i] = Integer.parseInt(currentLine);
+			}
+			spawnX = settings[0];
+			spawnY = settings[1];
+			outsideX = settings[2];
+			outsideY = settings[3];
+			System.out.println("settings");
+			System.out.println(spawnX);
+			System.out.println(spawnY);
+			System.out.println(outsideX);
+			System.out.println(outsideY);
+		}catch (IOException e){e.printStackTrace();}
+		finally{
+
+			try{
+				if (br != null)
+					br.close();
+				if (fr != null)
+					fr.close();
+			}catch (IOException e2) {e2.printStackTrace();}
+		}
+	}
 	
 	public void initAirCst(){
 	//initialise les constantes d'air pour avoir plus de choix (background et tout)
