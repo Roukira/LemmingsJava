@@ -157,7 +157,19 @@ public class World{
 		g.drawImage(mapImage,0,0,null);
 	}
 
-
+	public int getSpawnX(){
+		return spawnX;	
+	}
+	
+	public int getSpawnY(){
+		return spawnY;	
+	}
+	public int getOutsideX(){
+		return outsideX;	
+	}
+	public int getOutsideY(){
+		return outsideY;	
+	}
 
 
 
