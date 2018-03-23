@@ -73,25 +73,27 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public void draw(Graphics2D g){
 	//Dessine le lemming
-		if(alive){
-			if (direction == 1){
+		if(inWorld){
+			if(alive){
+				if (direction == 1){
 		
-				if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
-					g.drawImage(imageRightStep,posX-width,posY-height,null);
+					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
+						g.drawImage(imageRightStep,posX-width,posY-height,null);
+					}
+					else g.drawImage(imageRight,posX-width,posY-height,null);
 				}
-				else g.drawImage(imageRight,posX-width,posY-height,null);
-			}
-			else {
-				if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
-					g.drawImage(imageLeftStep,posX,posY-height,null);
+				else {
+					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
+						g.drawImage(imageLeftStep,posX,posY-height,null);
+					}
+					else g.drawImage(imageLeft,posX,posY-height,null);
 				}
-				else g.drawImage(imageLeft,posX,posY-height,null);
 			}
-		}
-		else if (iDeath != 0){
-			if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
-			else g.drawImage(deathSecond,posX-width,posY-height,null);
-			iDeath--;
+			else if (iDeath != 0){
+				if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
+				else g.drawImage(deathSecond,posX-width,posY-height,null);
+				iDeath--;
+			}
 		}
 	}
 	
@@ -99,6 +101,7 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public void move(World w){
 	//bouge le lemming selon le world
 		//plus tard ajout de draw animation
+		if (!inWorld) return;
 		if (!alive) return;
 		if (fall(w)) return;
 		if (walk(w)) return;							//tente de grimper
@@ -169,16 +172,14 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	}
 	
 	
-	public void spawn(World w){
+	public void spawn(){
 		inWorld = true;
-		move(w);
 	}
 	
 	public void kill(){
 		alive = false;
 		iDeath = 20;
 	}
-	
 	
 
 }

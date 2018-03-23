@@ -14,7 +14,7 @@ Bunch of ideas which are not decided yet to be into the program.
 
   * Abstract Thing
     * Abstract Living Thing
-      * Lemmings
+      * Abstract Lemmings
         * Walker
         * Bomber
         * Builder
@@ -29,4 +29,5 @@ Bunch of ideas which are not decided yet to be into the program.
     * Abstract Item
       * Spawn
       * Outside
-      
+    
+    * Interface Painter

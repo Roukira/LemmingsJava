@@ -21,7 +21,8 @@ public class World{
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 4;
+	public static final int settingsLines = 5;
+	Spawner spawn;
 	private int spawnX;
 	private int spawnY;
 	private int outsideX;
@@ -58,7 +59,7 @@ public class World{
 	public void setSettings(){
 		BufferedReader br = null;
 		FileReader fr = null;
-		int[] settings = new int[4];
+		int[] settings = new int[settingsLines];
 		try{
 			fr = new FileReader("world"+id+"settings.txt");
 			br = new BufferedReader(fr);
@@ -69,11 +70,10 @@ public class World{
 			}
 			spawnX = settings[0];
 			spawnY = settings[1];
+			spawn = new Spawner(settings[4],spawnX,spawnY);
 			outsideX = settings[2];
 			outsideY = settings[3];
 			System.out.println("settings");
-			System.out.println(spawnX);
-			System.out.println(spawnY);
 			System.out.println(outsideX);
 			System.out.println(outsideY);
 		}catch (IOException e){e.printStackTrace();}
@@ -170,7 +170,12 @@ public class World{
 	public int getOutsideY(){
 		return outsideY;	
 	}
+	
+	public void spawnLemmings(Lemmings[] list){
+		spawn.addLemmings(list);
+	}
 
-
-
+	public Spawner getSpawner(){
+		return spawn;
+	}
 }

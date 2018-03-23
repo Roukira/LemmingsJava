@@ -19,7 +19,8 @@ public class Game{
 		
 		
 		GameWindow UI = new GameWindow("Lemmings v0",lemTab);	//Creation de la fenetre Interface Utilisateur
-		UI.setWorld(w);						//Remplissage de la fenetre avec le world w
+		UI.setWorld(w);	
+		w.spawnLemmings(lemTab);	//Remplissage de la fenetre avec le world w
 		
 		while(true){
 			UI.update();					//Update les mouvements
