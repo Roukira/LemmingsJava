@@ -8,8 +8,8 @@ public class Game{
 		Lemmings[] lemTab = new Lemmings[15]; 	//plus tard array list?
 		World w = new World(1,600,400);		//Creaation d un monde avec la taille de l image
 		for (int i = 0;i<lemTab.length;i++){
-			int posX = (int)(100+(Math.random()*400));
-			int posY = (int)(100+(Math.random()*100));
+			int posX = w.getSpawnX();
+			int posY = w.getSpawnY();
 			System.out.println(posX);
 			System.out.println(posY);
 			Lemmings l = new Lemmings(i,posX,posY);
