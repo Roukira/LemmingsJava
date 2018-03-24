@@ -10,7 +10,9 @@ public class Spawner{
 	private int posX;
 	private int posY;
 	private int id;
-	BufferedImage image;
+	BufferedImage imageFirst;
+	BufferedImage imageSecond;
+	BufferedImage imageThird;
 	ArrayList<Lemmings> spawnList;
 	private int iSpawn;
 	
@@ -21,7 +23,11 @@ public class Spawner{
 		this.iSpawn = iSpawn;
 		spawnList = new ArrayList<Lemmings>();
 		try{
-			image = ImageIO.read(new File("world/spawn"+id+".png"));
+			if(id == 1){
+				imageFirst = ImageIO.read(new File("world/spawn"+id+"-"+1+".png"));
+				imageSecond = ImageIO.read(new File("world/spawn"+id+"-"+2+".png"));
+				imageThird = ImageIO.read(new File("world/spawn"+id+".png"));
+			}
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -31,13 +37,21 @@ public class Spawner{
 		System.out.println(GameWindow.getTps());
 		System.out.println(GameWindow.getTps()%iSpawn);
         	spawnList.get(0).spawn();
-        	System.out.println("hello"+iSpawn);
         	spawnList.remove(0);
 	}
 	
 	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
-		g.drawImage(image,posX-(int)(image.getWidth()/2),posY-(int)(image.getHeight()/2),null);
+		if(GameWindow.getTps()<5){
+			g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY-(int)(imageFirst.getHeight()/2),null);
+			return;
+		}
+		if(GameWindow.getTps()<10){
+			g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY-(int)(imageSecond.getHeight()/2),null);
+			return;
+		}
+		g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY-(int)(imageThird.getHeight()/2),null);
+		
 	}
 	
 	public void addLemmings(Lemmings[] list){
