@@ -50,12 +50,12 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		action = 0;				//classe Action
 		actionState = false;			
 		try{
-			imageRight = ImageIO.read(new File("lemmings1.png"));				//recupere les images des lemmings a differents etats
-			imageRightStep = ImageIO.read(new File("lemmings1step.png"));
-			imageLeft = ImageIO.read(new File("lemmings2.png"));
-			imageLeftStep = ImageIO.read(new File("lemmings2step.png"));
-			deathFirst = ImageIO.read(new File("death1.png"));
-			deathSecond = ImageIO.read(new File("death2.png"));
+			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des lemmings a differents etats
+			imageRightStep = ImageIO.read(new File("lemmings/lemmings1step.png"));
+			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
+			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
+			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
+			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
@@ -176,9 +176,21 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		inWorld = true;
 	}
 	
+	public void win(){
+		inWorld = false;
+	}
+	
 	public void kill(){
 		alive = false;
 		iDeath = 20;
+	}
+	
+	public int getPosX(){
+		return posX;
+	}
+	
+	public int getPosY(){
+		return posY;
 	}
 	
 

@@ -55,6 +55,7 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 		for(int i=0;i<LemmingsList.length;i++){
 			world.getSpawner().update();
         		LemmingsList[i].move(world); //met a jour la position des lemmings		
+        		world.getOutside().update(LemmingsList);
         	}
 	}
 	
@@ -66,6 +67,7 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
         			g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
         			if(world!=null) world.draw(g); //dessine le monde
         			world.getSpawner().draw(g);
+        			world.getOutside().draw(g);
         			for(int i=0;i<LemmingsList.length;i++){
         				LemmingsList[i].draw(g); //dessine les lemmings
         			}

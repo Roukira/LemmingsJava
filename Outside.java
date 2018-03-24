@@ -5,37 +5,30 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Spawner{
+public class Outside{
 
 	private int posX;
 	private int posY;
 	private int id;
 	BufferedImage image;
-	ArrayList<Lemmings> spawnList;
-	private static int iSpawn = 0;
 	
-	public Spawner(int id, int posX, int posY){
+	public Outside(int id, int posX, int posY){
 		this.id = id;
 		this.posX = posX;
 		this.posY = posY;
-		spawnList = new ArrayList<Lemmings>();
 		try{
-			image = ImageIO.read(new File("world/spawn"+id+".png"));
+			image = ImageIO.read(new File("world/outside"+id+".png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
-	public void update(){
-		if(!spawnList.isEmpty()){
-			if(iSpawn == 0){
-				Lemmings l = spawnList.get(0);
-				l.spawn();
-				iSpawn = 400;
-				System.out.println("hello");
-				spawnList.remove(0);
+	public void update(Lemmings[] list){
+		for(Lemmings l:list){
+			if(l.getPosX()==posX && l.getPosY()==posY){
+				l.win();
 			}
-			else iSpawn--;
 		}
+		
 	}
 	
 	public void draw(Graphics2D g){
@@ -43,11 +36,6 @@ public class Spawner{
 		g.drawImage(image,posX-(int)(image.getWidth()/2),posY-(int)(image.getHeight()/2),null);
 	}
 	
-	public void addLemmings(Lemmings[] list){
-		for(Lemmings l:list){
-			spawnList.add(l);
-		}
-	}
 	
 	public int getPosX(){
 		return posX;
