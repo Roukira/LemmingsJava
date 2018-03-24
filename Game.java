@@ -10,8 +10,6 @@ public class Game{
 		for (int i = 0;i<lemTab.length;i++){
 			int posX = w.getSpawnX();
 			int posY = w.getSpawnY();
-			System.out.println(posX);
-			System.out.println(posY);
 			Lemmings l = new Lemmings(i,posX,posY);
 			lemTab[i] = l;
 		}

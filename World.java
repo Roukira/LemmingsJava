@@ -22,7 +22,7 @@ public class World{
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
 	public static final int settingsLines = 5;
-	Spawner spawn;
+	private Spawner spawn;
 	private int spawnX;
 	private int spawnY;
 	private int outsideX;
@@ -39,7 +39,7 @@ public class World{
 		setSettings();
 		
 		try{
-			mapImage = ImageIO.read(new File("world"+id+".png")); //lit l'image de la carte et la stocke en fonction de l'identifiant
+			mapImage = ImageIO.read(new File("world/world"+id+".png")); //lit l'image de la carte et la stocke en fonction de l'identifiant
 		}catch(Exception e){e.printStackTrace();}
 		for (int i=0;i<width;i++){
 			for(int j=0;j<height;j++){
@@ -61,7 +61,7 @@ public class World{
 		FileReader fr = null;
 		int[] settings = new int[settingsLines];
 		try{
-			fr = new FileReader("world"+id+"settings.txt");
+			fr = new FileReader("world/world"+id+"settings.txt");
 			br = new BufferedReader(fr);
 			String currentLine;
 			for (int i=0;i<settingsLines;i++){
@@ -70,12 +70,9 @@ public class World{
 			}
 			spawnX = settings[0];
 			spawnY = settings[1];
-			spawn = new Spawner(settings[4],spawnX,spawnY);
+			spawn = new Spawner(id,spawnX,spawnY);		//settings[4] a la place de id
 			outsideX = settings[2];
 			outsideY = settings[3];
-			System.out.println("settings");
-			System.out.println(outsideX);
-			System.out.println(outsideY);
 		}catch (IOException e){e.printStackTrace();}
 		finally{
 

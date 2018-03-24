@@ -46,21 +46,27 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		id = nbLemmings;			//Iniatialise l identifiant a la
 		outside = false;			//boolean pour savoir si il s'est refugie initialement faux
 		inWorld = false;			//initialement, le lemming nest pas dans le monde jusqu au spawn
-		alive = true;				//initialement, il est en vie
+		alive = false;				//initialement, il est en vie
 		action = 0;				//classe Action
 		actionState = false;			
 		try{
-			imageRight = ImageIO.read(new File("lemmings1.png"));				//recupere les images des lemmings a differents etats
-			imageRightStep = ImageIO.read(new File("lemmings1step.png"));
-			imageLeft = ImageIO.read(new File("lemmings2.png"));
-			imageLeftStep = ImageIO.read(new File("lemmings2step.png"));
-			deathFirst = ImageIO.read(new File("death1.png"));
-			deathSecond = ImageIO.read(new File("death2.png"));
+			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des lemmings a differents etats
+			
+			imageRightStep = ImageIO.read(new File("lemmings/lemmings1step.png"));
+			
+			
+			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
+
+			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
+
+			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
+
+			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
 		height = imageRight.getHeight();
-		maxFall = 5*height;
+		maxFall = 7*height;
 	}	
 
 
@@ -73,27 +79,25 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public void draw(Graphics2D g){
 	//Dessine le lemming
-		if(inWorld){
-			if(alive){
-				if (direction == 1){
+		if(alive){
+			if (direction == 1){
 		
-					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
-						g.drawImage(imageRightStep,posX-width,posY-height,null);
-					}
-					else g.drawImage(imageRight,posX-width,posY-height,null);
+				if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
+					g.drawImage(imageRightStep,posX-width,posY-height,null);
 				}
-				else {
-					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
-						g.drawImage(imageLeftStep,posX,posY-height,null);
-					}
-					else g.drawImage(imageLeft,posX,posY-height,null);
+				else g.drawImage(imageRight,posX-width,posY-height,null);
+			}
+			else {
+				if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
+					g.drawImage(imageLeftStep,posX,posY-height,null);
 				}
+				else g.drawImage(imageLeft,posX,posY-height,null);
 			}
-			else if (iDeath != 0){
-				if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
-				else g.drawImage(deathSecond,posX-width,posY-height,null);
-				iDeath--;
-			}
+		}
+		else if (iDeath != 0){
+			if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
+			else g.drawImage(deathSecond,posX-width,posY-height,null);
+			iDeath--;
 		}
 	}
 	
@@ -101,7 +105,7 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public void move(World w){
 	//bouge le lemming selon le world
 		//plus tard ajout de draw animation
-		if (!inWorld) return;
+		
 		if (!alive) return;
 		if (fall(w)) return;
 		if (walk(w)) return;							//tente de grimper
@@ -172,13 +176,18 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	}
 	
 	
-	public void spawn(){
+	public void spawn(World w){
 		inWorld = true;
+		move(w);
 	}
 	
 	public void kill(){
 		alive = false;
 		iDeath = 20;
+	}
+	
+	public void setAlive(boolean alive){
+		this.alive = alive;
 	}
 	
 

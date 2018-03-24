@@ -20,22 +20,23 @@ public class Spawner{
 		this.posY = posY;
 		spawnList = new ArrayList<Lemmings>();
 		try{
-			image = ImageIO.read(new File("spawn"+id+".png"));
+			image = ImageIO.read(new File("world/spawn"+id+".png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
-	public void update(){
-		if(!spawnList.isEmpty()){
-			if(iSpawn == 0){
-				Lemmings l = spawnList.get(0);
-				l.spawn();
-				iSpawn = 400;
-				System.out.println("hello");
-				spawnList.remove(0);
-			}
-			else iSpawn--;
-		}
+	public boolean estRempli(){
+		if (spawnList.isEmpty()) return false;
+		return true;
+	}
+	
+	public void spawnLemmings(World w){
+		if (spawnList.isEmpty() || (GameWindow.getTps() % 30)!=0) return;
+		Lemmings l = spawnList.get(0);
+		l.spawn(w);
+		l.setAlive(true);
+		spawnList.remove(0);
+		iSpawn++;
 	}
 	
 	public void draw(Graphics2D g){
