@@ -16,12 +16,13 @@ public class World{
 	private int[][] map;									//carte colore du monde a mettre a jour au tout debut
 	private int height;									//hauteur de la carte
 	private int width;									//largeur
-	private int id;										//identifiant
+	private int id;	
+	private Lemmings[] list;									//identifiant
 	private BufferedImage mapImage;								//Image en .png de la carte a charger
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 6;
+	public static final int settingsLines = 7;
 	Spawner spawn;
 	Outside end;
 	private int spawnX;
@@ -74,7 +75,8 @@ public class World{
 			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
 			outsideX = settings[2];
 			outsideY = settings[3];
-			end = new Outside(settings[4],outsideX,outsideY);
+			loadLemmings(settings[6]);
+			end = new Outside(settings[4],outsideX,outsideY,list);
 			System.out.println("settings");
 			System.out.println(outsideX);
 			System.out.println(outsideY);
@@ -88,6 +90,14 @@ public class World{
 					fr.close();
 			}catch (IOException e2) {e2.printStackTrace();}
 		}
+	}
+	
+	public void loadLemmings(int nb){
+		list = new Lemmings[nb];
+		for (int i=0;i<nb;i++){
+			list[i] = new Lemmings(i,spawnX,spawnY);
+		}
+		
 	}
 	
 	public void initAirCst(){
@@ -173,8 +183,12 @@ public class World{
 		return outsideY;	
 	}
 	
-	public void spawnLemmings(Lemmings[] list){
+	public void spawnLemmings(){
 		spawn.addLemmings(list);
+	}
+	
+	public Lemmings[] getLemmingsList(){
+		return list;
 	}
 
 	public Spawner getSpawner(){

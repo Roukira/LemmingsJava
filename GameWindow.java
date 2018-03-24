@@ -11,16 +11,15 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 
 	private BufferStrategy bs;			//fenetre de dessin		
 	private World world;				//monde
-	private Lemmings[] LemmingsList;		//liste des lemmings
 	private static int tps = 0;			//compteur de temps
 	
 //================== CONSTRUCTEURS ======================
 	
-	public GameWindow(String name, Lemmings[] LemmingsList){
-		this(name,LemmingsList,600,400);
+	public GameWindow(String name){
+		this(name,600,400);
 	}
 	
-	public GameWindow(String name, Lemmings[] LemmingsList,int width,int height){
+	public GameWindow(String name,int width,int height){
 		this.setTitle(name); 					//titre de fenetre
 		this.setSize(width,height); 				//change la taille
 		this.setLocationRelativeTo(null); 			//place au centre
@@ -29,7 +28,6 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 		this.setVisible(true); 					//rend visible
 		this.createBufferStrategy(2);				//fenetre de dessin des pixels
 		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
-		this.LemmingsList = LemmingsList;			//reference vers la liste des lemmings
 	}
 	
 	
@@ -54,12 +52,12 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 	//met a jour le monde
 		world.getSpawner().update();
 		
-		for(int i=0;i<LemmingsList.length;i++){
+		for(int i=0;i<world.getLemmingsList().length;i++){
 			
-        		LemmingsList[i].move(world); //met a jour la position des lemmings		
+        		world.getLemmingsList()[i].move(world); //met a jour la position des lemmings		
         		
         	}
-        	world.getOutside().update(LemmingsList);
+        	world.getOutside().update();
 	}
 	
 	public void draw(){
@@ -71,8 +69,8 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
         			if(world!=null) world.draw(g); //dessine le monde
         			world.getSpawner().draw(g);
         			world.getOutside().draw(g);
-        			for(int i=0;i<LemmingsList.length;i++){
-        				LemmingsList[i].draw(g); //dessine les lemmings
+        			for(int i=0;i<world.getLemmingsList().length;i++){
+        				world.getLemmingsList()[i].draw(g); //dessine les lemmings
         			}
     			}
     			finally{

@@ -5,20 +5,19 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Outside{
+public class Outside extends Item{
 
-	private int posX;
-	private int posY;
 	private int id;
+	Lemmings[] list;
 	BufferedImage imageFirst;
 	BufferedImage imageSecond;
 	BufferedImage imageThird;
 	BufferedImage imageForth;
 	
-	public Outside(int id, int posX, int posY){
+	public Outside(int id, int posX, int posY, Lemmings[] list){
+		super(posX,posY);
 		this.id = id;
-		this.posX = posX;
-		this.posY = posY;
+		this.list = list;
 		try{
 			
 			if(id == 1){
@@ -31,7 +30,7 @@ public class Outside{
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
-	public void update(Lemmings[] list){
+	public void update(){
 		for(Lemmings l:list){
 			if(l.getPosX()==posX && l.getPosY()==posY){
 				l.win();
@@ -46,15 +45,6 @@ public class Outside{
 		if(GameWindow.getTps()%40<20) g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY+1-(int)(imageSecond.getHeight()),null);
 		if(GameWindow.getTps()%40<30) g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY+1-(int)(imageThird.getHeight()),null);
 		else g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY+1-(int)(imageForth.getHeight()),null);
-	}
-	
-	
-	public int getPosX(){
-		return posX;
-	}
-	
-	public int getPosY(){
-		return posY;
 	}
 	
 
