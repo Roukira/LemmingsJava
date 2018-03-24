@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Game{
 	
 	public static void main(String[] args){
-		Lemmings[] lemTab = new Lemmings[15]; 	//plus tard array list?
+		Lemmings[] lemTab = new Lemmings[30]; 	//plus tard array list?
 		World w = new World(1,600,400);		//Creaation d un monde avec la taille de l image
 		for (int i = 0;i<lemTab.length;i++){
 			int posX = w.getSpawnX();

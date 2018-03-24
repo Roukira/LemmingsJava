@@ -21,7 +21,7 @@ public class World{
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 5;
+	public static final int settingsLines = 6;
 	Spawner spawn;
 	Outside end;
 	private int spawnX;
@@ -71,7 +71,7 @@ public class World{
 			}
 			spawnX = settings[0];
 			spawnY = settings[1];
-			spawn = new Spawner(settings[4],spawnX,spawnY);
+			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
 			outsideX = settings[2];
 			outsideY = settings[3];
 			end = new Outside(settings[4],outsideX,outsideY);

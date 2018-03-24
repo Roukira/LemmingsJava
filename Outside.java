@@ -10,14 +10,23 @@ public class Outside{
 	private int posX;
 	private int posY;
 	private int id;
-	BufferedImage image;
+	BufferedImage imageFirst;
+	BufferedImage imageSecond;
+	BufferedImage imageThird;
+	BufferedImage imageForth;
 	
 	public Outside(int id, int posX, int posY){
 		this.id = id;
 		this.posX = posX;
 		this.posY = posY;
 		try{
-			image = ImageIO.read(new File("world/outside"+id+".png"));
+			
+			if(id == 1){
+				imageFirst = ImageIO.read(new File("world/outside"+id+"-"+1+".png"));
+				imageSecond = ImageIO.read(new File("world/outside"+id+"-"+2+".png"));
+				imageThird = ImageIO.read(new File("world/outside"+id+"-"+3+".png"));
+				imageForth = ImageIO.read(new File("world/outside"+id+"-"+4+".png"));
+			}
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -33,7 +42,10 @@ public class Outside{
 	
 	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
-		g.drawImage(image,posX-(int)(image.getWidth()/2),posY-(int)(image.getHeight()/2),null);
+		if(GameWindow.getTps()%40<10) g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY+1-(int)(imageFirst.getHeight()),null);
+		if(GameWindow.getTps()%40<20) g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY+1-(int)(imageSecond.getHeight()),null);
+		if(GameWindow.getTps()%40<30) g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY+1-(int)(imageThird.getHeight()),null);
+		else g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY+1-(int)(imageForth.getHeight()),null);
 	}
 	
 	
