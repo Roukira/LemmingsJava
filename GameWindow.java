@@ -3,6 +3,7 @@ import java.io.File;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 public final class GameWindow extends JFrame{		//Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
@@ -12,6 +13,7 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 	private BufferStrategy bs;			//fenetre de dessin		
 	private World world;				//monde
 	private static int tps = 0;			//compteur de temps
+	private BufferedImage victory;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -28,6 +30,10 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 		this.setVisible(true); 					//rend visible
 		this.createBufferStrategy(2);				//fenetre de dessin des pixels
 		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
+		try{
+			victory = ImageIO.read(new File("world/victory.png"));
+			
+		}catch(Exception e){e.printStackTrace();}
 	}
 	
 	
@@ -72,6 +78,21 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
         			for(int i=0;i<world.getLemmingsList().length;i++){
         				world.getLemmingsList()[i].draw(g); //dessine les lemmings
         			}
+    			}
+    			finally{
+           			g.dispose(); //termine l'utilisation de l'outil de dessin
+    			}
+    			bs.show(); //actualise la fenetre de dessin avec la nouvelle
+		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
+	}
+	
+	public void drawVictory(){
+		Graphics2D g = null;
+		do{
+   			try{
+        			g = (Graphics2D)bs.getDrawGraphics();
+        			g.drawImage(victory,0,0,null);
+        			
     			}
     			finally{
            			g.dispose(); //termine l'utilisation de l'outil de dessin

@@ -18,6 +18,13 @@ public class Game{
 			UI.draw();					//dessines les nouveaux mouvements
 			UI.pause(19);					//temps en milliseconde entre deux iterations
 			UI.iterateTps();				//Itere le compteur
+			if(w.getFinished()){
+				System.out.println("THE END");
+				UI.drawVictory();
+				UI.pause(2000);
+				UI.dispose();
+				break;
+			}
 		}
 	}
 
