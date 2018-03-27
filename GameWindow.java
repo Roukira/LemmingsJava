@@ -2,11 +2,15 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-public final class GameWindow extends JFrame{		//Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
+
+
+public final class GameWindow extends JFrame implements MouseListener{		
+//Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
 
 //==================== ATTRIBUTS ========================
 
@@ -34,6 +38,8 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 			victory = ImageIO.read(new File("world/victory.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
+		addMouseListener(this);
+		this.requestFocus();
 	}
 	
 	
@@ -105,6 +111,42 @@ public final class GameWindow extends JFrame{		//Sous-classe de la classe de fen
 	//Pause le monde
 		try{Thread.sleep(ms);}catch(Exception e){};
 	}
+	
+	
+        
+        public void mouseClicked(MouseEvent e) {
+	//Invoked when the mouse has been clicked on a component.
+		//System.out.println("clic a la position : "+e.getX()+","+e.getY());
+		int posXclic = e.getX();
+		int posYclic = e.getY();
+		int posXlem;
+		int posYlem;	
+		for(int i=0;i<world.getLemmingsList().length;i++){
+			Lemmings l = world.getLemmingsList()[i]; //met a jour la position des lemmings	
+			posXlem = l.getPosX();
+			posYlem = l.getPosY();	
+        		if ( posYlem-l.height<posYclic  && posYlem>posYclic && posXlem-l.width<posXclic  && posXlem>posXclic){
+        			System.out.println("///////////////\n");
+        			System.out.println(l);
+        			System.out.println("\n///////////////");
+        		}
+        	}
+	}
+	
+	public void mousePressed(MouseEvent e) {
+	//Invoked when a mouse button has been pressed on a component.
+	}
 
-
+	public void mouseReleased(MouseEvent e) {
+	//Invoked when a mouse button has been released on a component.
+	}
+	
+	public void mouseEntered(MouseEvent e) {
+	//Invoked when the mouse enters a component.
+	}
+	
+	public void mouseExited(MouseEvent e) {
+	//Invoked when the mouse exits a component.
+	}
+	
 }
