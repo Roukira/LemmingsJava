@@ -8,16 +8,19 @@ import java.io.File;
 public class Outside extends Item{
 
 	private int id;
-	Lemmings[] list;
-	BufferedImage imageFirst;
-	BufferedImage imageSecond;
-	BufferedImage imageThird;
-	BufferedImage imageForth;
+	private ArrayList<Lemmings> list;
+	private BufferedImage imageFirst;
+	private BufferedImage imageSecond;
+	private BufferedImage imageThird;
+	private BufferedImage imageForth;
+	private World w;
 	
-	public Outside(int id, int posX, int posY, Lemmings[] list){
+	public Outside(int id, int posX, int posY, Lemmings[] list, World w){
 		super(posX,posY);
 		this.id = id;
-		this.list = list;
+		this.list = new ArrayList<Lemmings>();
+		this.w = w;
+		fillArray(list);
 		try{
 			
 			if(id == 1){
@@ -30,10 +33,22 @@ public class Outside extends Item{
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
+	public void fillArray(Lemmings[] listLemmings){
+		for (Lemmings l:listLemmings){
+			list.add(l);
+		}
+	}
+	
 	public void update(){
-		for(Lemmings l:list){
-			if(l.getPosX()==posX && l.getPosY()==posY){
+		if(list.isEmpty()){
+			w.setFinished(true);
+		}
+		for(int i = 0;i<list.size();i++){
+			Lemmings l = list.get(i);
+			
+			if(l.getInWorld() && l.getPosX()==posX && l.getPosY()==posY){
 				l.win();
+				list.remove(i);
 			}
 		}
 		

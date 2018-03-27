@@ -5,33 +5,27 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
+public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 
 	
 //==================== ATTRIBUTS ========================
-	private int id; 				//identifiant du Lemming
-	private int posX; 				//position en x tout a droite ou gauche de l'image selon direction
-	private int posY;				//en y en bas de l'image
-	private int direction; 				//sens de mouvement : -1 si a gauche, +1 si a droite
-	private static int nbLemmings = 0; 		//compteur static des lemmings.
-	private boolean actionState; 			//si en pleine action
-	private int action;				//quelle action : 0 si aucune plus tard classe Action
-	private boolean alive; 				//dead or alive
-	private boolean inWorld;			//si il est entre dans le terrain
-	private boolean outside;			//si il a reussi a sortir
-	private BufferedImage imageRight;		//Image du lemmings avancant sur la droite
-	private BufferedImage imageRightStep;		//Image du lemmings avancant sur la droite en marchant
-	private BufferedImage imageLeft;		//Image du lemmings avancant sur la gauche
-	private BufferedImage imageLeftStep;		//Image du lemmings avancant sur la gauche en marchant
-	private BufferedImage deathFirst;
-	private BufferedImage deathSecond;
-	private int iDeath = 0;
-	private static int height;		//Taille de l'image d'un Lemming standard
-	private static int width;			//Largeur de l'image d'un Lemming standard
-	private boolean inAir = false;			//Boolean pour savoir si le lemmingsest en train de tomber
-	private int iWalk = 0;				//iteration qui debute lanimation de bouger
-	private int iFall = 0;
-	private static int maxFall;		//hauteur max avant la mort
+	protected int id; 				//identifiant du Lemming
+	protected int posX; 				//position en x tout a droite ou gauche de l'image selon direction
+	protected int posY;				//en y en bas de l'image
+	protected int direction; 				//sens de mouvement : -1 si a gauche, +1 si a droite
+	public static int nbLemmings = 0; 		//compteur static des lemmings.
+	protected boolean actionState; 			//si en pleine action
+	protected int action;				//quelle action : 0 si aucune plus tard classe Action
+	protected boolean alive; 				//dead or alive
+	protected boolean inWorld;			//si il est entre dans le terrain
+	protected boolean outside;			//si il a reussi a sortir
+	protected int iDeath = 0;
+	protected static int height;		//Taille de l'image d'un Lemming standard
+	protected static int width;			//Largeur de l'image d'un Lemming standard
+	protected boolean inAir = false;			//Boolean pour savoir si le lemmingsest en train de tomber
+	protected int iWalk = 0;				//iteration qui debute lanimation de bouger
+	protected int iFall = 0;
+	protected static int maxFall;		//hauteur max avant la mort
 	
 	
 
@@ -48,18 +42,7 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		inWorld = false;			//initialement, le lemming nest pas dans le monde jusqu au spawn
 		alive = true;				//initialement, il est en vie
 		action = 0;				//classe Action
-		actionState = false;			
-		try{
-			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des lemmings a differents etats
-			imageRightStep = ImageIO.read(new File("lemmings/lemmings1step.png"));
-			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
-			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
-			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
-			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
-		width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
-		height = imageRight.getHeight();
+		actionState = false;
 		maxFall = 5*height;
 	}	
 
@@ -71,45 +54,10 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		return "Lemmings number "+id;
 	}
 	
-	public void draw(Graphics2D g){
-	//Dessine le lemming
-		if(inWorld){
-			if(alive){
-				if (direction == 1){
-		
-					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
-						g.drawImage(imageRightStep,posX-width,posY-height,null);
-					}
-					else g.drawImage(imageRight,posX-width,posY-height,null);
-				}
-				else {
-					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
-						g.drawImage(imageLeftStep,posX,posY-height,null);
-					}
-					else g.drawImage(imageLeft,posX,posY-height,null);
-				}
-			}
-			else if (iDeath != 0){
-				if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
-				else g.drawImage(deathSecond,posX-width,posY-height,null);
-				iDeath--;
-			}
-		}
-	}
+	public abstract void draw(Graphics2D g);
 	
 	
-	public void move(World w){
-	//bouge le lemming selon le world
-		//plus tard ajout de draw animation
-		if (!inWorld) return;
-		if (!alive) return;
-		if (fall(w)) return;
-		if (walk(w)) return;							//tente de grimper
-		if (climbUp(w)) return;							//tente de descendre 
-		if (climbDown(w)) return;
-		direction = -direction;
-		posX += direction*width;						 //retourne le lemming si faux
-	}
+	public abstract void move(World w);
 	
 	public boolean fall(World w){
 		if(w.getPos(posX,posY+1)==0  && w.getPos(posX-direction*(width/2),posY+1)==0 && w.getPos(posX-direction*width,posY+1)==0){		//Si pas de sol en dessous de lui pour tout son corps
@@ -191,6 +139,10 @@ public class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public int getPosY(){
 		return posY;
+	}
+	
+	public boolean getInWorld(){
+		return inWorld;
 	}
 	
 

@@ -8,12 +8,12 @@ import java.io.File;
 public class Spawner extends Item{
 
 	private int id;
-	BufferedImage imageFirst;
-	BufferedImage imageSecond;
-	BufferedImage imageThird;
-	BufferedImage imageForth;
-	BufferedImage imageFifth;
-	ArrayList<Lemmings> spawnList;
+	private BufferedImage imageFirst;
+	private BufferedImage imageSecond;
+	private BufferedImage imageThird;
+	private BufferedImage imageForth;
+	private BufferedImage imageFifth;
+	private ArrayList<Lemmings> spawnList;
 	private int iSpawn;
 	private boolean close = false;
 	private int iClose = 0;

@@ -23,12 +23,13 @@ public class World{
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
 	public static final int settingsLines = 7;
-	Spawner spawn;
-	Outside end;
+	private Spawner spawn;
+	private Outside end;
 	private int spawnX;
 	private int spawnY;
 	private int outsideX;
 	private int outsideY;
+	private boolean finished = false;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -76,7 +77,7 @@ public class World{
 			outsideX = settings[2];
 			outsideY = settings[3];
 			loadLemmings(settings[6]);
-			end = new Outside(settings[4],outsideX,outsideY,list);
+			end = new Outside(settings[4],outsideX,outsideY,list,this);
 			System.out.println("settings");
 			System.out.println(outsideX);
 			System.out.println(outsideY);
@@ -95,7 +96,7 @@ public class World{
 	public void loadLemmings(int nb){
 		list = new Lemmings[nb];
 		for (int i=0;i<nb;i++){
-			list[i] = new Lemmings(i,spawnX,spawnY);
+			list[i] = new Walker(i,spawnX,spawnY);
 		}
 		
 	}
@@ -197,5 +198,12 @@ public class World{
 	
 	public Outside getOutside(){
 		return end;
+	}
+	
+	public boolean getFinished(){
+		return finished;
+	}
+	public void setFinished(boolean finished){
+		this.finished = finished;
 	}
 }
