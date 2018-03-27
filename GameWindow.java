@@ -18,6 +18,10 @@ public final class GameWindow extends JFrame implements MouseListener{
 	private World world;				//monde
 	private static int tps = 0;			//compteur de temps
 	private BufferedImage victory;
+	private Toolkit tk = Toolkit.getDefaultToolkit();
+	private BufferedImage imageCurseurSelect;
+	private BufferedImage imageCurseurInit;
+	private Cursor Curseur;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -40,6 +44,15 @@ public final class GameWindow extends JFrame implements MouseListener{
 		}catch(Exception e){e.printStackTrace();}
 		addMouseListener(this);
 		this.requestFocus();
+		try{
+			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
+			imageCurseurInit = ImageIO.read(new File("cursor/cursorInit.png"));
+			
+		}catch(Exception e){e.printStackTrace();}
+		
+		Curseur = tk.createCustomCursor( imageCurseurInit, new Point( 10, 10 ), "Pointeur" );
+		setCursor( Curseur );
+		
 	}
 	
 	
