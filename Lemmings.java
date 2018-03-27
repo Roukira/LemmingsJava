@@ -43,7 +43,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		alive = true;				//initialement, il est en vie
 		action = 0;				//classe Action
 		actionState = false;
-		maxFall = 5*height;
+		maxFall = 10*height;
 	}	
 
 
