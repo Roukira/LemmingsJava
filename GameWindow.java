@@ -138,10 +138,15 @@ public final class GameWindow extends JFrame implements MouseListener{
 			Lemmings l = world.getLemmingsList()[i]; //met a jour la position des lemmings	
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
-        		if ( posYlem-l.height<posYclic  && posYlem>posYclic && posXlem-l.width<posXclic  && posXlem>posXclic){
-        			System.out.println("///////////////\n");
-        			System.out.println(l);
-        			System.out.println("\n///////////////");
+        		if ( posYlem-3*l.height<posYclic  && posYlem+2*l.height>posYclic && posXlem-3*l.width<posXclic  && posXlem+2*l.width>posXclic){
+        			if (World.WALKER == l.getJob()) world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
+        			else world.getLemmingsList()[i] = l.changeJob(World.WALKER);
+        			Lemmings[] tab = new Lemmings[1];
+				tab[0] = world.getLemmingsList()[i];
+				world.getOutside().addLemmings(tab);
+				world.getOutside().removeLemmingFromList(l.getId());
+        			return;
+        			
         		}
         	}
 	}
@@ -163,3 +168,4 @@ public final class GameWindow extends JFrame implements MouseListener{
 	}
 	
 }
+
