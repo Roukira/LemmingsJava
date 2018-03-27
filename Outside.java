@@ -8,7 +8,6 @@ import java.io.File;
 public class Outside extends Item{
 
 	private int id;
-	private ArrayList<Lemmings> list;
 	private BufferedImage imageFirst;
 	private BufferedImage imageSecond;
 	private BufferedImage imageThird;
@@ -18,7 +17,6 @@ public class Outside extends Item{
 	public Outside(int id, int posX, int posY, Lemmings[] list, World w){
 		super(posX,posY);
 		this.id = id;
-		this.list = new ArrayList<Lemmings>();
 		this.w = w;
 		fillArray(list);
 		try{

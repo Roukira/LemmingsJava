@@ -30,6 +30,8 @@ public class World{
 	private int outsideX;
 	private int outsideY;
 	private boolean finished = false;
+	public static final int WALKER = 0;
+	public static final int STOPPER = 1;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -98,6 +100,16 @@ public class World{
 		for (int i=0;i<nb;i++){
 			list[i] = new Walker(i,spawnX,spawnY);
 		}
+		/*for (int j=0;j<nb;j++){
+			if ((j%2)==1) {
+				int id = list[j].id;
+				Lemmings[] tab = new Lemmings[1];
+				//end.removeLemmingFromList(id);
+				list[j] = list[j].changeJob(STOPPER);
+				tab[0] = list[j];
+				//end.addLemmings(tab);
+			}
+		}*/
 		
 	}
 	
@@ -206,4 +218,6 @@ public class World{
 	public void setFinished(boolean finished){
 		this.finished = finished;
 	}
-}
+	
+	
+}	

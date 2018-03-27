@@ -14,8 +14,8 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	protected int posY;				//en y en bas de l'image
 	protected int direction; 				//sens de mouvement : -1 si a gauche, +1 si a droite
 	public static int nbLemmings = 0; 		//compteur static des lemmings.
-	protected boolean actionState; 			//si en pleine action
-	protected int action;				//quelle action : 0 si aucune plus tard classe Action
+	protected int actionState; 			//si en pleine action
+	protected boolean action;				//quelle action : 0 si aucune plus tard classe Action
 	protected boolean alive; 				//dead or alive
 	protected boolean inWorld;			//si il est entre dans le terrain
 	protected boolean outside;			//si il a reussi a sortir
@@ -26,7 +26,12 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	protected int iWalk = 0;				//iteration qui debute lanimation de bouger
 	protected int iFall = 0;
 	protected static int maxFall;		//hauteur max avant la mort
-	
+	protected BufferedImage imageRight;		//Image du Walker avancant sur la droite
+	protected BufferedImage imageRightStep;		//Image du Walker avancant sur la droite en marchant
+	protected BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
+	protected BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
+	protected BufferedImage deathFirst;
+	protected BufferedImage deathSecond;	
 	
 
 //================== CONSTRUCTEURS ======================
@@ -41,10 +46,27 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		outside = false;			//boolean pour savoir si il s'est refugie initialement faux
 		inWorld = false;			//initialement, le lemming nest pas dans le monde jusqu au spawn
 		alive = true;				//initialement, il est en vie
-		action = 0;				//classe Action
-		actionState = false;
-		maxFall = 10*height;
+		action = false;				//classe Action
+		actionState = 0;
+		try{
+			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des Walker a differents etats
+			imageRightStep = ImageIO.read(new File("lemmings/lemmings1step.png"));
+			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
+			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
+			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
+			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
+			
+		}catch(Exception e){e.printStackTrace();}
+		this.width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
+		this.height = imageRight.getHeight();
+		maxFall = 5*height;
+		
 	}	
+	
+	public Lemmings(Lemmings l){
+		this(l.id,l.posX,l.posY);
+		inWorld = true;
+	}
 
 
 //===================== METHODES =========================
@@ -54,7 +76,31 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		return "Lemmings number "+id;
 	}
 	
-	public abstract void draw(Graphics2D g);
+	public void draw(Graphics2D g){
+	//Dessine le lemming
+		if(inWorld){
+			if(alive){
+				if (direction == 1){
+		
+					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
+						g.drawImage(imageRightStep,posX-width,posY-height,null);
+					}
+					else g.drawImage(imageRight,posX-width,posY-height,null);
+				}
+				else {
+					if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
+						g.drawImage(imageLeftStep,posX,posY-height,null);
+					}
+					else g.drawImage(imageLeft,posX,posY-height,null);
+				}
+			}
+			else if (iDeath != 0){
+				if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
+				else g.drawImage(deathSecond,posX-width,posY-height,null);
+				iDeath--;
+			}
+		}
+	}
 	
 	
 	public abstract void move(World w);
@@ -145,5 +191,18 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		return inWorld;
 	}
 	
-
+	public Lemmings changeJob(int state){
+		this.actionState = state;
+		if (state == 1) return new Stopper(this);
+		return new Walker(this);
+	}	
+	
+	public int getJob(){
+		return actionState;
+	}
+	
+	public int getId(){
+		return id;
+	}
+	
 }

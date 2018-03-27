@@ -13,7 +13,6 @@ public class Spawner extends Item{
 	private BufferedImage imageThird;
 	private BufferedImage imageForth;
 	private BufferedImage imageFifth;
-	private ArrayList<Lemmings> spawnList;
 	private int iSpawn;
 	private boolean close = false;
 	private int iClose = 0;
@@ -22,7 +21,6 @@ public class Spawner extends Item{
 		super(posX,posY);
 		this.id = id;
 		this.iSpawn = iSpawn;
-		spawnList = new ArrayList<Lemmings>();
 		try{
 			if(id == 1){
 				imageFirst = ImageIO.read(new File("world/spawn"+id+"-"+1+".png"));
@@ -36,15 +34,18 @@ public class Spawner extends Item{
 	}
 	
 	public void update(){
-		if(spawnList.isEmpty()){
+		if(list.isEmpty()){
 			if (close) return;
 			close = true;
 			iClose = GameWindow.getTps();
+			System.out.println("iclose: "+iClose);
 			return;
 		}
 		if(((GameWindow.getTps()%iSpawn)!=0)) return;
-        	spawnList.get(0).spawn();
-        	spawnList.remove(0);
+		System.out.println(GameWindow.getTps());
+		System.out.println(GameWindow.getTps()%iSpawn);
+        	list.get(0).spawn();
+        	list.remove(0);
         	
 	}
 	
@@ -93,12 +94,6 @@ public class Spawner extends Item{
 		
 	}
 	
-	
-	public void addLemmings(Lemmings[] list){
-		for(Lemmings l:list){
-			spawnList.add(l);
-		}
-	}
 	
 
 }
