@@ -16,17 +16,22 @@ public class World{
 	private int[][] map;									//carte colore du monde a mettre a jour au tout debut
 	private int height;									//hauteur de la carte
 	private int width;									//largeur
-	private int id;										//identifiant
+	private int id;	
+	private Lemmings[] list;									//identifiant
 	private BufferedImage mapImage;								//Image en .png de la carte a charger
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 5;
+	public static final int settingsLines = 7;
 	private Spawner spawn;
+	private Outside end;
 	private int spawnX;
 	private int spawnY;
 	private int outsideX;
 	private int outsideY;
+	private boolean finished = false;
+	public static final int WALKER = 0;
+	public static final int STOPPER = 1;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -70,9 +75,12 @@ public class World{
 			}
 			spawnX = settings[0];
 			spawnY = settings[1];
-			spawn = new Spawner(id,spawnX,spawnY);		//settings[4] a la place de id
+			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
 			outsideX = settings[2];
 			outsideY = settings[3];
+			loadLemmings(settings[6]);
+			end = new Outside(settings[4],outsideX,outsideY,list,this);
+
 		}catch (IOException e){e.printStackTrace();}
 		finally{
 
@@ -83,6 +91,24 @@ public class World{
 					fr.close();
 			}catch (IOException e2) {e2.printStackTrace();}
 		}
+	}
+	
+	public void loadLemmings(int nb){
+		list = new Lemmings[nb];
+		for (int i=0;i<nb;i++){
+			list[i] = new Walker(i,spawnX,spawnY);
+		}
+		/*for (int j=0;j<nb;j++){
+			if ((j%2)==1) {
+				int id = list[j].id;
+				Lemmings[] tab = new Lemmings[1];
+				//end.removeLemmingFromList(id);
+				list[j] = list[j].changeJob(STOPPER);
+				tab[0] = list[j];
+				//end.addLemmings(tab);
+			}
+		}*/
+		
 	}
 	
 	public void initAirCst(){
@@ -168,11 +194,28 @@ public class World{
 		return outsideY;	
 	}
 	
-	public void spawnLemmings(Lemmings[] list){
+	public void spawnLemmings(){
 		spawn.addLemmings(list);
+	}
+	
+	public Lemmings[] getLemmingsList(){
+		return list;
 	}
 
 	public Spawner getSpawner(){
 		return spawn;
 	}
-}
+	
+	public Outside getOutside(){
+		return end;
+	}
+	
+	public boolean getFinished(){
+		return finished;
+	}
+	public void setFinished(boolean finished){
+		this.finished = finished;
+	}
+	
+	
+}	
