@@ -35,8 +35,6 @@ public class Stopper extends Lemmings{
 		sWidth = image0.getWidth();
 		this.actionState = 1;
 		this.action = true;
-		System.out.println("posX"+posX);
-		System.out.println("posY"+posY);
 	}
 	
 	public Stopper(Lemmings l){
@@ -52,9 +50,6 @@ public class Stopper extends Lemmings{
 		sWidth = image0.getWidth();
 		this.actionState = 1;
 		this.action = true;
-		System.out.println("posX"+posX);
-		System.out.println("posY"+posY);
-
 	}
 
 //===================== METHODES =========================

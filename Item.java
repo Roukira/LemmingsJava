@@ -29,11 +29,8 @@ public abstract class Item{
 	}
 	
 	public void removeLemmingFromList(int id){
-		System.out.println("debug8");
 		for (int i =0;i<list.size();i++){
-			System.out.println("debug9, i : "+i);
 			if(list.get(i).getId() == id){
-				System.out.println("debug10");
 				list.remove(i);
 				return;
 			}

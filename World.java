@@ -80,9 +80,6 @@ public class World{
 			outsideY = settings[3];
 			loadLemmings(settings[6]);
 			end = new Outside(settings[4],outsideX,outsideY,list,this);
-			System.out.println("settings");
-			System.out.println(outsideX);
-			System.out.println(outsideY);
 		}catch (IOException e){e.printStackTrace();}
 		finally{
 

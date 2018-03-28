@@ -38,12 +38,9 @@ public class Spawner extends Item{
 			if (close) return;
 			close = true;
 			iClose = GameWindow.getTps();
-			System.out.println("iclose: "+iClose);
 			return;
 		}
 		if(((GameWindow.getTps()%iSpawn)!=0)) return;
-		System.out.println(GameWindow.getTps());
-		System.out.println(GameWindow.getTps()%iSpawn);
         	list.get(0).spawn();
         	list.remove(0);
         	

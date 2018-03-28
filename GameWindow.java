@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 
-
-public final class GameWindow extends JFrame implements MouseListener{		
+public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener{			
 //Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
 
 //==================== ATTRIBUTS ========================
@@ -21,7 +20,9 @@ public final class GameWindow extends JFrame implements MouseListener{
 	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private BufferedImage imageCurseurSelect;
 	private BufferedImage imageCurseurInit;
-	private Cursor Curseur;
+  
+	private Cursor CurseurInit;
+	private Cursor CurseurSelect;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -42,7 +43,10 @@ public final class GameWindow extends JFrame implements MouseListener{
 			victory = ImageIO.read(new File("world/victory.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
+		
 		addMouseListener(this);
+		addMouseMotionListener(this);
+
 		this.requestFocus();
 		try{
 			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
@@ -50,8 +54,9 @@ public final class GameWindow extends JFrame implements MouseListener{
 			
 		}catch(Exception e){e.printStackTrace();}
 		
-		Curseur = tk.createCustomCursor( imageCurseurInit, new Point( 10, 10 ), "Pointeur" );
-		setCursor( Curseur );
+		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point( 10, 10 ), "Pointeur" );
+		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point( 10, 10 ), "Pointeur" );
+		setCursor( CurseurInit );
 		
 	}
 	
@@ -126,6 +131,8 @@ public final class GameWindow extends JFrame implements MouseListener{
 	}
 	
 	
+	
+//===================MOUSE EVENT========================================================
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
@@ -134,8 +141,9 @@ public final class GameWindow extends JFrame implements MouseListener{
 		int posYclic = e.getY();
 		int posXlem;
 		int posYlem;	
+		Lemmings l;
 		for(int i=0;i<world.getLemmingsList().length;i++){
-			Lemmings l = world.getLemmingsList()[i]; //met a jour la position des lemmings	
+			l = world.getLemmingsList()[i];
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
         		if ( posYlem-3*l.height<posYclic  && posYlem+2*l.height>posYclic && posXlem-3*l.width<posXclic  && posXlem+2*l.width>posXclic){
@@ -155,6 +163,7 @@ public final class GameWindow extends JFrame implements MouseListener{
 	//Invoked when a mouse button has been pressed on a component.
 	}
 
+
 	public void mouseReleased(MouseEvent e) {
 	//Invoked when a mouse button has been released on a component.
 	}
@@ -167,5 +176,29 @@ public final class GameWindow extends JFrame implements MouseListener{
 	//Invoked when the mouse exits a component.
 	}
 	
+	
+    	public void mouseMoved(MouseEvent e) {
+    	//a chaque mouvement retourne un event
+       		int posXmouse = e.getX();
+		int posYmouse = e.getY();
+		int posXlem;
+		int posYlem;	
+		Lemmings l;
+		for(int i=0;i<world.getLemmingsList().length;i++){
+			l = world.getLemmingsList()[i];
+			posXlem = l.getPosX();
+			posYlem = l.getPosY();
+			//Le prchain if doit etre le meme que dans mouseClicked (peut etre faire un define...
+			if ( posYlem-3*l.height<posYmouse  && posYlem+2*l.height>posYmouse && posXlem-3*l.width<posXmouse  && posXlem+2*l.width>posXmouse){
+				setCursor( CurseurSelect );
+				return;
+			}
+		setCursor( CurseurInit );
+    		}
+    	}
+
+    	public void mouseDragged(MouseEvent e) {}
+    	//a chaque mouvement ou un bouton de la souris est enfonce
+
 }
 
