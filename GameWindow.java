@@ -20,7 +20,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private BufferedImage imageCurseurSelect;
 	private BufferedImage imageCurseurInit;
-  
+	private static int posXmouse;
+	private static int posYmouse;
+	
 	private Cursor CurseurInit;
 	private Cursor CurseurSelect;
 	
@@ -81,13 +83,22 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	public void update(){
 	//met a jour le monde
 		world.getSpawner().update();
-		
+		Lemmings l;
+		boolean cursorOnLemmings = false;
 		for(int i=0;i<world.getLemmingsList().length;i++){
-			
-        		world.getLemmingsList()[i].move(world); //met a jour la position des lemmings		
-        		
+			l = world.getLemmingsList()[i];
+        		l.move(world); //met a jour la position des lemmings
+        		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...		
+        		if ( l.getPosY()-3*l.height<posYmouse  && l.getPosY()+2*l.height>posYmouse && l.getPosX()-3*l.width<posXmouse  && l.getPosX()+2*l.width>posXmouse){
+				
+				cursorOnLemmings = true;
+			}
         	}
         	world.getOutside().update();
+        	if (cursorOnLemmings) setCursor( CurseurSelect );
+        	else setCursor( CurseurInit );
+        	
+        	
 	}
 	
 	public void draw(){
@@ -179,23 +190,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	
     	public void mouseMoved(MouseEvent e) {
     	//a chaque mouvement retourne un event
-       		int posXmouse = e.getX();
-		int posYmouse = e.getY();
-		int posXlem;
-		int posYlem;	
-		Lemmings l;
-		for(int i=0;i<world.getLemmingsList().length;i++){
-			l = world.getLemmingsList()[i];
-			posXlem = l.getPosX();
-			posYlem = l.getPosY();
-			//Le prchain if doit etre le meme que dans mouseClicked (peut etre faire un define...
-			if ( posYlem-3*l.height<posYmouse  && posYlem+2*l.height>posYmouse && posXlem-3*l.width<posXmouse  && posXlem+2*l.width>posXmouse){
-				setCursor( CurseurSelect );
-				return;
-			}
-		setCursor( CurseurInit );
-    		}
-    	}
+       		posXmouse = e.getX();
+		posYmouse = e.getY();
+	}
 
     	public void mouseDragged(MouseEvent e) {}
     	//a chaque mouvement ou un bouton de la souris est enfonce
