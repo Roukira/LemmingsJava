@@ -19,6 +19,7 @@ public class Stopper extends Lemmings{
 	private int iStop = 0;
 	private int sWidth;
 	private int sHeight;
+	private boolean enoughPlace;
 
 //================== CONSTRUCTEURS ======================
 
@@ -58,26 +59,27 @@ public class Stopper extends Lemmings{
 	//Dessine le lemming
 		if(inWorld){
 			if(alive){
-				if(!inAir){
+				if(!inAir && enoughPlace){
 					if(iStopBegin<20){		
-						g.drawImage(image0,posX-width,posY-height,null);
+						g.drawImage(image0,posX-sWidth,posY-height,null);
 						iStopBegin++;
 						return;
 					}
 					else if((GameWindow.getTps()-iStop)%60 < 20){	
-						g.drawImage(image1,posX-width,posY-height,null);
+						g.drawImage(image1,posX-sWidth,posY-height,null);
 						return;
 					}
 					else if((GameWindow.getTps()-iStop)%60 < 40){	
-						g.drawImage(image2,posX-width,posY-height,null);
+						g.drawImage(image2,posX-sWidth,posY-height,null);
 						return;
 					}
 					else{
-						g.drawImage(image3,posX-width,posY-height,null);
+						g.drawImage(image3,posX-sWidth,posY-height,null);
 						return;
 					}
 				}
 				else{
+					
 					iStop = GameWindow.getTps();
 					super.draw(g);
 				}
@@ -85,6 +87,26 @@ public class Stopper extends Lemmings{
 		}
 	}
 	
+	public void affectMap(){
+		
+	}
+	
+	public boolean haveEnoughPlace(World w){
+	//Fonction qui tente de descendre le lemming
+		int i;
+		
+		for (i=1;i<height+1;i++){		//recherche pour la place 
+			if(w.getPos(posX+direction,posY-i)!=0 || w.getPos(posX-direction*sWidth,posY-i)!=0){	//et qu'il peut rentrer
+				//System.out.println("False pas la place");
+				enoughPlace = false;
+				return false;
+			}
+		}
+		//System.out.println("VVrai y a la place");
+		enoughPlace = true;
+		return true;
+		
+	}
 	
 	public void move(World w){
 	//bouge le lemming selon le world
@@ -92,6 +114,11 @@ public class Stopper extends Lemmings{
 		if (!inWorld) return;
 		if (!alive) return;
 		if (fall(w)) return;
+		if (haveEnoughPlace(w)) return;
+		System.out.println("False pas la place");
+		if (walk(w)) return;
+		direction = -direction;
+		posX += direction*sWidth;
 		
 	}
 	
