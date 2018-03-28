@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 
-
-public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener{		
+public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener{			
 //Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
 
 //==================== ATTRIBUTS ========================
@@ -21,6 +20,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private BufferedImage imageCurseurSelect;
 	private BufferedImage imageCurseurInit;
+  
 	private Cursor CurseurInit;
 	private Cursor CurseurSelect;
 	
@@ -46,7 +46,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		
+
 		this.requestFocus();
 		try{
 			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
@@ -163,6 +163,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	//Invoked when a mouse button has been pressed on a component.
 	}
 
+
 	public void mouseReleased(MouseEvent e) {
 	//Invoked when a mouse button has been released on a component.
 	}
@@ -198,7 +199,6 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 
     	public void mouseDragged(MouseEvent e) {}
     	//a chaque mouvement ou un bouton de la souris est enfonce
-    		
 
 }
 
