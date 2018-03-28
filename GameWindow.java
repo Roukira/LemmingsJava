@@ -147,7 +147,6 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
-		//System.out.println("clic a la position : "+e.getX()+","+e.getY());
 		int posXclic = e.getX();
 		int posYclic = e.getY();
 		int posXlem;
@@ -158,13 +157,26 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
         		if ( posYlem-3*l.height<posYclic  && posYlem+2*l.height>posYclic && posXlem-3*l.width<posXclic  && posXlem+2*l.width>posXclic){
-        			if (World.WALKER == l.getJob()) world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
-        			else world.getLemmingsList()[i] = l.changeJob(World.WALKER);
-        			Lemmings[] tab = new Lemmings[1];
-				tab[0] = world.getLemmingsList()[i];
-				world.getOutside().addLemmings(tab);
-				world.getOutside().removeLemmingFromList(l.getId());
-        			return;
+        			if (World.WALKER == l.getJob() && e.getButton()==1){
+        			//si la methode getButton retourne 1 c est le clic gauche 
+        				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
+        				Lemmings[] tab = new Lemmings[1];
+					tab[0] = world.getLemmingsList()[i];
+					world.getOutside().addLemmings(tab);
+					world.getOutside().removeLemmingFromList(l.getId());
+					return;
+        			}
+        			else if ( World.STOPPER == l.getJob() && e.getButton()==3){ 
+        			//si la methode getButton retourne 3 c est le clic gauche	
+        				world.getLemmingsList()[i] = l.changeJob(World.WALKER);
+        				Lemmings[] tab = new Lemmings[1];
+					tab[0] = world.getLemmingsList()[i];
+					world.getOutside().addLemmings(tab);
+					world.getOutside().removeLemmingFromList(l.getId());
+					return;
+        			}
+        			
+        			
         			
         		}
         	}
