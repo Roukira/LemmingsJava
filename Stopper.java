@@ -57,33 +57,28 @@ public class Stopper extends Lemmings{
 	
 	public void draw(Graphics2D g){
 	//Dessine le lemming
-		if(inWorld){
-			if(alive){
-				if(!inAir && enoughPlace){
-					if(iStopBegin<20){		
-						g.drawImage(image0,posX-sWidth,posY-height,null);
-						iStopBegin++;
-						return;
-					}
-					else if((GameWindow.getTps()-iStop)%60 < 20){	
-						g.drawImage(image1,posX-sWidth,posY-height,null);
-						return;
-					}
-					else if((GameWindow.getTps()-iStop)%60 < 40){	
-						g.drawImage(image2,posX-sWidth,posY-height,null);
-						return;
-					}
-					else{
-						g.drawImage(image3,posX-sWidth,posY-height,null);
-						return;
-					}
-				}
-				else{
-					
-					iStop = GameWindow.getTps();
-					super.draw(g);
-				}
-			}
+		if(drawStop(g)) return;
+		super.draw(g);
+	}
+	
+	public boolean drawStop(Graphics2D g){
+		if(!enoughPlace) return false;
+		else if(iStopBegin<20){		
+			g.drawImage(image0,posX-width,posY-height,null);
+			iStopBegin++;
+			return true;
+		}
+		else if((GameWindow.getTps()-iStop)%60 < 20){	
+			g.drawImage(image1,posX-width,posY-height,null);
+			return true;
+		}
+		else if((GameWindow.getTps()-iStop)%60 < 40){	
+			g.drawImage(image2,posX-width,posY-height,null);
+			return true;
+		}
+		else{
+			g.drawImage(image3,posX-width,posY-height,null);
+			return true;
 		}
 	}
 	
@@ -112,7 +107,6 @@ public class Stopper extends Lemmings{
 	//bouge le lemming selon le world
 		//plus tard ajout de draw animation
 		if (!inWorld) return;
-		if (!alive) return;
 		if (fall(w)) return;
 		if (haveEnoughPlace(w)) return;
 		System.out.println("False pas la place");
@@ -120,7 +114,6 @@ public class Stopper extends Lemmings{
 		direction = -direction;
 		posX += direction*sWidth;
 		
-	}
-	
+	}	
 	
 }
