@@ -84,6 +84,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		inAir = l.inAir;
 		iWalk = l.iWalk;
 		alive = l.alive;
+		bombCountdown = l.bombCountdown;
 		
 	}
 
@@ -107,7 +108,9 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	
 	public void drawBomb(Graphics2D g){
+		//System.out.println("startDrawBomb");
 		if(bombCountdown>0){
+			System.out.println("drawBomb");
 			if (System.currentTimeMillis()-bombCountdown<1000) g.drawImage(boom5,posX-width,posY-2*height,null);
 			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawImage(boom4,posX-width,posY-2*height,null);
 			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawImage(boom3,posX-width,posY-2*height,null);
@@ -117,6 +120,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	}
 	
 	public void drawMove(Graphics2D g){
+		if(action) return;
 		if (direction == 1){
 			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
 				g.drawImage(imageRightStep,posX-width,posY-height,null);
@@ -214,13 +218,20 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public boolean bomb(){
 		if(bombCountdown == -1) return false;
+		//System.out.println("hello2");
 		long time = System.currentTimeMillis()-bombCountdown;
-		if(time<=0) kill();
+		System.out.println(time);
+		if(time>5000){
+			kill();
+			System.out.println("hello3");
+			bombCountdown =-1;
+		}
 		return true;
 	}
 	
 	public void startBomb(){
 		bombCountdown = System.currentTimeMillis();
+		System.out.println(bombCountdown);
 	}
 	
 	public void spawn(){
@@ -244,6 +255,18 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		return posY;
 	}
 	
+	public int getDirection(){
+		return direction;
+	}
+	
+	public void setPosX(int posX){
+		this.posX = posX;	
+	}
+	
+	public void setPosY(int posY){
+		this.posY = posY;
+	}
+	
 	public boolean getInWorld(){
 		return inWorld;
 	}
@@ -260,6 +283,14 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public int getId(){
 		return id;
+	}
+	
+	public boolean getAlive(){
+		return alive;
+	}
+	
+	public long getBombCountdown(){
+		return bombCountdown;
 	}
 	
 }

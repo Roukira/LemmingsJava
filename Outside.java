@@ -39,7 +39,7 @@ public class Outside extends Item{
 	
 	public void update(){
 		if(list.isEmpty()){
-			w.setFinished(true);
+			w.setFinished(true,true);
 		}
 		for(int i = 0;i<list.size();i++){
 			Lemmings l = list.get(i);

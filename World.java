@@ -30,6 +30,7 @@ public class World{
 	private int outsideX;
 	private int outsideY;
 	private boolean finished = false;
+	private boolean victory = false;
 	public static final int WALKER = 0;
 	public static final int STOPPER = 1;
 	
@@ -212,8 +213,13 @@ public class World{
 	public boolean getFinished(){
 		return finished;
 	}
-	public void setFinished(boolean finished){
+	
+	public boolean getVictory(){
+		return victory;
+	}
+	public void setFinished(boolean finished, boolean victory){
 		this.finished = finished;
+		this.victory = victory;
 	}
 	
 	
