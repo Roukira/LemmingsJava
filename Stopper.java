@@ -17,8 +17,6 @@ public class Stopper extends Lemmings{
 	private BufferedImage image3;		//Image du Stopper avancant sur la gauche en marchant
 	private int iStopBegin = 0;
 	private int iStop = 0;
-	private int sWidth;
-	private int sHeight;
 	private boolean enoughPlace;
 	private int tPosXLeft;
 	private int tPosXRight;
@@ -34,17 +32,17 @@ public class Stopper extends Lemmings{
 			image3 = ImageIO.read(new File("lemmings/stopper3.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		sHeight = image0.getHeight();
-		sWidth = image0.getWidth();
+		height = image0.getHeight();
+		width = image0.getWidth();
 		this.actionState = 1;
 		this.action = true;
 		if(direction == 1){
-			tPosXLeft = posX-sWidth;
+			tPosXLeft = posX-width;
 			tPosXRight = posX;
 		}
 		else{
 			tPosXLeft = posX;
-			tPosXRight = posX+sWidth;
+			tPosXRight = posX+width;
 		}
 		affectMap();
 	}
@@ -58,8 +56,8 @@ public class Stopper extends Lemmings{
 			image3 = ImageIO.read(new File("lemmings/stopper3.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		sHeight = image0.getHeight();
-		sWidth = image0.getWidth();
+		this.height = image0.getHeight();
+		this.width = image0.getWidth();
 		this.actionState = 1;
 		this.action = true;
 		if(direction == 1){
@@ -119,14 +117,14 @@ public class Stopper extends Lemmings{
 				}
 			}
 		}
-		for(int i = 0;i<sHeight;i++) w.setMapTypeAtPos(tPosXLeft,posY+i,w.GROUND_CST); //truc bizarre, taille 1 suffit(sans for, juste posY une fois)
-		for(int j = 0;j<sHeight;j++) w.setMapTypeAtPos(tPosXRight,posY+j,w.GROUND_CST);
+		for(int i = 0;i<height;i++) w.setMapTypeAtPos(tPosXLeft,posY+i,w.GROUND_CST); //truc bizarre, taille 1 suffit(sans for, juste posY une fois)
+		for(int j = 0;j<height;j++) w.setMapTypeAtPos(tPosXRight,posY+j,w.GROUND_CST);
 	}
 	
 	public void resetMap(){
 		World w = GameWindow.getCurrentWorld();
-		for(int i = 0;i<sHeight;i++) w.setMapTypeAtPos(tPosXLeft,posY+i,w.AIR_CST);
-		for(int j = 0;j<sHeight;j++) w.setMapTypeAtPos(tPosXRight,posY+j,w.AIR_CST);
+		for(int i = 0;i<height;i++) w.setMapTypeAtPos(tPosXLeft,posY+i,w.AIR_CST);
+		for(int j = 0;j<height;j++) w.setMapTypeAtPos(tPosXRight,posY+j,w.AIR_CST);
 	}
 	
 	public Lemmings changeJob(int state){
@@ -144,7 +142,7 @@ public class Stopper extends Lemmings{
 		int i;
 		
 		for (i=1;i<height+1;i++){		//recherche pour la place 
-			if(w.getPos(posX+direction,posY-i)!=0 || w.getPos(posX-direction*sWidth,posY-i)!=0){	//et qu'il peut rentrer
+			if(w.getPos(posX+direction,posY-i)!=0 || w.getPos(posX-direction*width,posY-i)!=0){	//et qu'il peut rentrer
 				//System.out.println("False pas la place");
 				enoughPlace = false;
 				return false;
@@ -165,7 +163,7 @@ public class Stopper extends Lemmings{
 		System.out.println("False pas la place");
 		if (walk(w)) return;
 		direction = -direction;
-		posX += direction*sWidth;
+		posX += direction*width;
 		
 	}	
 	

@@ -38,6 +38,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	protected BufferedImage boom3;
 	protected BufferedImage boom2;
 	protected BufferedImage boom1;
+	protected static int widthCountdown;
 	
 
 //================== CONSTRUCTEURS ======================
@@ -72,6 +73,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		this.width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
 		this.height = imageRight.getHeight();
 		maxFall = 5*height;
+		this.widthCountdown = boom1.getHeight();
 		
 	}	
 	
@@ -110,12 +112,18 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public void drawBomb(Graphics2D g){
 		//System.out.println("startDrawBomb");
 		if(bombCountdown>0){
-			System.out.println("drawBomb");
-			if (System.currentTimeMillis()-bombCountdown<1000) g.drawImage(boom5,posX-width,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawImage(boom4,posX-width,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawImage(boom3,posX-width,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawImage(boom2,posX-width,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawImage(boom1,posX-width,posY-2*height,null);	
+			int posXbomb;
+			System.out.println("taille lemmings : "+width);
+			if (direction == 1){
+				posXbomb = posX-(width/2)-(widthCountdown/2);
+			}else posXbomb = posX-(width/2)+(widthCountdown/2);
+			
+			if (System.currentTimeMillis()-bombCountdown<1000) g.drawImage(boom5,posXbomb,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawImage(boom4,posXbomb,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawImage(boom3,posXbomb,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawImage(boom2,posXbomb,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawImage(boom1,posXbomb,posY-2*height,null);	
+			//refaire passer le contdown a -1 ????
 		}
 	}
 	
@@ -138,7 +146,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public boolean drawDeath(Graphics2D g){
 	
 		if (iDeath != 0){
-			if(getClass().toString().contains("class Stopper")) System.out.println("death");
+			//if(getClass().toString().contains("class Stopper")) System.out.println("death");
 			if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
 			else g.drawImage(deathSecond,posX-width,posY-height,null);
 			iDeath--;
