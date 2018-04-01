@@ -8,15 +8,16 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 
-public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener{			
+public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener,KeyListener{			
 //Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
 
 //==================== ATTRIBUTS ========================
 
 	private BufferStrategy bs;			//fenetre de dessin		
-	private World world;				//monde
+	private static World world;				//monde
 	private static int tps = 0;			//compteur de temps
 	private BufferedImage victory;
+	private BufferedImage defeat;
 	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private BufferedImage imageCurseurSelect;
 	private BufferedImage imageCurseurInit;
@@ -43,11 +44,13 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
 		try{
 			victory = ImageIO.read(new File("world/victory.png"));
+			defeat = ImageIO.read(new File("world/defeat.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addKeyListener(this);
 
 		this.requestFocus();
 		try{
@@ -80,13 +83,20 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		this.world = w;			
 	}
 	
+	public static World getCurrentWorld(){
+		return world;
+	}
+	
 	public void update(){
 	//met a jour le monde
 		world.getSpawner().update();
 		Lemmings l;
 		boolean cursorOnLemmings = false;
+		boolean allDead = true;
+		if(world.getLemmingsList().length <= 0) allDead = false;
 		for(int i=0;i<world.getLemmingsList().length;i++){
 			l = world.getLemmingsList()[i];
+			if (l.getAlive()) allDead = false;
         		l.update(world); //met a jour la position des lemmings
         		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...		
         		if ( l.getPosY()-3*l.height<posYmouse  && l.getPosY()+2*l.height>posYmouse && l.getPosX()-3*l.width<posXmouse  && l.getPosX()+2*l.width>posXmouse){
@@ -97,6 +107,10 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         	world.getOutside().update();
         	if (cursorOnLemmings) setCursor( CurseurSelect );
         	else setCursor( CurseurInit );
+        	
+        	if(allDead){
+        		world.setFinished(true,false);
+        	}
         	
         	
 	}
@@ -126,7 +140,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		do{
    			try{
         			g = (Graphics2D)bs.getDrawGraphics();
-        			g.drawImage(victory,0,0,null);
+        			if(world.getVictory()) g.drawImage(victory,0,0,null);
+        			else g.drawImage(defeat,0,0,null);
+        			
         			
     			}
     			finally{
@@ -170,14 +186,11 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         			}
         			else if ( World.STOPPER == l.getJob() && e.getButton()==3){ 
         			//si la methode getButton retourne 3 c est le clic gauche	
-        				/*world.getLemmingsList()[i] = l.changeJob(World.WALKER);
+        				world.getLemmingsList()[i] = l.changeJob(World.WALKER);
         				Lemmings[] tab = new Lemmings[1];
 					tab[0] = world.getLemmingsList()[i];
 					world.getOutside().addLemmings(tab);
 					world.getOutside().removeLemmingFromList(l.getId());
-					return;*/
-					System.out.println("hello");
-        				l.startBomb();
         				return;
         			}
         			
@@ -213,5 +226,26 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
     	public void mouseDragged(MouseEvent e) {}
     	//a chaque mouvement ou un bouton de la souris est enfonce
 
+//===================KEYBOARD EVENT========================================================
+
+	public void keyPressed(KeyEvent e){
+        	System.out.println("KEY PRESSED: "+e.getKeyCode());
+        	if(e.getKeyCode()==32){	
+			Lemmings l;
+			for(int i=0;i<world.getLemmingsList().length;i++){
+				l = world.getLemmingsList()[i];
+        			if(l.getAlive() && l.getBombCountdown()==-1){
+        				l.startBomb();
+        				return;
+        			}
+        		}
+        	}
+    	}
+	
+    	public void keyTyped(KeyEvent e){}
+    	
+    	public void keyReleased(KeyEvent e){}
+	
 }
+
 
