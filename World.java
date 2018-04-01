@@ -18,34 +18,45 @@ public class World{
 	private int width;									//largeur
 	private int id;	
 	private Lemmings[] list;									//identifiant
-	private BufferedImage mapImage;								//Image en .png de la carte a charger
+	private BufferedImage mapImage;							//Image en .png de la carte a charger
+	private BufferedImage imageCapacity;
+	private BufferedImage imageCapacityBorder;
+	private BufferedImage imageCapacitySelectBorder;
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 7;
+	public static final int settingsLines = 10;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
 	private int spawnY;
 	private int outsideX;
 	private int outsideY;
+	private int posXcapacity1;
+	private int posXcapacity2;
+	private int posYcapacity;
 	private boolean finished = false;
+	private boolean victory = false;
 	public static final int WALKER = 0;
 	public static final int STOPPER = 1;
+	public static final int BOMBER = 2;
 	
 //================== CONSTRUCTEURS ======================
 	
-	public World(int id, int width, int height){
+	public World(int id){
 		this.id = id;
-		this.width = width;
-		this.height = height;
-		fillMap();
-		initAirCst();
-		setSettings();
+		
 		
 		try{
 			mapImage = ImageIO.read(new File("world/world"+id+".png")); //lit l'image de la carte et la stocke en fonction de l'identifiant
 		}catch(Exception e){e.printStackTrace();}
+		
+		this.width = mapImage.getWidth();
+		this.height = mapImage.getHeight();
+		fillMap();
+		initAirCst();
+		setSettings();
+		
 		for (int i=0;i<width;i++){
 			for(int j=0;j<height;j++){
 				Color mapXY = getColor(i,j,mapImage);
@@ -73,6 +84,8 @@ public class World{
 				currentLine = br.readLine();
 				settings[i] = Integer.parseInt(currentLine);
 			}
+			imageCapacityBorder = ImageIO.read(new File("world/capacityBorder.png"));
+			imageCapacitySelectBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
 			spawnX = settings[0];
 			spawnY = settings[1];
 			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
@@ -80,6 +93,11 @@ public class World{
 			outsideY = settings[3];
 			loadLemmings(settings[6]);
 			end = new Outside(settings[4],outsideX,outsideY,list,this);
+			posYcapacity = settings[7]; 
+			posXcapacity1 = settings[8];
+			posXcapacity2 = settings[9];
+			
+			
 		}catch (IOException e){e.printStackTrace();}
 		finally{
 
@@ -113,6 +131,15 @@ public class World{
 	public void initAirCst(){
 	//initialise les constantes d'air pour avoir plus de choix (background et tout)
 		AIR_LIST.add(new Color(97,172,191));
+		AIR_LIST.add(new Color(1,1,1));
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
 	}
 	
 	public void fillMap(){
@@ -177,6 +204,8 @@ public class World{
 	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
 		g.drawImage(mapImage,0,0,null);
+		drawLemmingsCapacity(g,"bomb",posXcapacity2,posYcapacity);
+		drawLemmingsCapacity(g,"stopper",posXcapacity1,posYcapacity);
 	}
 
 	public int getSpawnX(){
@@ -191,6 +220,26 @@ public class World{
 	}
 	public int getOutsideY(){
 		return outsideY;	
+	}
+	
+	public int getPosXcapacity1(){
+		return posXcapacity1;	
+	}
+	
+	public int getPosXcapacity2(){
+		return posXcapacity2;	
+	}
+	
+	public int getPosYcapacity(){
+		return posYcapacity;	
+	}
+	
+	public BufferedImage getImageCapacityBorder(){
+		return imageCapacityBorder;
+	}
+	
+	public BufferedImage getImageCapacitySelectBorder(){
+		return imageCapacitySelectBorder;
 	}
 	
 	public void spawnLemmings(){
@@ -212,9 +261,30 @@ public class World{
 	public boolean getFinished(){
 		return finished;
 	}
-	public void setFinished(boolean finished){
-		this.finished = finished;
+	
+	public boolean getVictory(){
+		return victory;
 	}
 	
+	public void setFinished(boolean finished, boolean victory){
+		this.finished = finished;
+		this.victory = victory;
+	}
 	
+	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
+		try{
+			imageCapacity = ImageIO.read(new File("lemmings/"+nomImage+"Capacity.png"));
+		}catch(Exception e){e.printStackTrace();}
+		g.drawImage(imageCapacity,posX,posY,null);
+		
+	}
 }	
+
+
+
+
+
+
+
+
+
