@@ -233,6 +233,21 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		//System.out.println("hello2");
 		long time = System.currentTimeMillis()-bombCountdown;
 		if(time>5000){
+			World w = GameWindow.getCurrentWorld();
+			System.out.println("boom?");
+			int r = 2*width;
+			for (int i = posX-r;i<posX+r;i++){
+				System.out.println("boom??");
+				for (int j = posY-r;j<posY+r;j++){
+					System.out.println("boom ?? ?? ??");
+					System.out.println(((i-posX)*(i-posX)+(j-posY)*(j-posY)));
+					if (w.getPos(i,j)>=1 && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=r*r){
+						System.out.println("boom at X = "+i+" Y = "+j);
+						w.setMapTypeAtPos(i,j,w.AIR_CST);
+						w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
+					}
+				}
+			}
 			kill();
 			bombCountdown =-1;
 		}
