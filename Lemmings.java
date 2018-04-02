@@ -20,8 +20,8 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	protected boolean inWorld;			//si il est entre dans le terrain
 	protected boolean outside;			//si il a reussi a sortir
 	protected int iDeath = 0;
-	protected static int height;		//Taille de l'image d'un Lemming standard
-	protected static int width;			//Largeur de l'image d'un Lemming standard
+	protected int height;		//Taille de l'image d'un Lemming standard
+	protected int width;			//Largeur de l'image d'un Lemming standard
 	protected boolean inAir = false;			//Boolean pour savoir si le lemmingsest en train de tomber
 	protected int iWalk = 0;				//iteration qui debute lanimation de bouger
 	protected int iFall = 0;
@@ -128,7 +128,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	}
 	
 	public void drawMove(Graphics2D g){
-		if(action) return;
+		if(action && actionState>=1) return;
 		if (direction == 1){
 			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
 				g.drawImage(imageRightStep,posX-width,posY-height,null);
@@ -169,10 +169,14 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 			inAir = true;
 			iWalk = GameWindow.getTps();
 			iFall++;
+			action = false;
 			return true;
 		}
 		inAir = false;
-		if (iFall<maxFall) iFall = 0;
+		if (iFall<maxFall) {
+					iFall = 0;
+					action = true;
+					}
 		else kill();
 		return false;	
 	}
@@ -182,7 +186,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	//Fonction qui fait marcher le lemmings
 		for (int i =0;i<(height);i++){
 			if(w.getPos(posX+direction,posY-i)!=0){				//Verifie qur toute la hauteur du corps passe pour marcher
-						return false;
+				return false;
 			}
 		}
 		posX+=direction;
