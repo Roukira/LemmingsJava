@@ -156,6 +156,14 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
 	}
 	
+	public static void waitForFrame(long preTime){
+		long delta = System.currentTimeMillis()-preTime;
+		if (delta<17) {
+			delta = (long)17 - delta;
+			pause((int)delta);
+		}
+	}
+	
 	public static void pause(int ms){
 	//Pause le monde
 		try{Thread.sleep(ms);}catch(Exception e){};
