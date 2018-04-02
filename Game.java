@@ -1,10 +1,18 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 /*
 ==================== MAIN =================
 */
 public class Game{
 	
 	public static void main(String[] args){
+		
+		Scanner keyboard = new Scanner(System.in);
+		int worldCounter;
+		do{
+			System.out.println("Choose the world between 1 and 2 : ");
+			worldCounter = keyboard.nextInt();
+		}while(worldCounter<1 || worldCounter>2);
 		World w = new World(2);		//Creaation d un monde avec la taille de l image
 		//fin de la creation de tous les lemmings necessaire au jeu
 		
