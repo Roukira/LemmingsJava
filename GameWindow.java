@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 
-public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener,KeyListener{			
+public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener{			
 //Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
 
 //==================== ATTRIBUTS ========================
@@ -23,6 +23,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	private BufferedImage imageCurseurInit;
 	private static int posXmouse;
 	private static int posYmouse;
+	private int capacityClicSetter = 0;
+	public static final int REGULArBORDER = 0;
+	public static final int SELECtBORDER = 1;
 	
 	private Cursor CurseurInit;
 	private Cursor CurseurSelect;
@@ -50,7 +53,6 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		addKeyListener(this);
 
 		this.requestFocus();
 		try{
@@ -113,6 +115,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         	}
         	
         	
+        	
 	}
 	
 	public void draw(){
@@ -127,6 +130,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         			for(int i=0;i<world.getLemmingsList().length;i++){
         				world.getLemmingsList()[i].draw(g); //dessine les lemmings
         			}
+        			drawSelectZone(g);
     			}
     			finally{
            			g.dispose(); //termine l'utilisation de l'outil de dessin
@@ -157,7 +161,49 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		try{Thread.sleep(ms);}catch(Exception e){};
 	}
 	
+	public void drawSelectZone(Graphics2D g){
+		if ( posXmouse > world.getPosXcapacity1() && posXmouse < world.getPosXcapacity1()+60
+		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
+		//remplacer 60 par un truc propre
+			drawCapacityBorder(REGULArBORDER, world.getPosXcapacity1()-1, world.getPosYcapacity()-1);
+		}
+		else if ( posXmouse > world.getPosXcapacity2() && posXmouse < world.getPosXcapacity2()+60
+		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
+			drawCapacityBorder(REGULArBORDER, world.getPosXcapacity2()-1, world.getPosYcapacity()-1);
+		}
+		
+	//=======partie select rouge======	
+		
+		if (capacityClicSetter == 1){
+        		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity1()-1, world.getPosYcapacity()-1);
+    		}else if (capacityClicSetter == 2){
+        		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity2()-1, world.getPosYcapacity()-1);
+    		}
+	}
 	
+	public void drawCapacityBorder(int borderType, int posX, int posY){
+		Graphics2D g = null;
+		BufferedImage border=null;
+		
+		try{
+			if ( borderType == REGULArBORDER ){
+				border = ImageIO.read(new File("world/capacityBorder.png"));
+			}else{
+				border = ImageIO.read(new File("world/capacitySelectBorder.png"));
+			}
+		}catch(Exception e){e.printStackTrace();}
+		
+		do{
+   			try{
+        			g = (Graphics2D)bs.getDrawGraphics();
+        			g.drawImage(border,posX,posY,null);       			
+    			}
+    			finally{
+           			g.dispose(); //termine l'utilisation de l'outil de dessin
+    			}
+    			bs.show(); //actualise la fenetre de dessin avec la nouvelle
+		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
+	}
 	
 //===================MOUSE EVENT========================================================
         
@@ -165,6 +211,20 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	//Invoked when the mouse has been clicked on a component.
 		int posXclic = e.getX();
 		int posYclic = e.getY();
+		
+		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
+		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
+		//remplacer 60 par un truc propre
+			capacityClicSetter = 1;
+			return;
+		}
+		
+		if ( posXclic > world.getPosXcapacity2() && posXclic < world.getPosXcapacity2()+60
+		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
+			capacityClicSetter = 2;
+			return;
+		}
+		
 		int posXlem;
 		int posYlem;	
 		Lemmings l;
@@ -173,7 +233,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
         		if ( posYlem-3*l.height<posYclic  && posYlem+2*l.height>posYclic && posXlem-3*l.width<posXclic  && posXlem+2*l.width>posXclic){
-        			if (World.WALKER == l.getJob() && e.getButton()==1){
+        			if (World.WALKER == l.getJob() && capacityClicSetter == 1){
         			//si la methode getButton retourne 1 c est le clic gauche 
         				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
         				Lemmings[] tab = new Lemmings[1];
@@ -182,6 +242,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 					world.getSpawner().removeLemmingFromList(l.getId());
 					world.getOutside().addLemmings(tab);
 					world.getOutside().removeLemmingFromList(l.getId());
+					capacityClicSetter = 0;
 					return;
         			}
         			else if ( World.STOPPER == l.getJob() && e.getButton()==3){ 
@@ -192,6 +253,12 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 					world.getOutside().addLemmings(tab);
 					world.getOutside().removeLemmingFromList(l.getId());
         				return;
+        			}
+        			else if ( capacityClicSetter == 2 && l.getBombCountdown()==-1){
+        				l.startBomb();
+        				capacityClicSetter = 0;
+        				return; 
+        				
         			}
         			
         			
@@ -225,26 +292,6 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 
     	public void mouseDragged(MouseEvent e) {}
     	//a chaque mouvement ou un bouton de la souris est enfonce
-
-//===================KEYBOARD EVENT========================================================
-
-	public void keyPressed(KeyEvent e){
-        	System.out.println("KEY PRESSED: "+e.getKeyCode());
-        	if(e.getKeyCode()==32){	
-			Lemmings l;
-			for(int i=0;i<world.getLemmingsList().length;i++){
-				l = world.getLemmingsList()[i];
-        			if(l.getAlive() && l.getBombCountdown()==-1){
-        				l.startBomb();
-        				return;
-        			}
-        		}
-        	}
-    	}
-	
-    	public void keyTyped(KeyEvent e){}
-    	
-    	public void keyReleased(KeyEvent e){}
 	
 }
 

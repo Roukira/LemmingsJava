@@ -56,6 +56,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		action = false;				//classe Action
 		actionState = 0;
 		try{
+			
 			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des Walker a differents etats
 			imageRightStep = ImageIO.read(new File("lemmings/lemmings1step.png"));
 			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
@@ -72,7 +73,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		}catch(Exception e){e.printStackTrace();}
 		this.width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
 		this.height = imageRight.getHeight();
-		maxFall = 5*height;
+		maxFall = 10*height;
 		this.widthCountdown = boom1.getHeight();
 		
 	}	
@@ -113,7 +114,6 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		//System.out.println("startDrawBomb");
 		if(bombCountdown>0){
 			int posXbomb;
-			System.out.println("taille lemmings : "+width);
 			if (direction == 1){
 				posXbomb = posX-(width/2)-(widthCountdown/2);
 			}else posXbomb = posX-(width/2)+(widthCountdown/2);
@@ -228,10 +228,8 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		if(bombCountdown == -1) return false;
 		//System.out.println("hello2");
 		long time = System.currentTimeMillis()-bombCountdown;
-		System.out.println(time);
 		if(time>5000){
 			kill();
-			System.out.println("hello3");
 			bombCountdown =-1;
 		}
 		return true;

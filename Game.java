@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Game{
 	
 	public static void main(String[] args){
-		World w = new World(1,600,400);		//Creaation d un monde avec la taille de l image
+		World w = new World(2);		//Creaation d un monde avec la taille de l image
 		//fin de la creation de tous les lemmings necessaire au jeu
 		
 		
-		GameWindow UI = new GameWindow("Lemmings v0");	//Creation de la fenetre Interface Utilisateur
+		GameWindow UI = new GameWindow("Lemmings v0",w.getWidth(),w.getHeight());	//Creation de la fenetre Interface Utilisateur
 		UI.setWorld(w);	
 		w.spawnLemmings();	//Remplissage de la fenetre avec le world w
 		
