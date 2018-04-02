@@ -25,7 +25,8 @@ public class World{
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 10;
+	public int airIndex;
+	public static final int settingsLines = 11;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -96,6 +97,7 @@ public class World{
 			posYcapacity = settings[7]; 
 			posXcapacity1 = settings[8];
 			posXcapacity2 = settings[9];
+			airIndex = settings[10];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
