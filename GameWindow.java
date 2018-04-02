@@ -21,6 +21,8 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private BufferedImage imageCurseurSelect;
 	private BufferedImage imageCurseurInit;
+	private BufferedImage imageCurseurSelectRed;
+	private BufferedImage imageCurseurInitRed;
 	private static int posXmouse;
 	private static int posYmouse;
 	private int capacityClicSetter = 0;
@@ -29,6 +31,8 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	
 	private Cursor CurseurInit;
 	private Cursor CurseurSelect;
+	private Cursor CurseurInitRed;
+	private Cursor CurseurSelectRed;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -58,11 +62,15 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		try{
 			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
 			imageCurseurInit = ImageIO.read(new File("cursor/cursorInit.png"));
+			imageCurseurSelectRed = ImageIO.read(new File("cursor/cursorSelectRed.png"));
+			imageCurseurInitRed = ImageIO.read(new File("cursor/cursorInitRed.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		
 		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point( 10, 10 ), "Pointeur" );
 		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point( 10, 10 ), "Pointeur" );
+		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point( 10, 10 ), "Pointeur" );
+		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point( 10, 10 ), "Pointeur" );
 		setCursor( CurseurInit );
 		
 	}
@@ -107,8 +115,13 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			}
         	}
         	world.getOutside().update();
-        	if (cursorOnLemmings) setCursor( CurseurSelect );
-        	else setCursor( CurseurInit );
+        	if (cursorOnLemmings){
+        		if (capacityClicSetter==0) setCursor( CurseurSelect );
+        		else setCursor( CurseurSelectRed );
+        	}else{
+        		if (capacityClicSetter==0) setCursor( CurseurInit );
+        		else setCursor( CurseurInitRed );
+        	}
         	
         	if(allDead){
         		world.setFinished(true,false);
@@ -250,7 +263,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 					world.getSpawner().removeLemmingFromList(l.getId());
 					world.getOutside().addLemmings(tab);
 					world.getOutside().removeLemmingFromList(l.getId());
-					capacityClicSetter = 0;
+					capacityClicSetter = 0;	
 					return;
         			}
         			else if ( World.STOPPER == l.getJob() && e.getButton()==3){ 
