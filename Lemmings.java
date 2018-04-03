@@ -164,7 +164,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public abstract void move(World w);
 	
 	public boolean fall(World w){
-		if(w.getPos(posX,posY+1)==0  && w.getPos(posX-direction*(width/2),posY+1)==0 && w.getPos(posX-direction*width,posY+1)==0){		//Si pas de sol en dessous de lui pour tout son corps
+		if(w.getPos(posX,posY+1)==0  && w.getPos(posX+direction*width,posY+1)==0){		//Si pas de sol en dessous de lui pour tout son corps (YOU : ???? pk -direction et pk width/2 et pk 2x condition width)
 			posY++;
 			inAir = true;
 			iWalk = GameWindow.getTps();
@@ -216,7 +216,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 				return false;
 			}
 		}
-		for (i =(height)/2+1;i>0;i--){
+		for (i =(height)/2+1;i>=0;i--){
 			if(w.getPos(posX+direction,posY-i)!=0){
 				posX+=direction;
 				posY-=i+1;
@@ -234,12 +234,9 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		long time = System.currentTimeMillis()-bombCountdown;
 		if(time>5000){
 			World w = GameWindow.getCurrentWorld();
-			System.out.println("boom?");
-			int r = 2*width;
+			int r = 3*width;
 			for (int i = posX-r;i<posX+r;i++){
-				System.out.println("boom??");
 				for (int j = posY-r;j<posY+r;j++){
-					System.out.println("boom ?? ?? ??");
 					System.out.println(((i-posX)*(i-posX)+(j-posY)*(j-posY)));
 					if (w.getPos(i,j)>=1 && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=r*r){
 						System.out.println("boom at X = "+i+" Y = "+j);

@@ -33,7 +33,7 @@ public class Game{
 				UI.dispose();
 				break;
 			}
-			UI.waitForFrame(time);					//temps en milliseconde entre deux iterations	
+			UI.waitForFrame(time);					//60FPS
 			time = System.currentTimeMillis();
 			
 		}
