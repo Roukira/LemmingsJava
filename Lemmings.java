@@ -173,7 +173,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 			return true;
 		}
 		inAir = false;
-		if (iFall<maxFall) {
+		if (iFall<maxFall && posY<=w.getHeight()) {
 					iFall = 0;
 					action = true;
 					}
@@ -275,6 +275,14 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public int getPosY(){
 		return posY;
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
 	}
 	
 	public int getDirection(){

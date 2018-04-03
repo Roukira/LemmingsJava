@@ -109,7 +109,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			if (l.getAlive()) allDead = false;
         		l.update(world); //met a jour la position des lemmings
         		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...		
-        		if ( l.getPosY()-3*l.height<posYmouse  && l.getPosY()+2*l.height>posYmouse && l.getPosX()-3*l.width<posXmouse  && l.getPosX()+2*l.width>posXmouse){
+        		if ( l.getPosY()-3*l.getHeight()<posYmouse  && l.getPosY()+2*l.getHeight()>posYmouse && l.getPosX()-3*l.getWidth()<posXmouse  && l.getPosX()+2*l.getWidth()>posXmouse){
 				
 				cursorOnLemmings = true;
 			}
@@ -253,7 +253,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			l = world.getLemmingsList()[i];
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
-        		if ( posYlem-3*l.height<posYclic  && posYlem+2*l.height>posYclic && posXlem-3*l.width<posXclic  && posXlem+2*l.width>posXclic){
+        		if (l.getAlive() && posYlem-3*l.getHeight()<posYclic  && posYlem+2*l.getHeight()>posYclic && posXlem-3*l.getWidth()<posXclic  && posXlem+2*l.getWidth()>posXclic){
         			if (World.WALKER == l.getJob() && capacityClicSetter == 1){
         			//si la methode getButton retourne 1 c est le clic gauche 
         				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
