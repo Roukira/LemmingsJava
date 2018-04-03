@@ -47,7 +47,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 	//quitte avec la croix
 		this.setResizable(false); 				//empeche resize
 		this.setVisible(true); 					//rend visible
-		this.createBufferStrategy(2);				//fenetre de dessin des pixels
+		this.createBufferStrategy(3);				//fenetre de dessin des pixels
 		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
 		try{
 			victory = ImageIO.read(new File("world/victory.png"));

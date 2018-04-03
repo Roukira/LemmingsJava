@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class Stopper extends Lemmings{
+public class Stopper extends Lemmings implements Affecter{
 
 
 //==================== ATTRIBUTS ========================
@@ -20,6 +20,8 @@ public class Stopper extends Lemmings{
 	private boolean enoughPlace;
 	private int tPosXLeft;
 	private int tPosXRight;
+	private int tPosYUpper;
+	private int tPosYLower;
 	private boolean affectMapBool = true;
 
 //================== CONSTRUCTEURS ======================
@@ -39,6 +41,8 @@ public class Stopper extends Lemmings{
 		this.action = true;
 		tPosXLeft = posX-width;
 		tPosXRight = posX;
+		tPosYUpper = posY-height;
+		tPosYLower = posY;
 		if (!inAir) affectMap();
 	}
 	
@@ -57,6 +61,8 @@ public class Stopper extends Lemmings{
 		this.action = true;
 		tPosXLeft = posX-width;
 		tPosXRight = posX;
+		tPosYUpper = posY-height;
+		tPosYLower = posY;
 		if (!inAir) affectMap();
 	}
 
@@ -97,12 +103,10 @@ public class Stopper extends Lemmings{
 	
 	public void affectMap(){
 		World w = GameWindow.getCurrentWorld();
-		int lPosX;
 		for (Lemmings l:w.getLemmingsList()){
-			if(l.getId()!=id){
-				lPosX = l.getPosX();
-				if(lPosX>=tPosXLeft && lPosX <= tPosXRight){
-					l.setPosX(tPosXRight+1);
+			if(l.id!=id){
+				if(l.posX>=tPosXLeft && l.posX <= tPosXRight && l.posY>=tPosYUpper && l.posY<=tPosYLower){
+					l.posX = tPosXRight+l.direction*width;
 				}
 			}
 		}
@@ -171,6 +175,8 @@ public class Stopper extends Lemmings{
 		posX += direction*width;
 		tPosXLeft = posX-width;
 		tPosXRight = posX;
+		tPosYUpper = posY-height;
+		tPosYLower = posY;
 		
 	}	
 	
