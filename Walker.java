@@ -28,7 +28,6 @@ public class Walker extends Lemmings{			//Classe des Walker (elle sera abstraite
 		if (climbUp(w)) return;							//tente de descendre 
 		if (climbDown(w)) return;
 		direction = -direction;
-		posX += direction*width;						 //retourne le lemming si faux
 	}
 	
 }

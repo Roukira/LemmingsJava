@@ -33,6 +33,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	private Cursor CurseurSelect;
 	private Cursor CurseurInitRed;
 	private Cursor CurseurSelectRed;
+	public boolean finish = false;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -108,8 +109,8 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			l = world.getLemmingsList()[i];
 			if (l.getAlive()) allDead = false;
         		l.update(world); //met a jour la position des lemmings
-        		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...		
-        		if ( l.getPosY()-3*l.getHeight()<posYmouse  && l.getPosY()+2*l.getHeight()>posYmouse && l.getPosX()-3*l.getWidth()<posXmouse  && l.getPosX()+2*l.getWidth()>posXmouse){
+        		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...	)	
+        		if (l.getInWorld() && l.getPosY()-3*l.getHeight()<posYmouse  && l.getPosY()+2*l.getHeight()>posYmouse && l.getPosX()-3*l.getWidth()<posXmouse  && l.getPosX()+2*l.getWidth()>posXmouse){
 				
 				cursorOnLemmings = true;
 			}
@@ -137,6 +138,12 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		do{
    			try{
         			g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
+        			if(world.getFinished()){
+					System.out.println("THE END");
+					drawVictory(g);
+					pause(2000);
+					finish = true;
+				}
         			if(world!=null) world.draw(g); //dessine le monde
         			world.getSpawner().draw(g);
         			world.getOutside().draw(g);
@@ -152,21 +159,13 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
 	}
 	
-	public void drawVictory(){
-		Graphics2D g = null;
-		do{
-   			try{
-        			g = (Graphics2D)bs.getDrawGraphics();
-        			if(world.getVictory()) g.drawImage(victory,0,0,null);
-        			else g.drawImage(defeat,0,0,null);
-        			
-        			
-    			}
-    			finally{
-           			g.dispose(); //termine l'utilisation de l'outil de dessin
-    			}
-    			bs.show(); //actualise la fenetre de dessin avec la nouvelle
-		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
+	public void drawVictory(Graphics2D g){
+		System.out.println("Cest ici notre pb !!!!!");
+        	if(world.getVictory()) g.drawImage(victory,0,0,null);
+        	else{
+        		System.out.println("cela devrait maecheerezkefblqerf");
+        		g.drawImage(defeat,0,0,null);
+        	}
 	}
 	
 	public static void waitForFrame(long preTime){
@@ -254,7 +253,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
         		if (l.getAlive() && posYlem-3*l.getHeight()<posYclic  && posYlem+2*l.getHeight()>posYclic && posXlem-3*l.getWidth()<posXclic  && posXlem+2*l.getWidth()>posXclic){
-        			if (World.WALKER == l.getJob() && capacityClicSetter == 1){
+        			if (World.WALKER == l.getJob() && capacityClicSetter == 1 && l.getInWorld() && e.getButton()==1){
         			//si la methode getButton retourne 1 c est le clic gauche 
         				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
         				Lemmings[] tab = new Lemmings[1];
@@ -263,10 +262,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 					world.getSpawner().removeLemmingFromList(l.getId());
 					world.getOutside().addLemmings(tab);
 					world.getOutside().removeLemmingFromList(l.getId());
-					capacityClicSetter = 0;	
 					return;
         			}
-        			else if ( World.STOPPER == l.getJob() && e.getButton()==3){ 
+        			else if ( World.STOPPER == l.getJob() && e.getButton()==3 && l.getInWorld()){ 
         			//si la methode getButton retourne 3 c est le clic gauche	
         				world.getLemmingsList()[i] = l.changeJob(World.WALKER);
         				Lemmings[] tab = new Lemmings[1];
@@ -275,9 +273,8 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 					world.getOutside().removeLemmingFromList(l.getId());
         				return;
         			}
-        			else if ( capacityClicSetter == 2 && l.getBombCountdown()==-1){
+        			else if ( capacityClicSetter == 2 && l.getBombCountdown()==-1 && l.getInWorld()){
         				l.startBomb();
-        				capacityClicSetter = 0;
         				return; 
         				
         			}
