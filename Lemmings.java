@@ -14,7 +14,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	protected int posY;				//en y en bas de l'image
 	protected int direction; 				//sens de mouvement : -1 si a gauche, +1 si a droite
 	public static int nbLemmings = 0; 		//compteur static des lemmings.
-	protected int actionState; 			//si en pleine action
+	protected int job; 			//si en pleine action
 	protected boolean action;				//quelle action : 0 si aucune plus tard classe Action
 	protected boolean alive; 				//dead or alive
 	protected boolean inWorld;			//si il est entre dans le terrain
@@ -38,7 +38,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	protected BufferedImage boom3;
 	protected BufferedImage boom2;
 	protected BufferedImage boom1;
-	protected static int widthCountdown;
+	public static final int bombRadius = 25;
 	
 
 //================== CONSTRUCTEURS ======================
@@ -54,7 +54,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		inWorld = false;			//initialement, le lemming nest pas dans le monde jusqu au spawn
 		alive = true;				//initialement, il est en vie
 		action = false;				//classe Action
-		actionState = 0;
+		job = 0;
 		try{
 			
 			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des Walker a differents etats
@@ -74,7 +74,6 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		this.width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
 		this.height = imageRight.getHeight();
 		maxFall = 10*height;
-		this.widthCountdown = boom1.getHeight();
 		
 	}	
 	
@@ -87,8 +86,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		inAir = l.inAir;
 		iWalk = l.iWalk;
 		alive = l.alive;
-		bombCountdown = l.bombCountdown;
-		
+		bombCountdown = l.bombCountdown;		
 	}
 
 
@@ -100,8 +98,6 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	}
 	
 	public void draw(Graphics2D g){
-	//Dessine le lemming
-		//if(getClass().toString().contains("class Stopper")) System.out.println(getClass());
 		if(drawDeath(g)) return;
 		if(!inWorld) return;
 		if(!alive) return;
@@ -111,35 +107,29 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	
 	public void drawBomb(Graphics2D g){
-		//System.out.println("startDrawBomb");
 		if(bombCountdown>0){
-			int posXbomb;
-			if (direction == 1){
-				posXbomb = posX-(width/2)-(widthCountdown/2);
-			}else posXbomb = posX-(width/2)+(widthCountdown/2);
-			
-			if (System.currentTimeMillis()-bombCountdown<1000) g.drawImage(boom5,posXbomb,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawImage(boom4,posXbomb,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawImage(boom3,posXbomb,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawImage(boom2,posXbomb,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawImage(boom1,posXbomb,posY-2*height,null);	
-			//refaire passer le contdown a -1 ????
+			int bombWidth = boom5.getWidth();
+			if (System.currentTimeMillis()-bombCountdown<1000) g.drawImage(boom5,posX-bombWidth/2,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawImage(boom4,posX-bombWidth/2,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawImage(boom3,posX-bombWidth/2,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawImage(boom2,posX-bombWidth/2,posY-2*height,null);
+			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawImage(boom1,posX-bombWidth/2,posY-2*height,null);	
 		}
 	}
 	
 	public void drawMove(Graphics2D g){
-		if(action && actionState>=1) return;
+		if(action && job>=1) return;
 		if (direction == 1){
 			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
-				g.drawImage(imageRightStep,posX-width,posY-height,null);
+				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-height,null);
 			}
-			else g.drawImage(imageRight,posX-width,posY-height,null);
+			else g.drawImage(imageRight,posX-imageRight.getWidth()/2,posY-height,null);
 		}
 		else {
 			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
-				g.drawImage(imageLeftStep,posX,posY-height,null);
+				g.drawImage(imageLeftStep,posX-imageLeftStep.getWidth()/2,posY-height,null);
 			}
-			else g.drawImage(imageLeft,posX,posY-height,null);
+			else g.drawImage(imageLeft,posX-imageLeft.getWidth()/2,posY-height,null);
 		}
 	}
 	
@@ -147,8 +137,8 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 		if (iDeath != 0){
 			//if(getClass().toString().contains("class Stopper")) System.out.println("death");
-			if (iDeath >= 10) g.drawImage(deathFirst,posX-width,posY-height,null);
-			else g.drawImage(deathSecond,posX-width,posY-height,null);
+			if (iDeath >= 10) g.drawImage(deathFirst,posX-width/2,posY-height,null);
+			else g.drawImage(deathSecond,posX-width/2,posY-height,null);
 			iDeath--;
 			return true;
 		}
@@ -164,7 +154,8 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public abstract void move(World w);
 	
 	public boolean fall(World w){
-		if(w.getPos(posX,posY+1)==0  && w.getPos(posX+direction*width,posY+1)==0){		//Si pas de sol en dessous de lui pour tout son corps (YOU : ???? pk -direction et pk width/2 et pk 2x condition width)
+		if(w.getPos(posX,posY+1)==0  && w.getPos(posX-direction*(width/2),posY+1)==0 && w.getPos(posX+direction*(width/2),posY+1)==0){
+		//Si pas de sol en dessous de lui pour tout son corps
 			posY++;
 			inAir = true;
 			iWalk = GameWindow.getTps();
@@ -185,7 +176,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public boolean walk(World w){
 	//Fonction qui fait marcher le lemmings
 		for (int i =0;i<(height);i++){
-			if(w.getPos(posX+direction,posY-i)!=0){				//Verifie qur toute la hauteur du corps passe pour marcher
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0){				//Verifie qur toute la hauteur du corps passe pour marcher
 				return false;
 			}
 		}
@@ -198,7 +189,8 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 		int i;
 		
 		for (i=1;i<height/2;i++){												//descend si le leming n'a pas a se baisser trop 
-			if(w.getPos(posX+direction,posY+i)==0 && w.getPos(posX+direction+(direction*width),i+posY-height+1)==0){	//et qu'il peut rentrer
+			if(w.getPos(posX+direction*(width/2),posY+i)==0 && w.getPos(posX+direction*(width/2)+(direction*3*(width/2)),i+posY-height+1)==0){	
+			//Le if verifie que il peut descendre et que quand il descend il peut renterr en entier
 				posX+=direction;
 				posY+=i;
 				return true;
@@ -212,12 +204,14 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	public boolean climbUp(World w){
 		int i;
 		for (i =(height/2);i<(height);i++){
-			if(w.getPos(posX+direction,posY-i)!=0){
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
+			//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
 				return false;
 			}
 		}
 		for (i =(height)/2+1;i>=0;i--){
-			if(w.getPos(posX+direction,posY-i)!=0){
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
+			//On regarde la taille de la marche et on la climb
 				posX+=direction;
 				posY-=i+1;
 				return true;
@@ -230,15 +224,13 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public boolean bomb(){
 		if(bombCountdown == -1) return false;
-		//System.out.println("hello2");
 		long time = System.currentTimeMillis()-bombCountdown;
 		if(time>5000){
 			World w = GameWindow.getCurrentWorld();
-			int r = 3*width;
-			for (int i = posX-r;i<posX+r;i++){
-				for (int j = posY-r;j<posY+r;j++){
+			for (int i = posX-bombRadius;i<posX+bombRadius;i++){
+				for (int j = posY-bombRadius;j<posY+bombRadius;j++){
 					System.out.println(((i-posX)*(i-posX)+(j-posY)*(j-posY)));
-					if (w.getPos(i,j)>=1 && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=r*r){
+					if (w.getPos(i,j)>=1 && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=bombRadius*bombRadius){
 						System.out.println("boom at X = "+i+" Y = "+j);
 						w.setMapTypeAtPos(i,j,w.AIR_CST);
 						w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
@@ -266,6 +258,7 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	
 	public void kill(){
 		alive = false;
+		inWorld = false;
 		iDeath = 20;
 	}
 	
@@ -302,13 +295,13 @@ public abstract class Lemmings{			//Classe des Lemmings (elle sera abstraite)
 	}
 	
 	public Lemmings changeJob(int state){
-		this.actionState = state;
+		this.job = state;
 		if (state == 1) return new Stopper(this);
 		return new Walker(this);
 	}	
 	
 	public int getJob(){
-		return actionState;
+		return job;
 	}
 	
 	public int getId(){

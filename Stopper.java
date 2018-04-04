@@ -22,7 +22,7 @@ public class Stopper extends Lemmings implements Affecter{
 	private int tPosXRight;
 	private int tPosYUpper;
 	private int tPosYLower;
-	private boolean affectMapBool = true;
+	private boolean affectMapBool = false;
 
 //================== CONSTRUCTEURS ======================
 
@@ -37,13 +37,12 @@ public class Stopper extends Lemmings implements Affecter{
 		}catch(Exception e){e.printStackTrace();}
 		height = image0.getHeight();
 		width = image0.getWidth();
-		this.actionState = 1;
+		this.job = 1;
 		this.action = true;
-		tPosXLeft = posX-width;
-		tPosXRight = posX;
+		tPosXLeft = posX-direction*(width/2);
+		tPosXRight = posX+direction*(width/2);
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
-		if (!inAir) affectMap();
 	}
 	
 	public Stopper(Lemmings l){
@@ -57,13 +56,12 @@ public class Stopper extends Lemmings implements Affecter{
 		}catch(Exception e){e.printStackTrace();}
 		this.height = image0.getHeight();
 		this.width = image0.getWidth();
-		this.actionState = 1;
+		this.job = 1;
 		this.action = true;
-		tPosXLeft = posX-width;
-		tPosXRight = posX;
+		tPosXLeft = posX-width/2;
+		tPosXRight = posX+width/2;
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
-		if (!inAir) affectMap();
 	}
 
 //===================== METHODES =========================
@@ -73,35 +71,37 @@ public class Stopper extends Lemmings implements Affecter{
 		super.draw(g);
 		if (!alive) return;
 		if (!inWorld) return;
+		if (inAir) return;
 		drawStop(g);
 	}
 	
 	public boolean drawStop(Graphics2D g){
 		if(!enoughPlace) return false;
 		else if(iStopBegin<20){		
-			g.drawImage(image0,posX-width,posY-height,null);
+			g.drawImage(image0,posX-width/2,posY-height,null);
 			iStopBegin++;
 			return true;
 		}
 		else if((GameWindow.getTps()-iStop)%80 < 20){	
-			g.drawImage(image1,posX-width,posY-height,null);
+			g.drawImage(image1,posX-width/2,posY-height,null);
 			return true;
 		}
 		else if((GameWindow.getTps()-iStop)%80 < 40){	
-			g.drawImage(image3,posX-width,posY-height,null);
+			g.drawImage(image3,posX-width/2,posY-height,null);
 			return true;
 		}
 		else if((GameWindow.getTps()-iStop)%80 < 60){	
-			g.drawImage(image2,posX-width,posY-height,null);
+			g.drawImage(image2,posX-width/2,posY-height,null);
 			return true;
 		}
 		else{
-			g.drawImage(image3,posX-width,posY-height,null);
+			g.drawImage(image3,posX-width/2,posY-height,null);
 			return true;
 		}
 	}
 	
 	public void affectMap(){
+		if (affectMapBool) return;
 		World w = GameWindow.getCurrentWorld();
 		for (Lemmings l:w.getLemmingsList()){
 			if(l.id!=id){
@@ -111,25 +111,28 @@ public class Stopper extends Lemmings implements Affecter{
 			}
 		}
 		for(int i = 0;i<height;i++) {
-						w.setMapTypeAtPos(tPosXLeft,posY-i,w.GROUND_CST); //truc bizarre, taille 1 suffit(sans for, juste posY une fois)
-						w.setMapPixelColor(tPosXLeft,posY-i,Color.red);	
+						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.GROUND_CST);
+						w.setMapPixelColor(tPosXLeft,tPosYLower-i,Color.red);	
 					}
 		for(int j = 0;j<height;j++) {
-						w.setMapTypeAtPos(tPosXRight,posY-j,w.GROUND_CST);
-						w.setMapPixelColor(tPosXRight,posY-j,Color.red);
+						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.GROUND_CST);
+						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.red);
 					}
+		affectMapBool = true;
 	}
 	
 	public void resetMap(){
+		if (!affectMapBool) return;
 		World w = GameWindow.getCurrentWorld();
 		for(int i = 0;i<height;i++) {
-						w.setMapTypeAtPos(tPosXLeft,posY-i,w.AIR_CST); //truc bizarre, taille 1 suffit(sans for, juste posY une fois)
-						w.setMapPixelColor(tPosXLeft,posY-i,Color.blue);	
+						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.AIR_CST);
+						w.setMapPixelColor(tPosXLeft,tPosYLower-i,Color.blue);	
 					}
 		for(int j = 0;j<height;j++) {
-						w.setMapTypeAtPos(tPosXRight,posY-j,w.AIR_CST);
-						w.setMapPixelColor(tPosXRight,posY-j,Color.blue);
+						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.AIR_CST);
+						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.blue);
 					}
+		affectMapBool = false;
 	}
 	
 	public Lemmings changeJob(int state){
@@ -146,8 +149,8 @@ public class Stopper extends Lemmings implements Affecter{
 	//Fonction qui tente de descendre le lemming
 		int i;
 		
-		for (i=1;i<height+1;i++){		//recherche pour la place 
-			if(w.getPos(posX+direction,posY-i)!=0 || w.getPos(posX-direction*width,posY-i)!=0){	//et qu'il peut rentrer
+		for (i=0;i<height;i++){		//recherche pour la place 
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0 || w.getPos(posX-direction*(width/2),posY-i)!=0){	//et qu'il peut rentrer
 				//System.out.println("False pas la place");
 				enoughPlace = false;
 				return false;
@@ -164,20 +167,38 @@ public class Stopper extends Lemmings implements Affecter{
 		//plus tard ajout de draw animation
 		if (!inWorld) return;
 		if (fall(w)) return;
-		if(affectMapBool){
+		if(!affectMapBool && haveEnoughPlace(w)){
 					affectMap();
-					affectMapBool = false;
+					return;
 		}
-		if (haveEnoughPlace(w)) return;
 		System.out.println("False pas la place");
 		if (walk(w)) return;
 		direction = -direction;
-		posX += direction*width;
-		tPosXLeft = posX-width;
-		tPosXRight = posX;
+		tPosXLeft = posX-direction*(width/2);
+		tPosXRight = posX+direction*(width/2);
+		
+	}
+	
+	public boolean walk(World w){
+		boolean res = super.walk(w);
+		if(res){
+			resetMap();
+			tPosXLeft = posX-direction*(width/2);
+			tPosXRight = posX+direction*(width/2);
+			tPosYUpper = posY-height;
+			tPosYLower = posY;
+		}
+		return res;
+	}
+	
+	public boolean fall(World w){
+		boolean res = super.fall(w);
+		if(res) resetMap();
+		tPosXLeft = posX-direction*(width/2);
+		tPosXRight = posX+direction*(width/2);
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
-		
-	}	
+		return res;
+	}
 	
 }

@@ -22,21 +22,15 @@ public class Game{
 		UI.setWorld(w);	
 		w.spawnLemmings();	//Remplissage de la fenetre avec le world w
 		long time = System.currentTimeMillis();
-		while(true){
+		while(!UI.finish){
 			UI.update();					//Update les mouvements
 			UI.draw();					//dessines les nouveaux mouvements
 			UI.iterateTps();				//Itere le compteur
-			if(w.getFinished()){
-				System.out.println("THE END");
-				UI.drawVictory();
-				UI.pause(2000);
-				UI.dispose();
-				break;
-			}
 			UI.waitForFrame(time);					//60FPS
 			time = System.currentTimeMillis();
 			
 		}
+		UI.dispose();
 	}
 
 }
