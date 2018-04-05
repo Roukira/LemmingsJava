@@ -113,6 +113,7 @@ public class World{
 	}
 	
 	public void loadLemmings(int nb){
+		Lemmings.w = this;
 		list = new Lemmings[nb];
 		for (int i=0;i<nb;i++){
 			list[i] = new Walker(i,spawnX,spawnY);
