@@ -102,7 +102,6 @@ public class Stopper extends Lemmings implements Affecter{
 	
 	public void affectMap(){
 		if (affectMapBool) return;
-		World w = GameWindow.getCurrentWorld();
 		for (Lemmings l:w.getLemmingsList()){
 			if(l.id!=id){
 				if(l.posX>=tPosXLeft && l.posX <= tPosXRight && l.posY>=tPosYUpper && l.posY<=tPosYLower){
@@ -123,7 +122,6 @@ public class Stopper extends Lemmings implements Affecter{
 	
 	public void resetMap(){
 		if (!affectMapBool) return;
-		World w = GameWindow.getCurrentWorld();
 		for(int i = 0;i<height;i++) {
 						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.AIR_CST);
 						w.setMapPixelColor(tPosXLeft,tPosYLower-i,Color.blue);	
@@ -145,7 +143,7 @@ public class Stopper extends Lemmings implements Affecter{
 		super.kill();
 	}
 	
-	public boolean haveEnoughPlace(World w){
+	public boolean haveEnoughPlace(){
 	//Fonction qui tente de descendre le lemming
 		int i;
 		
@@ -162,25 +160,25 @@ public class Stopper extends Lemmings implements Affecter{
 		
 	}
 	
-	public void move(World w){
+	public void move(){
 	//bouge le lemming selon le world
 		//plus tard ajout de draw animation
 		if (!inWorld) return;
-		if (fall(w)) return;
-		if(!affectMapBool && haveEnoughPlace(w)){
+		if (fall()) return;
+		if(!affectMapBool && haveEnoughPlace()){
 					affectMap();
 					return;
 		}
 		System.out.println("False pas la place");
-		if (walk(w)) return;
+		if (walk()) return;
 		direction = -direction;
 		tPosXLeft = posX-direction*(width/2);
 		tPosXRight = posX+direction*(width/2);
 		
 	}
 	
-	public boolean walk(World w){
-		boolean res = super.walk(w);
+	public boolean walk(){
+		boolean res = super.walk();
 		if(res){
 			resetMap();
 			tPosXLeft = posX-direction*(width/2);
@@ -191,8 +189,8 @@ public class Stopper extends Lemmings implements Affecter{
 		return res;
 	}
 	
-	public boolean fall(World w){
-		boolean res = super.fall(w);
+	public boolean fall(){
+		boolean res = super.fall();
 		if(res) resetMap();
 		tPosXLeft = posX-direction*(width/2);
 		tPosXRight = posX+direction*(width/2);

@@ -108,7 +108,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		for(int i=0;i<world.getLemmingsList().length;i++){
 			l = world.getLemmingsList()[i];
 			if (l.getAlive()) allDead = false;
-        		l.update(world); //met a jour la position des lemmings
+        		l.update(); //met a jour la position des lemmings
         		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...	)	
         		if (l.getInWorld() && l.getPosY()-3*l.getHeight()<posYmouse  && l.getPosY()+2*l.getHeight()>posYmouse && l.getPosX()-3*l.getWidth()<posXmouse  && l.getPosX()+2*l.getWidth()>posXmouse){
 				
@@ -124,7 +124,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         		else setCursor( CurseurInitRed );
         	}
         	
-        	if(allDead){
+        	if(allDead && !finish){
         		world.setFinished(true,false);
         	}
         	
