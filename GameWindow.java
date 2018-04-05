@@ -138,12 +138,6 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		do{
    			try{
         			g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-        			if(world.getFinished()){
-					System.out.println("THE END");
-					drawVictory(g);
-					pause(2000);
-					finish = true;
-				}
         			if(world!=null) world.draw(g); //dessine le monde
         			world.getSpawner().draw(g);
         			world.getOutside().draw(g);
@@ -151,6 +145,11 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         				world.getLemmingsList()[i].draw(g); //dessine les lemmings
         			}
         			drawSelectZone(g);
+        			if(world.getFinished()){
+					System.out.println("THE END");
+					drawVictory(g);
+					finish = true;
+				}
     			}
     			finally{
            			g.dispose(); //termine l'utilisation de l'outil de dessin
@@ -161,7 +160,10 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	
 	public void drawVictory(Graphics2D g){
 		System.out.println("Cest ici notre pb !!!!!");
-        	if(world.getVictory()) g.drawImage(victory,0,0,null);
+        	if(world.getVictory()){
+        		g.drawImage(victory,0,0,null);
+        		System.out.println("...");
+        	}
         	else{
         		System.out.println("cela devrait maecheerezkefblqerf");
         		g.drawImage(defeat,0,0,null);
