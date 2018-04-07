@@ -40,7 +40,7 @@ public class World{
 	private boolean victory = false;
 	public static final int WALKER = 0;
 	public static final int STOPPER = 1;
-	public static final int BOMBER = 2;
+	public static final int BUILDER = 2;
 	
 //================== CONSTRUCTEURS ======================
 	

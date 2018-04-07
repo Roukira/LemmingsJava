@@ -257,7 +257,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         		if (l.getAlive() && posYlem-3*l.getHeight()<posYclic  && posYlem+2*l.getHeight()>posYclic && posXlem-3*l.getWidth()<posXclic  && posXlem+2*l.getWidth()>posXclic){
         			if (World.WALKER == l.getJob() && capacityClicSetter == 1 && l.getInWorld() && e.getButton()==1){
         			//si la methode getButton retourne 1 c est le clic gauche 
-        				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
+        				world.getLemmingsList()[i] = l.changeJob(World.BUILDER);
         				Lemmings[] tab = new Lemmings[1];
 					tab[0] = world.getLemmingsList()[i];
 					world.getSpawner().addLemmings(tab);
