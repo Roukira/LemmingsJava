@@ -193,6 +193,10 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
 			drawCapacityBorder(REGULArBORDER, world.getPosXcapacity2()-1, world.getPosYcapacity()-1);
 		}
+		else if ( posXmouse > world.getPosXcapacity3() && posXmouse < world.getPosXcapacity3()+60
+		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
+			drawCapacityBorder(REGULArBORDER, world.getPosXcapacity3()-1, world.getPosYcapacity()-1);
+		}
 		
 	//=======partie select rouge======	
 		
@@ -200,6 +204,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity1()-1, world.getPosYcapacity()-1);
     		}else if (capacityClicSetter == 2){
         		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity2()-1, world.getPosYcapacity()-1);
+    		
+    		}else if (capacityClicSetter == 3){
+        		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity3()-1, world.getPosYcapacity()-1);
     		}
 	}
 	
@@ -237,13 +244,23 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
 		//remplacer 60 par un truc propre
+			System.out.println("capacityClicSetter = 1");
+			
 			capacityClicSetter = 1;
 			return;
 		}
 		
 		if ( posXclic > world.getPosXcapacity2() && posXclic < world.getPosXcapacity2()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
+			System.out.println("capacityClicSetter = 2");
 			capacityClicSetter = 2;
+			return;
+		}
+		
+		if ( posXclic > world.getPosXcapacity3() && posXclic < world.getPosXcapacity3()+60
+		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
+			System.out.println("capacityClicSetter = 3");
+			capacityClicSetter = 3;
 			return;
 		}
 		
@@ -255,8 +272,35 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
         		if (l.getAlive() && posYlem-3*l.getHeight()<posYclic  && posYlem+2*l.getHeight()>posYclic && posXlem-3*l.getWidth()<posXclic  && posXlem+2*l.getWidth()>posXclic){
-        			if (World.WALKER == l.getJob() && capacityClicSetter == 1 && l.getInWorld() && e.getButton()==1){
+        			if (World.STOPPER != l.getJob() && capacityClicSetter == 1 && l.getInWorld() && e.getButton()==1){
         			//si la methode getButton retourne 1 c est le clic gauche 
+        				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
+        				Lemmings[] tab = new Lemmings[1];
+					tab[0] = world.getLemmingsList()[i];
+					world.getSpawner().addLemmings(tab);
+					world.getSpawner().removeLemmingFromList(l.getId());
+					world.getOutside().addLemmings(tab);
+					world.getOutside().removeLemmingFromList(l.getId());
+					System.out.println("turn into STOPPER");
+					return;
+        			}
+        			else if ( World.WALKER != l.getJob() && e.getButton()==3 && l.getInWorld()){ 
+        			//si la methode getButton retourne 3 c est le clic gauche	
+        				world.getLemmingsList()[i] = l.changeJob(World.WALKER);
+        				Lemmings[] tab = new Lemmings[1];
+					tab[0] = world.getLemmingsList()[i];
+					world.getOutside().addLemmings(tab);
+					world.getOutside().removeLemmingFromList(l.getId());
+					System.out.println("turn into WALKER");
+        				return;
+        			}
+        			else if ( capacityClicSetter == 2 && l.getBombCountdown()==-1 && l.getInWorld()){
+        				System.out.println("turn into BOMBER");
+        				l.startBomb();
+        				return; 
+        				
+        			}
+        			else if (World.BUILDER != l.getJob() && capacityClicSetter == 3 && l.getInWorld() && e.getButton()==1){
         				world.getLemmingsList()[i] = l.changeJob(World.BUILDER);
         				Lemmings[] tab = new Lemmings[1];
 					tab[0] = world.getLemmingsList()[i];
@@ -264,23 +308,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 					world.getSpawner().removeLemmingFromList(l.getId());
 					world.getOutside().addLemmings(tab);
 					world.getOutside().removeLemmingFromList(l.getId());
+					System.out.println("turn into Builder");
 					return;
-        			}
-        			else if ( World.STOPPER == l.getJob() && e.getButton()==3 && l.getInWorld()){ 
-        			//si la methode getButton retourne 3 c est le clic gauche	
-        				world.getLemmingsList()[i] = l.changeJob(World.WALKER);
-        				Lemmings[] tab = new Lemmings[1];
-					tab[0] = world.getLemmingsList()[i];
-					world.getOutside().addLemmings(tab);
-					world.getOutside().removeLemmingFromList(l.getId());
-        				return;
-        			}
-        			else if ( capacityClicSetter == 2 && l.getBombCountdown()==-1 && l.getInWorld()){
-        				l.startBomb();
-        				return; 
-        				
-        			}
-        			
+				}
         			
         		}
         	}

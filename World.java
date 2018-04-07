@@ -26,7 +26,7 @@ public class World{
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
 	public int airIndex;
-	public static final int settingsLines = 11;
+	public static final int settingsLines = 12;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -35,12 +35,14 @@ public class World{
 	private int outsideY;
 	private int posXcapacity1;
 	private int posXcapacity2;
+	private int posXcapacity3;
 	private int posYcapacity;
 	private boolean finished = false;
 	private boolean victory = false;
 	public static final int WALKER = 0;
 	public static final int STOPPER = 1;
-	public static final int BUILDER = 2;
+	public static final int BOMBER = 2;
+	public static final int BUILDER = 3;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -97,7 +99,8 @@ public class World{
 			posYcapacity = settings[7]; 
 			posXcapacity1 = settings[8];
 			posXcapacity2 = settings[9];
-			airIndex = settings[10];
+			posXcapacity3 = settings[10];
+			airIndex = settings[11];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -209,6 +212,7 @@ public class World{
 		g.drawImage(mapImage,0,0,null);
 		drawLemmingsCapacity(g,"bomb",posXcapacity2,posYcapacity);
 		drawLemmingsCapacity(g,"stopper",posXcapacity1,posYcapacity);
+		drawLemmingsCapacity(g,"builder",posXcapacity3,posYcapacity);
 	}
 
 	public int getSpawnX(){
@@ -231,6 +235,10 @@ public class World{
 	
 	public int getPosXcapacity2(){
 		return posXcapacity2;	
+	}
+	
+	public int getPosXcapacity3(){
+		return posXcapacity3;	
 	}
 	
 	public int getPosYcapacity(){
@@ -276,6 +284,7 @@ public class World{
 	
 	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
 		try{
+			//System.out.println("lemmings/"+nomImage+"Capacity.png");
 			imageCapacity = ImageIO.read(new File("lemmings/"+nomImage+"Capacity.png"));
 		}catch(Exception e){e.printStackTrace();}
 		g.drawImage(imageCapacity,posX,posY,null);
