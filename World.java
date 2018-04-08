@@ -26,7 +26,7 @@ public class World{
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
 	public int airIndex;
-	public static final int settingsLines = 12;
+	public static final int settingsLines = 13;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -36,14 +36,15 @@ public class World{
 	private int posXcapacity1;
 	private int posXcapacity2;
 	private int posXcapacity3;
+	private int posXcapacity4;
 	private int posYcapacity;
 	private boolean finished = false;
 	private boolean victory = false;
-	private long iFinish = -1;
 	public static final int WALKER = 0;
 	public static final int STOPPER = 1;
 	public static final int BOMBER = 2;
 	public static final int BUILDER = 3;
+	public static final int BASHER = 4;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -101,7 +102,8 @@ public class World{
 			posXcapacity1 = settings[8];
 			posXcapacity2 = settings[9];
 			posXcapacity3 = settings[10];
-			airIndex = settings[11];
+			posXcapacity4 = settings[11];
+			airIndex = settings[12];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -216,6 +218,7 @@ public class World{
 		drawLemmingsCapacity(g,"bomb",posXcapacity2,posYcapacity);
 		drawLemmingsCapacity(g,"stopper",posXcapacity1,posYcapacity);
 		drawLemmingsCapacity(g,"builder",posXcapacity3,posYcapacity);
+		drawLemmingsCapacity(g,"basher",posXcapacity4,posYcapacity);
 	}
 
 	public int getSpawnX(){
@@ -242,6 +245,10 @@ public class World{
 	
 	public int getPosXcapacity3(){
 		return posXcapacity3;	
+	}
+	
+	public int getPosXcapacity4(){
+		return posXcapacity4;	
 	}
 	
 	public int getPosYcapacity(){
@@ -283,7 +290,6 @@ public class World{
 	public void setFinished(boolean finished, boolean victory){
 		this.finished = finished;
 		this.victory = victory;
-		iFinish = System.currentTimeMillis(); 
 	}
 	
 	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
@@ -304,6 +310,7 @@ public class World{
 		if(state == WALKER) newLemming = new Walker(l);
 		else if(state == STOPPER) newLemming = new Stopper(l);
 		else if(state == BUILDER) newLemming = new Builder(l);
+		else if(state == BASHER) newLemming = new Basher(l);
 		else{
 			System.out.println("Erreur : job non crée.");
 		}
@@ -327,10 +334,6 @@ public class World{
 		end.addLemmings(tab);
 
 	}	
-	
-	public long getiFinish(){
-		return iFinish;
-	}
 	
 }	
 
