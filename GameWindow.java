@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 
-public final class GameWindow extends JFrame implements MouseListener,MouseMotionListener{			
-//Sous-classe de la classe de fenetre java JFrame || class final car il n y aura qu une seule fenetre
+public class GameWindow extends JFrame implements MouseListener,MouseMotionListener{			
 
 //==================== ATTRIBUTS ========================
 
@@ -33,7 +32,8 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	private Cursor CurseurSelect;
 	private Cursor CurseurInitRed;
 	private Cursor CurseurSelectRed;
-	public boolean finish = false;
+	
+	private MainMenu mainMenu;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -74,6 +74,9 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point( 10, 10 ), "Pointeur" );
 		setCursor( CurseurInit );
 		
+		mainMenu = new MainMenu(this);
+		mainMenu.setOnMainMenu(true);
+		
 	}
 	
 	
@@ -100,6 +103,8 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	
 	public void update(){
 	//met a jour le monde
+		if(mainMenu.getOnMainMenu()) return;
+		if(world.getFinished()) return;
 		world.getSpawner().update();
 		Lemmings l;
 		boolean cursorOnLemmings = false;
@@ -124,7 +129,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         		else setCursor( CurseurInitRed );
         	}
         	
-        	if(allDead && !finish){
+        	if(allDead){
         		world.setFinished(true,false);
         	}
         	
@@ -137,18 +142,27 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		Graphics2D g = null; //pointeur de l'outil de dessin
 		do{
    			try{
-        			g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-        			if(world!=null) world.draw(g); //dessine le monde
-        			world.getSpawner().draw(g);
-        			world.getOutside().draw(g);
-        			for(int i=0;i<world.getLemmingsList().length;i++){
-        				world.getLemmingsList()[i].draw(g); //dessine les lemmings
-        			}
-        			drawSelectZone(g);
-        			if(world.getFinished()){
-					System.out.println("THE END");
-					drawVictory(g);
-					finish = true;
+   				g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
+   				if(mainMenu.getOnMainMenu()) mainMenu.draw(g);
+        			else{
+					
+					if(world!=null) world.draw(g); //dessine le monde
+					world.getSpawner().draw(g);
+					world.getOutside().draw(g);
+					for(int i=0;i<world.getLemmingsList().length;i++){
+						world.getLemmingsList()[i].draw(g); //dessine les lemmings
+					}
+					drawSelectZone(g);
+					if(world.getFinished()){
+						System.out.println("THE END");
+						drawVictory(g);
+						long time = System.currentTimeMillis()-world.getiFinish();
+						System.out.println(time);
+						if(time>2000) {
+							mainMenu.setOnMainMenu(true);
+							this.setSize(600,400);
+						}	
+					}
 				}
     			}
     			finally{
@@ -159,13 +173,10 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 	}
 	
 	public void drawVictory(Graphics2D g){
-		System.out.println("Cest ici notre pb !!!!!");
         	if(world.getVictory()){
         		g.drawImage(victory,0,0,null);
-        		System.out.println("...");
         	}
         	else{
-        		System.out.println("cela devrait maecheerezkefblqerf");
         		g.drawImage(defeat,0,0,null);
         	}
 	}
@@ -234,12 +245,34 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
 	}
 	
+	public void newCurrentWorld(int worldID){
+		World w = new World(worldID);
+		setWorld(w);
+		w.spawnLemmings();
+		this.setSize(w.getWidth(),w.getHeight());
+	}
+	
 //===================MOUSE EVENT========================================================
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
 		int posXclic = e.getX();
 		int posYclic = e.getY();
+		
+		if (mainMenu.getOnMainMenu()){
+			
+			if(posXclic >= 250 && posXclic <=370 && posYclic>=100 && posYclic <=150){
+				newCurrentWorld(1);
+			}
+			else if (posXclic >= 250 && posXclic <=370 && posYclic>=160 && posYclic <=210){
+				newCurrentWorld(2);
+			}
+			else if (posXclic >= 250 && posXclic <=370 && posYclic>=220 && posYclic <=270){
+				newCurrentWorld(3);
+			}
+			mainMenu.setOnMainMenu(false);
+			return;
+		}
 		
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){

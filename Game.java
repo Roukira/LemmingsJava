@@ -8,35 +8,18 @@ public class Game{
 	public static void main(String[] args){
 		
 		Scanner keyboard = new Scanner(System.in);
-		int worldCounter;
-		
-		do{
-			System.out.println("Choose the world between 1 and 2 : ");
-			worldCounter = keyboard.nextInt();
-		}while(worldCounter<1 || worldCounter>2);
-		World w = new World(worldCounter);		//Creaation d un monde avec la taille de l image
-		//fin de la creation de tous les lemmings necessaire au jeu
-		
-		
-		GameWindow UI = new GameWindow("Lemmings v0",w.getWidth(),w.getHeight());	//Creation de la fenetre Interface Utilisateur
-		UI.setWorld(w);	
-		w.spawnLemmings();	//Remplissage de la fenetre avec le world w
+		GameWindow UI = new GameWindow("Lemmings v0",600,400);	//Creation de la fenetre Interface Utilisateur
+		//UI.setWorld(w);	
+		//w.spawnLemmings();	//Remplissage de la fenetre avec le world w
 		long time = System.currentTimeMillis();
-		long iFinish = 0;
-		boolean end = false;
-		while(!end){
+		while(true){
 			UI.update();					//Update les mouvements
 			UI.draw();					//dessines les nouveaux mouvements
 			UI.iterateTps();				//Itere le compteur
 			UI.waitForFrame(time);				//60FPS
 			time = System.currentTimeMillis();
-			if (UI.finish){
-				if(iFinish==0) iFinish = System.currentTimeMillis(); 
-				else if(System.currentTimeMillis()-iFinish>2000) end = true;
-			}
-			
 		}
-		UI.dispose();
+		//UI.dispose();
 	}
 
 }
