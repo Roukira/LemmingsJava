@@ -208,6 +208,11 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
 			drawCapacityBorder(REGULArBORDER, world.getPosXcapacity3()-1, world.getPosYcapacity()-1);
 		}
+		else if ( posXmouse > world.getPosXcapacity4() && posXmouse < world.getPosXcapacity4()+60
+		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
+			drawCapacityBorder(REGULArBORDER, world.getPosXcapacity4()-1, world.getPosYcapacity()-1);
+		}
+		
 		
 	//=======partie select rouge======	
 		
@@ -218,6 +223,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
     		
     		}else if (capacityClicSetter == 3){
         		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity3()-1, world.getPosYcapacity()-1);
+    		}else if (capacityClicSetter == 4){
+        		drawCapacityBorder(SELECtBORDER, world.getPosXcapacity4()-1, world.getPosYcapacity()-1);
     		}
 	}
 	
@@ -296,6 +303,12 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			capacityClicSetter = 3;
 			return;
 		}
+		if ( posXclic > world.getPosXcapacity4() && posXclic < world.getPosXcapacity4()+60
+		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
+			System.out.println("capacityClicSetter = 4");
+			capacityClicSetter = 4;
+			return;
+		}
 		
 		int posXlem;
 		int posYlem;	
@@ -326,6 +339,11 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
         			else if (World.BUILDER != l.getJob() && capacityClicSetter == 3 && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.BUILDER);
 					System.out.println("turn into Builder");
+					return;
+				}
+				else if (World.BASHER != l.getJob() && capacityClicSetter == 4 && l.getInWorld() && e.getButton()==1){
+        				world.changeJob(l,World.BASHER);
+					System.out.println("turn into BASHER");
 					return;
 				}
         			
