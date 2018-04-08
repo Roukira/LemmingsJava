@@ -38,6 +38,7 @@ public class World{
 	private int posXcapacity3;
 	private int posXcapacity4;
 	private int posYcapacity;
+	private long iFinish = -1;
 	private boolean finished = false;
 	private boolean victory = false;
 	public static final int WALKER = 0;
@@ -290,6 +291,7 @@ public class World{
 	public void setFinished(boolean finished, boolean victory){
 		this.finished = finished;
 		this.victory = victory;
+		iFinish = System.currentTimeMillis(); 
 	}
 	
 	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
@@ -334,6 +336,10 @@ public class World{
 		end.addLemmings(tab);
 
 	}	
+	
+	public long getiFinish(){
+		return iFinish;
+	}
 	
 }	
 
