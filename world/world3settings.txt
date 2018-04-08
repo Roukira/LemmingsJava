@@ -1,0 +1,30 @@
+110
+200
+827
+331
+1
+35
+15
+480
+300
+365
+430
+495
+1
+
+//explication
+
+posX du spawn
+posY du spawn
+posX du outsider
+posY du outsider
+je sais plus
+frequence du spawnage
+nb lemmings
+posy image capacite
+posX image capacite
+posx image capacite
+posx image capacite
+posx image capacite
+je sais pas
+couleur de l'air
