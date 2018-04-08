@@ -274,23 +274,13 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         		if (l.getAlive() && posYlem-3*l.getHeight()<posYclic  && posYlem+2*l.getHeight()>posYclic && posXlem-3*l.getWidth()<posXclic  && posXlem+2*l.getWidth()>posXclic){
         			if (World.STOPPER != l.getJob() && capacityClicSetter == 1 && l.getInWorld() && e.getButton()==1){
         			//si la methode getButton retourne 1 c est le clic gauche 
-        				world.getLemmingsList()[i] = l.changeJob(World.STOPPER);
-        				Lemmings[] tab = new Lemmings[1];
-					tab[0] = world.getLemmingsList()[i];
-					world.getSpawner().addLemmings(tab);
-					world.getSpawner().removeLemmingFromList(l.getId());
-					world.getOutside().addLemmings(tab);
-					world.getOutside().removeLemmingFromList(l.getId());
+        				world.changeJob(l,World.STOPPER);
 					System.out.println("turn into STOPPER");
 					return;
         			}
         			else if ( World.WALKER != l.getJob() && e.getButton()==3 && l.getInWorld()){ 
         			//si la methode getButton retourne 3 c est le clic gauche	
-        				world.getLemmingsList()[i] = l.changeJob(World.WALKER);
-        				Lemmings[] tab = new Lemmings[1];
-					tab[0] = world.getLemmingsList()[i];
-					world.getOutside().addLemmings(tab);
-					world.getOutside().removeLemmingFromList(l.getId());
+        				world.changeJob(l,World.WALKER);
 					System.out.println("turn into WALKER");
         				return;
         			}
@@ -301,13 +291,7 @@ public final class GameWindow extends JFrame implements MouseListener,MouseMotio
         				
         			}
         			else if (World.BUILDER != l.getJob() && capacityClicSetter == 3 && l.getInWorld() && e.getButton()==1){
-        				world.getLemmingsList()[i] = l.changeJob(World.BUILDER);
-        				Lemmings[] tab = new Lemmings[1];
-					tab[0] = world.getLemmingsList()[i];
-					world.getSpawner().addLemmings(tab);
-					world.getSpawner().removeLemmingFromList(l.getId());
-					world.getOutside().addLemmings(tab);
-					world.getOutside().removeLemmingFromList(l.getId());
+        				world.changeJob(l,World.BUILDER);
 					System.out.println("turn into Builder");
 					return;
 				}
