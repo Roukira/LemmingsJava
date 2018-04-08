@@ -125,8 +125,8 @@ public class Basher extends Digger implements Affecter{
 		}	
 		for (int i=0;i<=diggX;i++){
 			for (int j = diggYstart; j<=diggYend;j++){
-				w.setMapTypeAtPos(posX+i,posY-j,w.AIR_CST);
-				w.setMapPixelColor(posX+i,posY-j,w.AIR_LIST.get(w.airIndex));
+				w.setMapTypeAtPos(posX+direction*i,posY-j,w.AIR_CST);
+				w.setMapPixelColor(posX+direction*i,posY-j,w.AIR_LIST.get(w.airIndex));
 			}
 		}
 	}
