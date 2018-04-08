@@ -15,8 +15,6 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	private BufferStrategy bs;			//fenetre de dessin		
 	private static World world;				//monde
 	private static int tps = 0;			//compteur de temps
-	private BufferedImage victory;
-	private BufferedImage defeat;
 	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private BufferedImage imageCurseurSelect;
 	private BufferedImage imageCurseurInit;
@@ -34,6 +32,7 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	private Cursor CurseurSelectRed;
 	
 	private MainMenu mainMenu;
+	private Score score;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -50,12 +49,6 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		this.setVisible(true); 					//rend visible
 		this.createBufferStrategy(3);				//fenetre de dessin des pixels
 		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
-		try{
-			victory = ImageIO.read(new File("world/victory.png"));
-			defeat = ImageIO.read(new File("world/defeat.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
-		
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
@@ -75,7 +68,9 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		setCursor( CurseurInit );
 		
 		mainMenu = new MainMenu(this);
-		mainMenu.setOnMainMenu(true);
+		mainMenu.setOnScreen(true);
+		score = new Score(this);
+		score.setOnScreen(false);
 		
 	}
 	
@@ -103,7 +98,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	
 	public void update(){
 	//met a jour le monde
-		if(mainMenu.getOnMainMenu()) return;
+		if(score.getOnScreen()) return;
+		if(mainMenu.getOnScreen()) return;
 		if(world.getFinished()) return;
 		world.getSpawner().update();
 		Lemmings l;
@@ -143,7 +139,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		do{
    			try{
    				g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-   				if(mainMenu.getOnMainMenu()) mainMenu.draw(g);
+   				if(score.getOnScreen()) score.draw(g);
+   				else if(mainMenu.getOnScreen()) mainMenu.draw(g);
         			else{
 					
 					if(world!=null) world.draw(g); //dessine le monde
@@ -154,14 +151,7 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 					}
 					drawSelectZone(g);
 					if(world.getFinished()){
-						System.out.println("THE END");
-						drawVictory(g);
-						long time = System.currentTimeMillis()-world.getiFinish();
-						System.out.println(time);
-						if(time>2000) {
-							mainMenu.setOnMainMenu(true);
-							this.setSize(600,400);
-						}	
+						moveToScoreScreen();	
 					}
 				}
     			}
@@ -170,15 +160,6 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
     			}
     			bs.show(); //actualise la fenetre de dessin avec la nouvelle
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
-	}
-	
-	public void drawVictory(Graphics2D g){
-        	if(world.getVictory()){
-        		g.drawImage(victory,0,0,null);
-        	}
-        	else{
-        		g.drawImage(defeat,0,0,null);
-        	}
 	}
 	
 	public static void waitForFrame(long preTime){
@@ -259,6 +240,18 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		this.setSize(w.getWidth(),w.getHeight());
 	}
 	
+	public void moveToMainMenu(){
+		score.setOnScreen(false);
+		mainMenu.setOnScreen(true);
+		this.setSize(600,400);
+	}
+	
+	public void moveToScoreScreen(){
+		score = new Score(this,world.getVictory());
+		score.setOnScreen(true);
+		this.setSize(600,400);
+	}
+	
 //===================MOUSE EVENT========================================================
         
         public void mouseClicked(MouseEvent e) {
@@ -266,20 +259,14 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		int posXclic = e.getX();
 		int posYclic = e.getY();
 		
-		if (mainMenu.getOnMainMenu()){
-			
-			if(posXclic >= 250 && posXclic <=370 && posYclic>=100 && posYclic <=150){
-				newCurrentWorld(1);
+		if (score.getOnScreen()){
+			if(posXclic >= 450 && posXclic <=570 && posYclic>=300 && posYclic <=350){
+				moveToMainMenu();
 			}
-			else if (posXclic >= 250 && posXclic <=370 && posYclic>=160 && posYclic <=210){
-				newCurrentWorld(2);
-			}
-			else if (posXclic >= 250 && posXclic <=370 && posYclic>=220 && posYclic <=270){
-				newCurrentWorld(3);
-			}
-			mainMenu.setOnMainMenu(false);
 			return;
 		}
+		
+		if(worldSelection()) return;
 		
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
@@ -370,13 +357,52 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	
 	
     	public void mouseMoved(MouseEvent e) {
-    	//a chaque mouvement retourne un event
-       		posXmouse = e.getX();
-		posYmouse = e.getY();
-	}
+        //a chaque mouvement retourne un event
+        	posXmouse = e.getX();
+        	posYmouse = e.getY();
+        	changeWorldButton();
+    }
 
     	public void mouseDragged(MouseEvent e) {}
     	//a chaque mouvement ou un bouton de la souris est enfonce
+    	
+	public void changeWorldButton(){
+        	if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
+        		mainMenu.showSelectButton(1);
+        	}
+        	else{
+            		mainMenu.showDefaultButton(1);
+        	}
+		if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
+            		mainMenu.showSelectButton(2);
+        	}
+        	else{
+            		mainMenu.showDefaultButton(2);
+        	}
+        	if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
+            		mainMenu.showSelectButton(3);
+       		} 
+       		else{
+            		mainMenu.showDefaultButton(3);
+        	}
+        }
+
+	public boolean worldSelection(){
+            if (mainMenu.getOnScreen()){
+            	if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
+            		newCurrentWorld(1);
+		}
+		else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
+			newCurrentWorld(2);
+		}
+		else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
+			newCurrentWorld(3);
+		}
+		mainMenu.setOnScreen(false);
+		return true;
+	}
+        return false;
+        }
 	
 }
 
