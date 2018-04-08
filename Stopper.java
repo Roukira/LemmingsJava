@@ -133,11 +133,6 @@ public class Stopper extends Lemmings implements Affecter{
 		affectMapBool = false;
 	}
 	
-	public Lemmings changeJob(int state){
-		resetMap();
-		return super.changeJob(state);
-	}
-	
 	public void kill(){
 		resetMap();
 		super.kill();

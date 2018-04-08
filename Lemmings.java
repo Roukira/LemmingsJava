@@ -282,13 +282,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		return inWorld;
 	}
 	
-	public Lemmings changeJob(int state){
-		this.job = state;
-		if (state == 1) return new Stopper(this);
-		else if (state == 3) return new Builder(this);
-		return new Walker(this);
-	}	
-	
 	public int getJob(){
 		return job;
 	}

@@ -196,15 +196,17 @@ public class World{
 	}
 	
 	
-	public void addObjectToWorld(int posX, int posY, BufferedImage image){
+	public boolean addObjectToWorld(int posX, int posY, BufferedImage image){
 	//pas sur encore
+		if (posX>=width || posX<0 || posY<0 || posY >=height || posX+image.getWidth()>=width || posY+image.getHeight()>=height) return false;
 		for(int i = posX;i<posX+image.getWidth();i++){
 			for(int j = posY;j<posY+image.getHeight();j++){
-			
+				if (getPos(i,j)==1) return false;
 				setMapTypeAtPos(i,j,GROUND_CST);
 				setMapPixelColor(i,j,getColor(i-posX,j-posY,image));
 			}
 		}
+		return true;
 	}
 	
 	public void draw(Graphics2D g){
@@ -290,6 +292,40 @@ public class World{
 		g.drawImage(imageCapacity,posX,posY,null);
 		
 	}
+	
+	public void changeJob(Lemmings l,int state){
+		if(l instanceof Affecter){
+			System.out.println("reset map");
+			((Affecter)l).resetMap();
+		}
+		Lemmings newLemming = null;
+		if(state == WALKER) newLemming = new Walker(l);
+		else if(state == STOPPER) newLemming = new Stopper(l);
+		else if(state == BUILDER) newLemming = new Builder(l);
+		else{
+			System.out.println("Erreur : job non crée.");
+		}
+		int index = -1;
+		for(int i=0;i<list.length;i++){
+			if (list[i].getId()==l.getId()){
+				index = i;
+				break;
+			}
+		}
+		if((index == -1) || (newLemming==null)){
+			System.out.println("Invalide");
+			return;
+		}
+		list[index] = newLemming;
+        	Lemmings[] tab = new Lemmings[1];
+		tab[0] = list[index];
+		spawn.removeLemmingFromList(l.getId());
+		spawn.addLemmings(tab);
+		end.removeLemmingFromList(l.getId());
+		end.addLemmings(tab);
+
+	}	
+	
 }	
 
 
