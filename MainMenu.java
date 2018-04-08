@@ -1,17 +1,14 @@
 import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-import java.awt.*;
+public class MainMenu extends Screen{
 
-public class MainMenu{
-
-	private GameWindow gw;
-	private boolean onMainMenu = false;
 	private BufferedImage mainMenuBG;
 	private BufferedImage world1;
 	private BufferedImage world2;
@@ -27,7 +24,7 @@ public class MainMenu{
 	private boolean w3default = true;
 	
 	public MainMenu(GameWindow gw){
-		this.gw = gw;
+		super(gw);
 		try{
 			mainMenuBG = ImageIO.read(new File("mainmenu/Home.png"));
 			world1 = ImageIO.read(new File("mainmenu/ButtonWorld1.png"));
@@ -36,28 +33,18 @@ public class MainMenu{
 			world1Select = ImageIO.read(new File("mainmenu/ButtonWorld1Select.png"));
 			world2Select = ImageIO.read(new File("mainmenu/ButtonWorld2Select.png"));
 			world3Select = ImageIO.read(new File("mainmenu/ButtonWorld3Select.png"));
-		}catch(Exception e){e.printStackTrace();}
+ 		}catch(Exception e){e.printStackTrace();}
 		world1Button = world1;
 		world2Button = world2;
 		world3Button = world3;
-		
 	}
 	
 	public void draw(Graphics2D g){
-		if(!onMainMenu) return;
+		super.draw(g);
 		g.drawImage(mainMenuBG,0,0,null);
 		g.drawImage(world1Button,250,100,null);
 		g.drawImage(world2Button,250,160,null);
 		g.drawImage(world3Button,250,220,null);
-	}
-	
-	
-	public boolean getOnMainMenu(){
-		return onMainMenu;
-	}
-	
-	public void setOnMainMenu(boolean onMainMenu){
-		this.onMainMenu = onMainMenu;
 	}
 	
 	public void showSelectButton( int worldNumber){
