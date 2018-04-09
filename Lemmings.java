@@ -185,7 +185,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	//Fonction qui tente de descendre le lemming
 		int i;
 		
-		for (i=1;i<height/2;i++){												//descend si le leming n'a pas a se baisser trop 
+		for (i=1;i<height/2;i++){			//descend si le leming n'a pas a se baisser trop 
 			if(w.getPos(posX+direction*(width/2),posY+i)==0 && w.getPos(posX+direction*(width/2)+(direction*3*(width/2)),i+posY-height+1)==0){	
 			//Le if verifie que il peut descendre et que quand il descend il peut renterr en entier
 				posX+=direction;
@@ -200,7 +200,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public boolean climbUp(){
 		int i;
-		for (i =(height/2);i<(height);i++){
+		for (i =(height/2);i<(3*height/2);i++){
 			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
 			//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
 				return false;
@@ -211,6 +211,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			//On regarde la taille de la marche et on la climb
 				posX+=direction;
 				posY-=i+1;
+				System.out.println("climb");
 				return true;
 			}
 		}
