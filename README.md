@@ -13,21 +13,20 @@ Bunch of ideas which are not decided yet to be into the program.
 ### Establish code hierarchy
 
   * Abstract Thing
-    * Abstract Living Thing
-      * Abstract Lemmings
-        * Walker
-        * Bomber
-        * Builder
-        * Blocker
-        * Abstract Digger
-          * Basher
-          * Excavater
-          * Miner
-        * Abstract Shifter
-          * Floater
-          * Climber
+    * Abstract Lemmings
+      * Walker
+      * Bomber
+      * Builder
+      * Blocker
+      * Abstract Digger
+        * Basher
+        * Excavater
+        * Miner
+      * Abstract Shifter
+        * Floater
+        * Climber
     * Abstract Item
       * Spawn
       * Outside
     
-    * Interface Painter
+    * Interface Affecter
