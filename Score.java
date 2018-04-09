@@ -11,7 +11,10 @@ public class Score extends Screen{
 
 	private BufferedImage scoreBG;
 	private BufferedImage scoreFG;
+	private BufferedImage mainMenu;
+	private BufferedImage mainMenuSelect;
 	private BufferedImage buttonMainMenu;
+	private boolean mainDefault = true;
 	private boolean victory;
 	private int nbLemmings;
 	private int nbLemmingsAlive;
@@ -22,9 +25,11 @@ public class Score extends Screen{
 		super(gw);
 		try{
 			scoreBG = ImageIO.read(new File("score/Home.png"));
-			buttonMainMenu = ImageIO.read(new File("score/ButtonMainMenu.png"));
+			mainMenu = ImageIO.read(new File("score/ButtonMainMenu.png"));
+			mainMenuSelect = ImageIO.read(new File("score/ButtonMainMenuSelect.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
+		buttonMainMenu = mainMenu;
 	}
 	
 	public Score(GameWindow gw, boolean victory){
@@ -62,6 +67,20 @@ public class Score extends Screen{
 		g.drawString("Number of Lemmings : "+nbLemmings,50,300);
 		g.drawString("Deaths : "+nbLemmingsDead,50,330);
 		g.drawString("Completion : "+completion+"%",50,360);
+	}
+	
+	public void showSelectButton(){
+		if (mainDefault){
+			buttonMainMenu = mainMenuSelect;
+			mainDefault = false;
+		}
+	}
+	
+	public void showDefaultButton(){
+		if (!mainDefault){
+			buttonMainMenu = mainMenu;
+			mainDefault = true;
+		}
 	}
 
 }

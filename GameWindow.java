@@ -361,10 +361,20 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
         	posXmouse = e.getX();
         	posYmouse = e.getY();
         	changeWorldButton();
+        	changeMainMenueButton();
     }
 
     	public void mouseDragged(MouseEvent e) {}
     	//a chaque mouvement ou un bouton de la souris est enfonce
+    	
+    	public void changeMainMenueButton(){
+    		if(posXmouse >= 450 && posXmouse <=570 && posYmouse>=300 && posYmouse <=350){
+        		score.showSelectButton();
+        	}
+        	else{
+            		score.showDefaultButton();
+        	}
+    	}
     	
 	public void changeWorldButton(){
         	if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
