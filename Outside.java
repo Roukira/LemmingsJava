@@ -43,7 +43,6 @@ public class Outside extends Item{
 		}
 		for(int i = 0;i<list.size();i++){
 			Lemmings l = list.get(i);
-			System.out.println(l.getId());
 			
 			if(l.getInWorld() && l.getPosX()==posX && l.getPosY()==posY){
 				l.win();

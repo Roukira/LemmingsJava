@@ -170,6 +170,7 @@ public class Builder extends Lemmings implements Affecter{
 		}
 		affectMap();
 		if(nbSteps==0){
+			//animate waiting
 			if(iWait>0) iWait--;
 			else w.changeJob(this,w.WALKER);
 			return;
