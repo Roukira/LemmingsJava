@@ -89,6 +89,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	}
 	public void setWorld(World w){
 	//Modifie le monde actuel
+		
+		capacityClicSetter = 0;
 		this.world = w;			
 	}
 	
