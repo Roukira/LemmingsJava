@@ -32,5 +32,3 @@ Bunch of ideas which are not decided yet to be into the program.
       * Outside
     
     * Interface Affecter
-    
-    teeeeeeest
