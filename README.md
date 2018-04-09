@@ -24,9 +24,9 @@ Bunch of ideas which are not decided yet to be into the program.
         * Basher
         * Excavater
         * Miner
-      * Abstract Shifter
-        * Floater
-        * Climber
+      * Abstract Shifter NOT SURE
+        * Floater NOT SURE
+        * Climber NOT SURE
     * Abstract Item
       * Spawn
       * Outside
