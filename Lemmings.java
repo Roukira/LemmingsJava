@@ -187,6 +187,12 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		
 		for (i=1;i<height/2;i++){			//descend si le leming n'a pas a se baisser trop 
 			if(w.getPos(posX+direction*(width/2),posY+i)==0 && w.getPos(posX+direction*(width/2)+(direction*3*(width/2)),i+posY-height+1)==0){	
+				for (int j =1;j<i;j++){
+					if(w.getPos(posX+direction*(width/2),posY-i)!=0){
+					//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
+						return false;
+					}
+				}
 			//Le if verifie que il peut descendre et que quand il descend il peut renterr en entier
 				posX+=direction;
 				posY+=i;
