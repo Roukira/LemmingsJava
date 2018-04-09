@@ -62,9 +62,10 @@ public class Basher extends Digger implements Affecter{
 			affectMapBool = true;
 			this.job = 2;
 			this.action = true;
+			move();
 		}else{
 			if (fall()){
-				//w.changeJob(this,World.WALKER);
+				w.changeJob(this,World.WALKER);
 				return;
 			}
 			if (iBash<1){
