@@ -10,7 +10,9 @@ Bunch of ideas which are not decided yet to be into the program.
 
 ### Comment the code.
 ### Lemmings movement
-### Establish code hierarchy
+
+
+## Code hierarchy
 
   * Abstract Thing
     * Abstract Lemmings
