@@ -205,8 +205,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 	public boolean climbUp(){
-		int i;
-		for (i =(height/2);i<(3*height/2);i++){
+		int i,j;
+		for (i =(height/2);i<height;i++){
 			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
 			//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
 				return false;
@@ -215,9 +215,14 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		for (i =(height)/2+1;i>=0;i--){
 			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
 			//On regarde la taille de la marche et on la climb
+				for (j =i+1;j<i+height;j++){
+					if(w.getPos(posX+direction*(width/2),posY-j)!=0){
+					//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
+						return false;
+					}
+				}
 				posX+=direction;
 				posY-=i+1;
-				System.out.println("climb");
 				return true;
 			}
 		}
@@ -232,9 +237,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(time>5000 && inWorld){
 			for (int i = posX-bombRadius;i<posX+bombRadius;i++){
 				for (int j = posY-bombRadius;j<posY+bombRadius;j++){
-					System.out.println(((i-posX)*(i-posX)+(j-posY)*(j-posY)));
 					if (w.getPos(i,j)>=1 && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=bombRadius*bombRadius){
-						System.out.println("boom at X = "+i+" Y = "+j);
 						w.setMapTypeAtPos(i,j,w.AIR_CST);
 						w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 					}
@@ -248,7 +251,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public void startBomb(){
 		bombCountdown = System.currentTimeMillis();
-		System.out.println(bombCountdown);
 	}
 	
 	public void spawn(){
