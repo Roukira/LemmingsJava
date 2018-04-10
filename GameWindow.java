@@ -20,6 +20,9 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	private BufferedImage imageCurseurInit;
 	private BufferedImage imageCurseurSelectRed;
 	private BufferedImage imageCurseurInitRed;
+	private BufferedImage border;
+	private BufferedImage whiteBorder;
+	private BufferedImage redBorder;
 	private static int posXmouse;
 	private static int posYmouse;
 	private int capacityClicSetter = 0;
@@ -58,6 +61,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			imageCurseurInit = ImageIO.read(new File("cursor/cursorInit.png"));
 			imageCurseurSelectRed = ImageIO.read(new File("cursor/cursorSelectRed.png"));
 			imageCurseurInitRed = ImageIO.read(new File("cursor/cursorInitRed.png"));
+			whiteBorder = ImageIO.read(new File("world/capacityBorder.png"));
+			redBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		
@@ -213,15 +218,13 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	
 	public void drawCapacityBorder(int borderType, int posX, int posY){
 		Graphics2D g = null;
-		BufferedImage border=null;
 		
-		try{
-			if ( borderType == REGULArBORDER ){
-				border = ImageIO.read(new File("world/capacityBorder.png"));
-			}else{
-				border = ImageIO.read(new File("world/capacitySelectBorder.png"));
-			}
-		}catch(Exception e){e.printStackTrace();}
+		if ( borderType == REGULArBORDER ){
+			border = whiteBorder;
+		}else{
+			border = redBorder;
+		}
+		
 		
 		do{
    			try{
