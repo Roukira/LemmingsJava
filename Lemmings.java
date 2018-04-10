@@ -151,22 +151,25 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 	public boolean fall(){
-		if(w.getPos(posX,posY+1)==0  && w.getPos(posX-direction*(width/2),posY+1)==0 && w.getPos(posX+direction*(width/2),posY+1)==0){
-		//Si pas de sol en dessous de lui pour tout son corps
-			posY++;
-			inAir = true;
-			iWalk = GameWindow.getTps();
-			iFall++;
-			action = false;
-			return true;
-		}
-		inAir = false;
-		if (iFall<maxFall && posY<=w.getHeight()) {
+		
+		for (int i=0;i<(width/2);i++){
+			if(w.getPos(posX-i,posY+1)!=0 || w.getPos(posX+i,posY+1)!=0){
+				if (iFall<maxFall && posY<=w.getHeight()) {
 					iFall = 0;
 					action = true;
-					}
-		else kill();
-		return false;	
+				}
+				else kill();
+				inAir = false;
+				return false;
+			}
+		}
+		
+		posY++;
+		inAir = true;
+		iWalk = GameWindow.getTps();
+		iFall++;
+		action = false;
+		return true;	
 	}
 	
 	
