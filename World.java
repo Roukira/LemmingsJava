@@ -305,7 +305,6 @@ public class World{
 	
 	public void changeJob(Lemmings l,int state){
 		if(l instanceof Affecter){
-			System.out.println("reset map");
 			((Affecter)l).resetMap();
 		}
 		Lemmings newLemming = null;

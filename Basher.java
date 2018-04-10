@@ -49,6 +49,7 @@ public class Basher extends Digger implements Affecter{
 		//this.action = true;
 		height = basherImage0.getHeight();
 		width = basherImage0.getWidth();
+		System.out.println("la direction de ce lemmings est "+direction);
 	}
 
 
@@ -65,6 +66,7 @@ public class Basher extends Digger implements Affecter{
 			move();
 		}else{
 			if (fall()){
+				System.out.println("comment peut il tomber???");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
@@ -126,6 +128,10 @@ public class Basher extends Digger implements Affecter{
 		}	
 		for (int i=0;i<=diggX;i++){
 			for (int j = diggYstart; j<=diggYend;j++){
+				if (w.getPos(posX+direction*i,posY-j)==-1){
+					w.changeJob(this,World.WALKER);
+					return;
+				}
 				w.setMapTypeAtPos(posX+direction*i,posY-j,w.AIR_CST);
 				w.setMapPixelColor(posX+direction*i,posY-j,w.AIR_LIST.get(w.airIndex));
 			}

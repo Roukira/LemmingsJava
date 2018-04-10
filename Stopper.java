@@ -164,7 +164,7 @@ public class Stopper extends Lemmings implements Affecter{
 					affectMap();
 					return;
 		}
-		System.out.println("False pas la place");
+		//System.out.println("False pas la place");
 		if (walk()) return;
 		direction = -direction;
 		tPosXLeft = posX-direction*(width/2);

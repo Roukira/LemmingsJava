@@ -164,13 +164,11 @@ public class Builder extends Lemmings implements Affecter{
 		if (!inWorld) return;
 		if (fall()) return;
 		if (!haveEnoughPlace()){
-			System.out.println("hello");
 			w.changeJob(this,w.WALKER);
 			return;
 		}
 		affectMap();
 		if(nbSteps==0){
-			//animate waiting
 			if(iWait>0) iWait--;
 			else w.changeJob(this,w.WALKER);
 			return;
