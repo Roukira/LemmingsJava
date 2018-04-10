@@ -118,7 +118,7 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			if (l.getAlive()) allDead = false;
         		l.update(); //met a jour la position des lemmings
         		//Le prochain if doit etre le meme que dans mouseClicked (peut etre faire un define...	)	
-        		if (l.getInWorld() && l.getPosY()-3*l.getHeight()<posYmouse  && l.getPosY()+2*l.getHeight()>posYmouse && l.getPosX()-3*l.getWidth()<posXmouse  && l.getPosX()+2*l.getWidth()>posXmouse){
+        		if (l.getInWorld() && l.getPosY()-1.5*l.getHeight()<posYmouse  && l.getPosY()+(0.5*l.getHeight())>posYmouse && l.getPosX()-1*l.getWidth()<posXmouse  && l.getPosX()+1*l.getWidth()>posXmouse){
 				
 				cursorOnLemmings = true;
 			}
@@ -275,29 +275,24 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
-		//remplacer 60 par un truc propre
-			System.out.println("capacityClicSetter = 1");
-			
+		//remplacer 60 par un truc propre			
 			capacityClicSetter = 1;
 			return;
 		}
 		
 		if ( posXclic > world.getPosXcapacity2() && posXclic < world.getPosXcapacity2()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
-			System.out.println("capacityClicSetter = 2");
 			capacityClicSetter = 2;
 			return;
 		}
 		
 		if ( posXclic > world.getPosXcapacity3() && posXclic < world.getPosXcapacity3()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
-			System.out.println("capacityClicSetter = 3");
 			capacityClicSetter = 3;
 			return;
 		}
 		if ( posXclic > world.getPosXcapacity4() && posXclic < world.getPosXcapacity4()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
-			System.out.println("capacityClicSetter = 4");
 			capacityClicSetter = 4;
 			return;
 		}
@@ -309,7 +304,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			l = world.getLemmingsList()[i];
 			posXlem = l.getPosX();
 			posYlem = l.getPosY();	
-        		if (l.getAlive() && posYlem-3*l.getHeight()<posYclic  && posYlem+2*l.getHeight()>posYclic && posXlem-3*l.getWidth()<posXclic  && posXlem+2*l.getWidth()>posXclic){
+			//ce if doit etre le meme que celui qui dit si le curseur est sur un lemmings
+        		if (l.getInWorld() && l.getPosY()-1.5*l.getHeight()<posYmouse  && l.getPosY()+(0.5*l.getHeight())>posYmouse && l.getPosX()-1*l.getWidth()<posXmouse  && l.getPosX()+1*l.getWidth()>posXmouse){
         			if (World.STOPPER != l.getJob() && capacityClicSetter == 1 && l.getInWorld() && e.getButton()==1){
         			//si la methode getButton retourne 1 c est le clic gauche 
         				world.changeJob(l,World.STOPPER);
