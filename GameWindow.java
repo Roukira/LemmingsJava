@@ -107,6 +107,7 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	//met a jour le monde
 		if(score.getOnScreen()) return;
 		if(mainMenu.getOnScreen()) return;
+		if(world == null) return;
 		if(world.getFinished()) return;
 		world.getSpawner().update();
 		Lemmings l;
@@ -149,17 +150,20 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
    				if(score.getOnScreen()) score.draw(g);
    				else if(mainMenu.getOnScreen()) mainMenu.draw(g);
         			else{
+					if(world!=null){
+						world.draw(g); //dessine le monde
+						world.getSpawner().draw(g);
+						world.getOutside().draw(g);
+						for(int i=0;i<world.getLemmingsList().length;i++){
+							world.getLemmingsList()[i].draw(g); //dessine les lemmings
+						}
 					
-					if(world!=null) world.draw(g); //dessine le monde
-					world.getSpawner().draw(g);
-					world.getOutside().draw(g);
-					for(int i=0;i<world.getLemmingsList().length;i++){
-						world.getLemmingsList()[i].draw(g); //dessine les lemmings
+						if(world.getFinished()){
+							moveToScoreScreen();	
+						}
+						drawSelectZone(g);
 					}
-					drawSelectZone(g);
-					if(world.getFinished()){
-						moveToScoreScreen();	
-					}
+					
 				}
     			}
     			finally{
@@ -270,6 +274,7 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			}
 			return;
 		}
+		if(world == null) return;
 		
 		if(worldSelection()) return;
 		
