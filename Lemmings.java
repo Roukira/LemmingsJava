@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-import java.awt.Color;
 import java.awt.Font;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -119,7 +119,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 	public void drawMove(Graphics2D g){
-		if(action && job>=1) return;
+		if(action) return;
 		if (direction == 1){
 			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
 				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-height,null);
@@ -158,7 +158,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			if(w.getPos(posX-i,posY+1)!=0 || w.getPos(posX+i,posY+1)!=0){
 				if (iFall<maxFall && posY<=w.getHeight()) {
 					iFall = 0;
-					action = true;
 				}
 				else kill();
 				inAir = false;
@@ -246,7 +245,10 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			System.out.println("direction : "+direction);
 			for (int i = posX-bombRadius;i<posX+bombRadius;i++){
 				for (int j = posY-bombRadius;j<posY+bombRadius;j++){
-					if (w.getPos(i,j)>=1 && w.getPos(i,j)!=(direction+4) && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=bombRadius*bombRadius){
+					if (w.getPos(i,j)>=1 
+					&& w.getPos(i,j)!=3 
+					&& w.getPos(i,j)!=5
+					&& (i-posX)*(i-posX)+(j-posY)*(j-posY)<=bombRadius*bombRadius){
 						w.setMapTypeAtPos(i,j,w.AIR_CST);
 						w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 					}
@@ -267,13 +269,21 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 	public void win(){
+		if (this instanceof Affecter){
+			((Affecter)this).resetMap();
+		}
 		inWorld = false;
+		
 	}
 	
 	public void kill(){
+		
 		alive = false;
 		inWorld = false;
 		iDeath = 20;
+		if (this instanceof Affecter){
+			((Affecter)this).resetMap();
+		}
 	}
 	
 	public int getWidth(){

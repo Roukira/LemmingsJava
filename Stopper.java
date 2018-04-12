@@ -38,7 +38,7 @@ public class Stopper extends Lemmings implements Affecter{
 		height = image0.getHeight();
 		width = image0.getWidth();
 		this.job = 1;
-		this.action = true;
+		this.action = false;
 		tPosXLeft = posX-(width/2);
 		tPosXRight = posX+(width/2);
 		tPosYUpper = posY-height;
@@ -57,7 +57,7 @@ public class Stopper extends Lemmings implements Affecter{
 		this.height = image0.getHeight();
 		this.width = image0.getWidth();
 		this.job = 1;
-		this.action = true;
+		this.action = false;
 		tPosXLeft = posX-width/2;
 		tPosXRight = posX+width/2;
 		tPosYUpper = posY-height;
@@ -76,7 +76,7 @@ public class Stopper extends Lemmings implements Affecter{
 	}
 	
 	public boolean drawStop(Graphics2D g){
-		if(!enoughPlace) return false;
+		if(!action) return false;
 		else if(iStopBegin<20){		
 			g.drawImage(image0,posX-width/2,posY-height,null);
 			iStopBegin++;
@@ -110,6 +110,7 @@ public class Stopper extends Lemmings implements Affecter{
 						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.STOPPER_WALL_RIGHT_CST);
 						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.red);
 					}
+		action = true;
 	}
 	
 	public void resetMap(){
@@ -122,13 +123,10 @@ public class Stopper extends Lemmings implements Affecter{
 						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.AIR_CST);
 						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.blue);
 					}
+		action = false;
 		affectMapBool = false;
 	}
 	
-	public void kill(){
-		resetMap();
-		super.kill();
-	}
 	
 	public boolean haveEnoughPlace(){
 	//Fonction qui tente de descendre le lemming
@@ -152,6 +150,7 @@ public class Stopper extends Lemmings implements Affecter{
 		//plus tard ajout de draw animation
 		if (!inWorld) return;
 		if (fall()) return;
+		if (!alive) return;
 		if(!affectMapBool && haveEnoughPlace()){
 					affectMap();
 					affectMapBool = true;
@@ -177,8 +176,14 @@ public class Stopper extends Lemmings implements Affecter{
 	}
 	
 	public boolean fall(){
+		int tmpWidht = width;
+		int tmpHeight = height;
+		width = imageRight.getWidth();
+		height = imageRight.getHeight();
 		boolean res = super.fall();
 		if(res) resetMap();
+		width = tmpWidht;
+		height = tmpHeight;
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
 		return res;
