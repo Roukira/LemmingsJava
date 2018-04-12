@@ -77,16 +77,13 @@ public class Basher extends Digger implements Affecter{
 				return;
 			}
 			if (iBash<1){
-				System.out.println("order 1");
-				
 				affectMap();
 				iBash = iBASH_MAX;
 			}else if( iBash == (int)(2*iBASH_MAX/3)){
-				System.out.println("order 12");
 				affectMap();
 			}else if( iBash == (int)(iBASH_MAX/3)){
 				
-				affectMap();System.out.println("order 13");
+				affectMap(); 
 				posX+=5*direction;
 			}
 			iBash--;
