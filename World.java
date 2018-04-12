@@ -45,11 +45,11 @@ public class World{
 	private long iFinish = -1;
 	private boolean finished = false;
 	private boolean victory = false;
-	public static final int WALKER = 0;
-	public static final int STOPPER = 1;
-	public static final int BOMBER = 2;
+	public static final int WALKER = 1;
+	public static final int STOPPER = 4;
+	public static final int BOMBER = 0;
 	public static final int BUILDER = 3;
-	public static final int BASHER = 4;
+	public static final int BASHER = 2;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -127,7 +127,7 @@ public class World{
 		Lemmings.w = this;
 		list = new Lemmings[nb];
 		for (int i=0;i<nb;i++){
-			list[i] = new Walker(i,spawnX,spawnY);
+			addLemmings(i,new Walker(spawnX,spawnY));
 		}
 		/*for (int j=0;j<nb;j++){
 			if ((j%2)==1) {
@@ -298,6 +298,49 @@ public class World{
 		iFinish = System.currentTimeMillis(); 
 	}
 	
+	//=========================PRIORITY==========================
+	
+	public void addLemmings(int i,Lemmings l){
+		list[i] = l;
+		sortLemmings(i);
+	}
+	
+	public void sortLemmings(int index){
+		if (list[list.length-1] == null) return;
+		for (int i=0;i<list.length;i++){
+			Lemmings l = list[i];
+			if (list[index].getJob()>l.getJob()){
+				reverseLemmings(i,index);
+				System.out.println("reverse "+i+" et "+index);
+				index = i;
+			}
+		}
+	}
+	
+	public void reverseLemmings(int i, int j){
+		Lemmings lTemp = list[j];
+		list[j] = list[i];
+		list[i] = lTemp;
+	}
+	
+	public void replaceLemmings(Lemmings l, Lemmings l2){
+		for (int i=0;i<list.length;i++){
+			if(l.getId()==list[i].getId()){
+				addLemmings(i,l2);
+				return;
+			}		
+		}
+	}
+	
+	public void printList(){
+		for (int i=0;i<list.length;i++){
+			if(list[i]!=null){
+				System.out.println("i : "+i+" | "+list[i].toString());
+			}
+		}
+	}
+//======================= END PRIORITY =========================
+	
 	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
 		try{
 			//System.out.println("lemmings/"+nomImage+"Capacity.png");
@@ -330,9 +373,9 @@ public class World{
 			System.out.println("Invalide");
 			return;
 		}
-		list[index] = newLemming;
+		replaceLemmings(list[index],newLemming);
         	Lemmings[] tab = new Lemmings[1];
-		tab[0] = list[index];
+		tab[0] = newLemming;
 		spawn.removeLemmingFromList(l.getId());
 		spawn.addLemmings(tab);
 		end.removeLemmingFromList(l.getId());
