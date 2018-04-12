@@ -329,7 +329,7 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
         				return; 
         				
         			}
-        			else if (World.BUILDER != l.getJob() && capacityClicSetter == 3 && l.getInWorld() && e.getButton()==1){
+        			else if (capacityClicSetter == 3 && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.BUILDER);
 					System.out.println("turn into Builder");
 					return;
