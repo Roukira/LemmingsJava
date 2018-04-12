@@ -43,17 +43,17 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 
 //================== CONSTRUCTEURS ======================
 
-	public Lemmings(int id, int posX, int posY){
+	public Lemmings(int posX, int posY){
 		super(posX,posY);
-		this.id = id;
 		nbLemmings++;				//Incrementation de nombre total de lemmings
+		this.id = nbLemmings;
 		direction = 1;				//initialement, ils se deplacent a droite
 		id = nbLemmings;			//Iniatialise l identifiant a la
 		outside = false;			//boolean pour savoir si il s'est refugie initialement faux
 		inWorld = false;			//initialement, le lemming nest pas dans le monde jusqu au spawn
 		alive = true;				//initialement, il est en vie
 		action = false;				//classe Action
-		job = 0;
+		job = World.WALKER;
 		try{
 			
 			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des Walker a differents etats
@@ -62,11 +62,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
 			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
-			boom5 = ImageIO.read(new File("lemmings/boom5.png"));
-			boom4 = ImageIO.read(new File("lemmings/boom4.png"));
-			boom3 = ImageIO.read(new File("lemmings/boom3.png"));
-			boom2 = ImageIO.read(new File("lemmings/boom2.png"));
-			boom1 = ImageIO.read(new File("lemmings/boom1.png"));
 			
 			
 		}catch(Exception e){e.printStackTrace();}
@@ -77,7 +72,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}	
 	
 	public Lemmings(Lemmings l){
-		this(l.id,l.posX,l.posY);
+		this(l.posX,l.posY);
+		this.id = l.id;
 		iFall = l.iFall;
 		direction = l.direction;
 		inWorld = l.inWorld;
