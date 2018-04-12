@@ -131,7 +131,8 @@ public class Builder extends Lemmings implements Affecter{
 		}
 		g.setColor(Color.white);
 		g.setFont(new Font("default", Font.BOLD, 12));
-		g.drawString(nbStepsString,posX,posY-height);
+		if (direction == 1) g.drawString(nbStepsString,posX,posY-height);
+		else g.drawString(nbStepsString,posX-width/2,posY-height);
 		
 		
 	}
