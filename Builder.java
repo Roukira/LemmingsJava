@@ -144,6 +144,7 @@ public class Builder extends Lemmings implements Affecter{
 		int type_CST;
 		if (direction==1) type_CST = w.WALL_LEFT_CST;
 		else type_CST = w.WALL_RIGHT_CST;
+		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= 0) type_CST = w.GROUND_CST;
 		if (!w.addObjectToWorld(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight(), type_CST, buildStep)){ 
 			System.out.println("Out of bounds");
 			outOfBounds = true;
