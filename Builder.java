@@ -34,8 +34,8 @@ public class Builder extends Lemmings implements Affecter{
 
 //================== CONSTRUCTEURS ======================
 
-	public Builder(int id, int posX, int posY){
-		super(id,posX,posY);
+	public Builder(int posX, int posY){
+		super(posX,posY);
 		try{
 			builderImage0 = ImageIO.read(new File("lemmings/builder0.png"));
 			builderImage1 = ImageIO.read(new File("lemmings/builder1.png"));
@@ -55,7 +55,7 @@ public class Builder extends Lemmings implements Affecter{
 			buildStep = ImageIO.read(new File("lemmings/buildstep2.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		this.job = 2;
+		this.job = World.BUILDER;
 		this.action = true;
 		height = builderImage0.getHeight();
 		width = builderImage0.getWidth();
