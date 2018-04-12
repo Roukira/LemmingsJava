@@ -274,9 +274,9 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			}
 			return;
 		}
-		if(world == null) return;
-		
 		if(worldSelection()) return;
+		
+		if(world == null) return;
 		
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
