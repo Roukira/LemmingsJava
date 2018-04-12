@@ -49,12 +49,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		this.setLocationRelativeTo(null); 			//place au centre
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 	//quitte avec la croix
 		this.setResizable(false); 				//empeche resize
-		this.setVisible(true); 					//rend visible
-		this.createBufferStrategy(3);				//fenetre de dessin des pixels
-		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
 		addMouseListener(this);
 		addMouseMotionListener(this);
-
 		this.requestFocus();
 		try{
 			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
@@ -76,6 +72,13 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 		mainMenu.setOnScreen(true);
 		score = new Score(this);
 		score.setOnScreen(false);
+		
+		this.setVisible(true); 					//rend visible
+		this.createBufferStrategy(3);				//fenetre de dessin des pixels
+		bs = this.getBufferStrategy();				//assigne a bs la fenetre de dessin
+		
+
+		
 		
 	}
 	
@@ -404,22 +407,24 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
         }
 
 	public boolean worldSelection(){
-            if (mainMenu.getOnScreen()){
-            	if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
-            		newCurrentWorld(1);
+       		if (mainMenu.getOnScreen()){
+            		if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
+            			newCurrentWorld(1);
+			}
+			else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
+				newCurrentWorld(2);
+			}
+			else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
+				newCurrentWorld(3);
+			}
+			else{
+				return false;
+			}
+			mainMenu.setOnScreen(false);
+			return true;
 		}
-		else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
-			newCurrentWorld(2);
-		}
-		else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
-			newCurrentWorld(3);
-		}
-		mainMenu.setOnScreen(false);
-		return true;
-	}
-        return false;
+        	return false;
         }
 	
 }
-
 
