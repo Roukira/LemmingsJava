@@ -26,8 +26,8 @@ public class Stopper extends Lemmings implements Affecter{
 
 //================== CONSTRUCTEURS ======================
 
-	public Stopper(int id, int posX, int posY){
-		super(id,posX,posY);
+	public Stopper(int posX, int posY){
+		super(posX,posY);
 		try{
 			image0 = ImageIO.read(new File("lemmings/stopper0.png"));
 			image1 = ImageIO.read(new File("lemmings/stopper1.png"));
@@ -37,10 +37,10 @@ public class Stopper extends Lemmings implements Affecter{
 		}catch(Exception e){e.printStackTrace();}
 		height = image0.getHeight();
 		width = image0.getWidth();
-		this.job = 1;
-		this.action = false;
-		tPosXLeft = posX-(width/2);
-		tPosXRight = posX+(width/2);
+		this.job = World.STOPPER;
+		this.action = true;
+		tPosXLeft = posX-direction*(width/2);
+		tPosXRight = posX+direction*(width/2);
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
 	}
@@ -56,8 +56,8 @@ public class Stopper extends Lemmings implements Affecter{
 		}catch(Exception e){e.printStackTrace();}
 		this.height = image0.getHeight();
 		this.width = image0.getWidth();
-		this.job = 1;
-		this.action = false;
+		this.job = World.STOPPER;
+		this.action = true;
 		tPosXLeft = posX-width/2;
 		tPosXRight = posX+width/2;
 		tPosYUpper = posY-height;
