@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -33,6 +32,11 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected BufferedImage deathFirst;
 	protected BufferedImage deathSecond;	
 	protected long bombCountdown=-1;
+	protected BufferedImage boom5;
+	protected BufferedImage boom4;
+	protected BufferedImage boom3;
+	protected BufferedImage boom2;
+	protected BufferedImage boom1;
 	public static final int bombRadius = 25;
 	
 
@@ -57,6 +61,11 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
 			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
+			boom5 = ImageIO.read(new File("lemmings/boom5.png"));
+			boom4 = ImageIO.read(new File("lemmings/boom4.png"));
+			boom3 = ImageIO.read(new File("lemmings/boom3.png"));
+			boom2 = ImageIO.read(new File("lemmings/boom2.png"));
+			boom1 = ImageIO.read(new File("lemmings/boom1.png"));
 			
 			
 		}catch(Exception e){e.printStackTrace();}
@@ -168,7 +177,9 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public boolean walk(){
 	//Fonction qui fait marcher le lemmings
 		for (int i =0;i<(height);i++){
-			if(w.getPos(posX+direction*(width/2),posY-i)!=0 && w.getPos(posX+direction*(width/2),posY-i)!=direction+3){				//Verifie qur toute la hauteur du corps passe pour marcher
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0 
+			&& w.getPos(posX+direction*(width/2),posY-i)!=direction+3
+			&& w.getPos(posX+direction*(width/2),posY-i)!=direction+4){				//Verifie qur toute la hauteur du corps passe pour marcher
 				//direction + 3 car w.WALL_RIGHT_CST = 4; et w.WALL_LEFT_CST = 2;
 				return false;
 			}
@@ -214,7 +225,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 				for (j =i+1;j<i+height;j++){
 					if(w.getPos(posX+direction*(width/2),posY-j)!=0 && w.getPos(posX+direction*(width/2),posY-j)!=direction+3){
 					//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
-							System.out.println("Ne peut pas climb ici");
 						return false;
 					}
 				}
@@ -232,9 +242,10 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(bombCountdown == -1) return false;
 		long time = System.currentTimeMillis()-bombCountdown;
 		if(time>5000 && inWorld){
+			System.out.println("direction : "+direction);
 			for (int i = posX-bombRadius;i<posX+bombRadius;i++){
 				for (int j = posY-bombRadius;j<posY+bombRadius;j++){
-					if (w.getPos(i,j)>=1 && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=bombRadius*bombRadius){
+					if (w.getPos(i,j)>=1 && w.getPos(i,j)!=(direction+4) && (i-posX)*(i-posX)+(j-posY)*(j-posY)<=bombRadius*bombRadius){
 						w.setMapTypeAtPos(i,j,w.AIR_CST);
 						w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 					}
@@ -305,4 +316,3 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 }
-

@@ -25,11 +25,8 @@ public class Walker extends Lemmings{			//Classe des Walker (elle sera abstraite
 		if (!inWorld) return;
 		if (fall()) return;
 		if (walk()) return;							//tente de grimper
-		System.out.println("Can't walk");
 		if (climbUp()) return;		
-		System.out.println("Can't climb");					//tente de descendre 
 		if (climbDown()) return;
-		System.out.println("Can't climdown");
 		direction = -direction;
 	}
 	

@@ -39,8 +39,8 @@ public class Stopper extends Lemmings implements Affecter{
 		width = image0.getWidth();
 		this.job = 1;
 		this.action = true;
-		tPosXLeft = posX-direction*(width/2);
-		tPosXRight = posX+direction*(width/2);
+		tPosXLeft = posX-(width/2);
+		tPosXRight = posX+(width/2);
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
 	}
@@ -102,22 +102,14 @@ public class Stopper extends Lemmings implements Affecter{
 	
 	public void affectMap(){
 		if (affectMapBool) return;
-		for (Lemmings l:w.getLemmingsList()){
-			if(l.id!=id){
-				if(l.posX>=tPosXLeft && l.posX <= tPosXRight && l.posY>=tPosYUpper && l.posY<=tPosYLower){
-					l.posX = tPosXRight+l.direction*width;
-				}
-			}
-		}
 		for(int i = 0;i<height;i++) {
-						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.GROUND_CST);
+						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.STOPPER_WALL_LEFT_CST);
 						w.setMapPixelColor(tPosXLeft,tPosYLower-i,Color.red);	
 					}
 		for(int j = 0;j<height;j++) {
-						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.GROUND_CST);
+						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.STOPPER_WALL_RIGHT_CST);
 						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.red);
 					}
-		affectMapBool = true;
 	}
 	
 	public void resetMap(){
@@ -143,7 +135,7 @@ public class Stopper extends Lemmings implements Affecter{
 		int i;
 		
 		for (i=0;i<height;i++){		//recherche pour la place 
-			if(w.getPos(posX+direction*(width/2),posY-i)!=0 || w.getPos(posX-direction*(width/2),posY-i)!=0){	//et qu'il peut rentrer
+			if(w.getPos(posX+(width/2),posY-i)!=0 || w.getPos(posX-(width/2),posY-i)!=0){	//et qu'il peut rentrer
 				//System.out.println("False pas la place");
 				enoughPlace = false;
 				return false;
@@ -162,14 +154,14 @@ public class Stopper extends Lemmings implements Affecter{
 		if (fall()) return;
 		if(!affectMapBool && haveEnoughPlace()){
 					affectMap();
+					affectMapBool = true;
 					return;
 		}
 		//System.out.println("False pas la place");
-		if (walk()) return;
-		direction = -direction;
-		tPosXLeft = posX-direction*(width/2);
-		tPosXRight = posX+direction*(width/2);
-		
+		if (!affectMapBool){
+			if (walk()) return;
+			direction = -direction;
+		}
 	}
 	
 	public boolean walk(){
@@ -187,8 +179,6 @@ public class Stopper extends Lemmings implements Affecter{
 	public boolean fall(){
 		boolean res = super.fall();
 		if(res) resetMap();
-		tPosXLeft = posX-direction*(width/2);
-		tPosXRight = posX+direction*(width/2);
 		tPosYUpper = posY-height;
 		tPosYLower = posY;
 		return res;
