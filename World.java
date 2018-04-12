@@ -25,6 +25,8 @@ public class World{
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
+	public static final int WALL_LEFT_CST = 4;							//constantes pour mieux lire
+	public static final int WALL_RIGHT_CST = 2;
 	public int airIndex;
 	public static final int settingsLines = 13;
 	private Spawner spawn;
@@ -200,13 +202,13 @@ public class World{
 	}
 	
 	
-	public boolean addObjectToWorld(int posX, int posY, BufferedImage image){
+	public boolean addObjectToWorld(int posX, int posY, int type_CST, BufferedImage image){
 	//pas sur encore
 		if (posX>=width || posX<0 || posY<0 || posY >=height || posX+image.getWidth()>=width || posY+image.getHeight()>=height) return false;
 		for(int i = posX;i<posX+image.getWidth();i++){
 			for(int j = posY;j<posY+image.getHeight();j++){
 				if (getPos(i,j)==1) return false;
-				setMapTypeAtPos(i,j,GROUND_CST);
+				setMapTypeAtPos(i,j,type_CST);
 				setMapPixelColor(i,j,getColor(i-posX,j-posY,image));
 			}
 		}

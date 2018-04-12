@@ -23,8 +23,8 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 	private BufferedImage border;
 	private BufferedImage whiteBorder;
 	private BufferedImage redBorder;
-	private static int posXmouse;
-	private static int posYmouse;
+	private static int posXmouse = 0;
+	private static int posYmouse = 0;
 	private int capacityClicSetter = 0;
 	public static final int REGULArBORDER = 0;
 	public static final int SELECtBORDER = 1;
@@ -274,10 +274,10 @@ public class GameWindow extends JFrame implements MouseListener,MouseMotionListe
 			}
 			return;
 		}
+		
+		
 		if(worldSelection()) return;
-		
 		if(world == null) return;
-		
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
 		//remplacer 60 par un truc propre			

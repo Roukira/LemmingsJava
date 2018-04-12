@@ -70,21 +70,40 @@ public class Basher extends Digger implements Affecter{
 				w.changeJob(this,World.WALKER);
 				return;
 			}
+			if (walk()){
+				System.out.println("comment peut il tomber???");
+				w.changeJob(this,World.WALKER);
+				return;
+			}
 			if (iBash<1){
-				posX+=5*direction;
+				System.out.println("order 1");
+				
 				affectMap();
 				iBash = 61;
 			}else if( iBash == 39){
+				System.out.println("order 12");
 				affectMap();
 			}else if( iBash == 19){
 				
-				affectMap();
+				affectMap();System.out.println("order 13");
+				posX+=5*direction;
 			}
 			iBash--;
 			
 		}
 		
 	
+	}
+	
+	public boolean walk(){
+		int tmpWidht = width;
+		int tmpHeight = height;
+		width = imageRight.getWidth();
+		height = imageRight.getHeight();
+		boolean res = super.walk();
+		width = tmpWidht;
+		height = tmpHeight;
+		return res;
 	}
 	
 	public void draw(Graphics2D g){
@@ -113,7 +132,7 @@ public class Basher extends Digger implements Affecter{
 		
 		int diggYend = height;
 		int diggYstart = 0;
-		int diggX = 5;
+		int diggX = 7;
 		
 		if (iBash<1){
 			diggYstart = (int)(2*height/3);
@@ -121,12 +140,12 @@ public class Basher extends Digger implements Affecter{
 		else if( iBash == 39){ 
 			diggYstart = (int)(1+height/3);  
 			diggYend = (int)(2*height/3);
-			diggX = 7;
+			diggX = 9;
 		}
 		else if( iBash == 19){
 			diggYend = (int)(1+height/3);
 		}	
-		for (int i=0;i<=diggX;i++){
+		for (int i=-width/2;i<=diggX;i++){
 			for (int j = diggYstart; j<=diggYend;j++){
 				if (w.getPos(posX+direction*i,posY-j)==-1){
 					w.changeJob(this,World.WALKER);
