@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,11 +33,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected BufferedImage deathFirst;
 	protected BufferedImage deathSecond;	
 	protected long bombCountdown=-1;
-	protected BufferedImage boom5;
-	protected BufferedImage boom4;
-	protected BufferedImage boom3;
-	protected BufferedImage boom2;
-	protected BufferedImage boom1;
 	public static final int bombRadius = 25;
 	
 
@@ -61,11 +57,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
 			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
-			boom5 = ImageIO.read(new File("lemmings/boom5.png"));
-			boom4 = ImageIO.read(new File("lemmings/boom4.png"));
-			boom3 = ImageIO.read(new File("lemmings/boom3.png"));
-			boom2 = ImageIO.read(new File("lemmings/boom2.png"));
-			boom1 = ImageIO.read(new File("lemmings/boom1.png"));
 			
 			
 		}catch(Exception e){e.printStackTrace();}
@@ -107,12 +98,13 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public void drawBomb(Graphics2D g){
 		if(bombCountdown>0){
-			int bombWidth = boom5.getWidth();
-			if (System.currentTimeMillis()-bombCountdown<1000) g.drawImage(boom5,posX-bombWidth/2,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawImage(boom4,posX-bombWidth/2,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawImage(boom3,posX-bombWidth/2,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawImage(boom2,posX-bombWidth/2,posY-2*height,null);
-			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawImage(boom1,posX-bombWidth/2,posY-2*height,null);	
+			g.setColor(Color.white);
+			g.setFont(new Font("default", Font.BOLD, 14));
+			if (System.currentTimeMillis()-bombCountdown<1000) g.drawString(""+5,posX-width/2,posY-2*height);
+			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawString(""+4,posX-width/2,posY-2*height);
+			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawString(""+3,posX-width/2,posY-2*height);
+			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawString(""+2,posX-width/2,posY-2*height);
+			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawString(""+1,posX-width/2,posY-2*height);
 		}
 	}
 	
@@ -313,3 +305,4 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 }
+
