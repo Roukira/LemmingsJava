@@ -17,8 +17,8 @@ public class Basher extends Digger implements Affecter{
 
 //================== CONSTRUCTEURS ======================
 
-	public Basher(int id, int posX, int posY){
-		super(id,posX,posY);
+	public Basher(int posX, int posY){
+		super(posX,posY);
 		try{
 			basherImage0 = ImageIO.read(new File("lemmings/basher0.png"));
 			basherImage1 = ImageIO.read(new File("lemmings/basher1.png"));
@@ -61,7 +61,7 @@ public class Basher extends Digger implements Affecter{
 			if (fall()) return;
 			if (walk()) return;
 			affectMapBool = true;
-			this.job = 2;
+			this.job = World.BASHER;
 			this.action = true;
 			move();
 		}else{
