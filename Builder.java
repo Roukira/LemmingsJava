@@ -26,6 +26,7 @@ public class Builder extends Lemmings implements Affecter{
 	private boolean affectMapBool = false;
 	private boolean outOfBounds = false;
 	private int nbSteps = 20;
+	
 	private int iBuild = 80;
 	
 	private int iWait = 150;
@@ -141,8 +142,8 @@ public class Builder extends Lemmings implements Affecter{
 			return;
 		}
 		int type_CST;
-		if (direction==1) type_CST = w.WALL_RIGHT_CST;
-		else type_CST = w.WALL_LEFT_CST;
+		if (direction==1) type_CST = w.WALL_LEFT_CST;
+		else type_CST = w.WALL_RIGHT_CST;
 		if (!w.addObjectToWorld(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight(), type_CST, buildStep)){ 
 			System.out.println("Out of bounds");
 			outOfBounds = true;
