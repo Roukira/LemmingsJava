@@ -9,8 +9,8 @@ public class Walker extends Lemmings{			//Classe des Walker (elle sera abstraite
 
 //================== CONSTRUCTEURS ======================
 
-	public Walker(int id, int posX, int posY){
-		super(id,posX,posY);
+	public Walker(int posX, int posY){
+		super(posX,posY);
 	}
 
 	public Walker(Lemmings l){
