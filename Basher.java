@@ -13,6 +13,7 @@ public class Basher extends Digger implements Affecter{
 	private BufferedImage basherImage1reverse;
 	private BufferedImage basherImage2reverse;
 	private int iBash;
+	private static final int iBASH_MAX = 40;
 	
 
 //================== CONSTRUCTEURS ======================
@@ -79,11 +80,11 @@ public class Basher extends Digger implements Affecter{
 				System.out.println("order 1");
 				
 				affectMap();
-				iBash = 61;
-			}else if( iBash == 39){
+				iBash = iBASH_MAX;
+			}else if( iBash == (int)(2*iBASH_MAX/3)){
 				System.out.println("order 12");
 				affectMap();
-			}else if( iBash == 19){
+			}else if( iBash == (int)(iBASH_MAX/3)){
 				
 				affectMap();System.out.println("order 13");
 				posX+=5*direction;
@@ -117,12 +118,12 @@ public class Basher extends Digger implements Affecter{
 	
 	public void drawBash(Graphics2D g){
 		if (direction == 1){
-			if (iBash<20) g.drawImage(basherImage2,posX-(width/2),posY-height,null);
-			else if (iBash<40) g.drawImage(basherImage1,posX-(width/2),posY-height,null);
+			if (iBash<(int)(1+2*iBASH_MAX/3)) g.drawImage(basherImage2,posX-(width/2),posY-height,null);
+			else if (iBash<(int)(1+iBASH_MAX/3)) g.drawImage(basherImage1,posX-(width/2),posY-height,null);
 			else g.drawImage(basherImage0,posX-(width/2),posY-height,null);
 		}else{
-			if (iBash<20) g.drawImage(basherImage2reverse,posX-(width/2),posY-height,null);
-			else if (iBash<40) g.drawImage(basherImage1reverse,posX-(width/2),posY-height,null);
+			if (iBash<(int)(1+iBASH_MAX/3)) g.drawImage(basherImage2reverse,posX-(width/2),posY-height,null);
+			else if (iBash<(int)(1+2*iBASH_MAX/3)) g.drawImage(basherImage1reverse,posX-(width/2),posY-height,null);
 			else g.drawImage(basherImage0reverse,posX-(width/2),posY-height,null);
 		}
 	}
@@ -137,12 +138,12 @@ public class Basher extends Digger implements Affecter{
 		if (iBash<1){
 			diggYstart = (int)(2*height/3);
 		}
-		else if( iBash == 39){ 
+		else if( iBash == (int)(2*iBASH_MAX/3)){ 
 			diggYstart = (int)(1+height/3);  
 			diggYend = (int)(2*height/3);
 			diggX = 9;
 		}
-		else if( iBash == 19){
+		else if( iBash == (int)(iBASH_MAX/3)){
 			diggYend = (int)(1+height/3);
 		}	
 		for (int i=-width/2;i<=diggX;i++){
