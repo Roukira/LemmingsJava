@@ -1,12 +1,16 @@
-300
+150
 300
 411
-428
+328
 1
 50
-8
+1
+330
 300
-400
+365
+430
+495
+0
 
 
 //explication
@@ -20,3 +24,4 @@ frequence du spawnage
 nb lemmings
 posX image capacite
 posy image capacite
+couleur de l'air

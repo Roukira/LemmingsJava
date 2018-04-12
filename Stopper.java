@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class Stopper extends Lemmings{
+public class Stopper extends Lemmings implements Affecter{
 
 
 //==================== ATTRIBUTS ========================
@@ -20,11 +20,14 @@ public class Stopper extends Lemmings{
 	private boolean enoughPlace;
 	private int tPosXLeft;
 	private int tPosXRight;
+	private int tPosYUpper;
+	private int tPosYLower;
+	private boolean affectMapBool = false;
 
 //================== CONSTRUCTEURS ======================
 
-	public Stopper(int id, int posX, int posY){
-		super(id,posX,posY);
+	public Stopper(int posX, int posY){
+		super(posX,posY);
 		try{
 			image0 = ImageIO.read(new File("lemmings/stopper0.png"));
 			image1 = ImageIO.read(new File("lemmings/stopper1.png"));
@@ -34,17 +37,12 @@ public class Stopper extends Lemmings{
 		}catch(Exception e){e.printStackTrace();}
 		height = image0.getHeight();
 		width = image0.getWidth();
-		this.actionState = 1;
+		this.job = World.STOPPER;
 		this.action = true;
-		if(direction == 1){
-			tPosXLeft = posX-width;
-			tPosXRight = posX;
-		}
-		else{
-			tPosXLeft = posX;
-			tPosXRight = posX+width;
-		}
-		affectMap();
+		tPosXLeft = posX-direction*(width/2);
+		tPosXRight = posX+direction*(width/2);
+		tPosYUpper = posY-height;
+		tPosYLower = posY;
 	}
 	
 	public Stopper(Lemmings l){
@@ -58,91 +56,84 @@ public class Stopper extends Lemmings{
 		}catch(Exception e){e.printStackTrace();}
 		this.height = image0.getHeight();
 		this.width = image0.getWidth();
-		this.actionState = 1;
+		this.job = World.STOPPER;
 		this.action = true;
-		if(direction == 1){
-			tPosXLeft = posX-width;
-			tPosXRight = posX;
-		}
-		else{
-			tPosXLeft = posX;
-			tPosXRight = posX+width;
-		}
-		affectMap();
+		tPosXLeft = posX-width/2;
+		tPosXRight = posX+width/2;
+		tPosYUpper = posY-height;
+		tPosYLower = posY;
 	}
 
 //===================== METHODES =========================
 	
-	public void draw(Graphics2D g){
+	public void draw(Graphics g){
 	//Dessine le lemming
 		super.draw(g);
 		if (!alive) return;
 		if (!inWorld) return;
+		if (inAir) return;
 		drawStop(g);
 	}
 	
-	public boolean drawStop(Graphics2D g){
-		if(!enoughPlace) return false;
+	public boolean drawStop(Graphics g){
+		if(!action) return false;
 		else if(iStopBegin<20){		
-			g.drawImage(image0,posX-width,posY-height,null);
+			g.drawImage(image0,posX-width/2,posY-height,null);
 			iStopBegin++;
 			return true;
 		}
 		else if((GameWindow.getTps()-iStop)%80 < 20){	
-			g.drawImage(image1,posX-width,posY-height,null);
+			g.drawImage(image1,posX-width/2,posY-height,null);
 			return true;
 		}
 		else if((GameWindow.getTps()-iStop)%80 < 40){	
-			g.drawImage(image3,posX-width,posY-height,null);
+			g.drawImage(image3,posX-width/2,posY-height,null);
 			return true;
 		}
 		else if((GameWindow.getTps()-iStop)%80 < 60){	
-			g.drawImage(image2,posX-width,posY-height,null);
+			g.drawImage(image2,posX-width/2,posY-height,null);
 			return true;
 		}
 		else{
-			g.drawImage(image3,posX-width,posY-height,null);
+			g.drawImage(image3,posX-width/2,posY-height,null);
 			return true;
 		}
 	}
 	
 	public void affectMap(){
-		World w = GameWindow.getCurrentWorld();
-		int lPosX;
-		for (Lemmings l:w.getLemmingsList()){
-			if(l.getId()!=id){
-				lPosX = l.getPosX();
-				if(lPosX>=tPosXLeft && lPosX <= tPosXRight){
-					l.setPosX(tPosXRight+1);
-				}
-			}
-		}
-		for(int i = 0;i<height;i++) w.setMapTypeAtPos(tPosXLeft,posY+i,w.GROUND_CST); //truc bizarre, taille 1 suffit(sans for, juste posY une fois)
-		for(int j = 0;j<height;j++) w.setMapTypeAtPos(tPosXRight,posY+j,w.GROUND_CST);
+		if (affectMapBool) return;
+		for(int i = 0;i<height;i++) {
+						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.STOPPER_WALL_LEFT_CST);
+						w.setMapPixelColor(tPosXLeft,tPosYLower-i,Color.red);	
+					}
+		for(int j = 0;j<height;j++) {
+						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.STOPPER_WALL_RIGHT_CST);
+						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.red);
+					}
+		action = true;
 	}
 	
 	public void resetMap(){
-		World w = GameWindow.getCurrentWorld();
-		for(int i = 0;i<height;i++) w.setMapTypeAtPos(tPosXLeft,posY+i,w.AIR_CST);
-		for(int j = 0;j<height;j++) w.setMapTypeAtPos(tPosXRight,posY+j,w.AIR_CST);
+		if (!affectMapBool) return;
+		for(int i = 0;i<height;i++) {
+						w.setMapTypeAtPos(tPosXLeft,tPosYLower-i,w.AIR_CST);
+						w.setMapPixelColor(tPosXLeft,tPosYLower-i,Color.blue);	
+					}
+		for(int j = 0;j<height;j++) {
+						w.setMapTypeAtPos(tPosXRight,tPosYLower-j,w.AIR_CST);
+						w.setMapPixelColor(tPosXRight,tPosYLower-j,Color.blue);
+					}
+		action = false;
+		affectMapBool = false;
 	}
 	
-	public Lemmings changeJob(int state){
-		resetMap();
-		return super.changeJob(state);
-	}
 	
-	public void kill(){
-		resetMap();
-		super.kill();
-	}
-	
-	public boolean haveEnoughPlace(World w){
+	public boolean haveEnoughPlace(){
 	//Fonction qui tente de descendre le lemming
 		int i;
 		
-		for (i=1;i<height+1;i++){		//recherche pour la place 
-			if(w.getPos(posX+direction,posY-i)!=0 || w.getPos(posX-direction*width,posY-i)!=0){	//et qu'il peut rentrer
+		for (i=0;i<height;i++){		//recherche pour la place 
+			if(w.getPos(posX+(width/2),posY-i)!=0 || w.getPos(posX-(width/2),posY-i)!=0){	//et qu'il peut rentrer
 				//System.out.println("False pas la place");
 				enoughPlace = false;
 				return false;
@@ -154,17 +145,48 @@ public class Stopper extends Lemmings{
 		
 	}
 	
-	public void move(World w){
+	public void move(){
 	//bouge le lemming selon le world
 		//plus tard ajout de draw animation
 		if (!inWorld) return;
-		if (fall(w)) return;
-		if (haveEnoughPlace(w)) return;
-		System.out.println("False pas la place");
-		if (walk(w)) return;
-		direction = -direction;
-		posX += direction*width;
-		
-	}	
+		if (fall()) return;
+		if (!alive) return;
+		if(!affectMapBool && haveEnoughPlace()){
+					affectMap();
+					affectMapBool = true;
+					return;
+		}
+		//System.out.println("False pas la place");
+		if (!affectMapBool){
+			if (walk()) return;
+			direction = -direction;
+		}
+	}
+	
+	public boolean walk(){
+		boolean res = super.walk();
+		if(res){
+			resetMap();
+			tPosXLeft = posX-direction*(width/2);
+			tPosXRight = posX+direction*(width/2);
+			tPosYUpper = posY-height;
+			tPosYLower = posY;
+		}
+		return res;
+	}
+	
+	public boolean fall(){
+		int tmpWidht = width;
+		int tmpHeight = height;
+		width = imageRight.getWidth();
+		height = imageRight.getHeight();
+		boolean res = super.fall();
+		if(res) resetMap();
+		width = tmpWidht;
+		height = tmpHeight;
+		tPosYUpper = posY-height;
+		tPosYLower = posY;
+		return res;
+	}
 	
 }

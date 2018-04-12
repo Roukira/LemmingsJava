@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.io.File;
 import java.awt.Color;
 import java.io.IOException;
@@ -25,7 +25,12 @@ public class World{
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
-	public static final int settingsLines = 10;
+	public static final int WALL_RIGHT_CST = 4;							//constantes pour mieux lire
+	public static final int WALL_LEFT_CST = 2;
+	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
+	public static final int STOPPER_WALL_LEFT_CST = 3;
+	public int airIndex;
+	public static final int settingsLines = 13;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -34,12 +39,17 @@ public class World{
 	private int outsideY;
 	private int posXcapacity1;
 	private int posXcapacity2;
+	private int posXcapacity3;
+	private int posXcapacity4;
 	private int posYcapacity;
+	private long iFinish = -1;
 	private boolean finished = false;
 	private boolean victory = false;
-	public static final int WALKER = 0;
-	public static final int STOPPER = 1;
-	public static final int BOMBER = 2;
+	public static final int WALKER = 1;
+	public static final int STOPPER = 4;
+	public static final int BOMBER = 0;
+	public static final int BUILDER = 3;
+	public static final int BASHER = 2;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -96,6 +106,9 @@ public class World{
 			posYcapacity = settings[7]; 
 			posXcapacity1 = settings[8];
 			posXcapacity2 = settings[9];
+			posXcapacity3 = settings[10];
+			posXcapacity4 = settings[11];
+			airIndex = settings[12];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -111,9 +124,10 @@ public class World{
 	}
 	
 	public void loadLemmings(int nb){
+		Lemmings.w = this;
 		list = new Lemmings[nb];
 		for (int i=0;i<nb;i++){
-			list[i] = new Walker(i,spawnX,spawnY);
+			addLemmings(i,new Walker(spawnX,spawnY));
 		}
 		/*for (int j=0;j<nb;j++){
 			if ((j%2)==1) {
@@ -190,22 +204,26 @@ public class World{
 	}
 	
 	
-	public void addObjectToWorld(int posX, int posY, BufferedImage image){
+	public boolean addObjectToWorld(int posX, int posY, int type_CST, BufferedImage image){
 	//pas sur encore
+		if (posX>=width || posX<0 || posY<0 || posY >=height || posX+image.getWidth()>=width || posY+image.getHeight()>=height) return false;
 		for(int i = posX;i<posX+image.getWidth();i++){
 			for(int j = posY;j<posY+image.getHeight();j++){
-			
-				setMapTypeAtPos(i,j,GROUND_CST);
+				if (getPos(i,j)==1) return false;
+				setMapTypeAtPos(i,j,type_CST);
 				setMapPixelColor(i,j,getColor(i-posX,j-posY,image));
 			}
 		}
+		return true;
 	}
 	
-	public void draw(Graphics2D g){
+	public void draw(Graphics g, Graphics g2){
 	//Dessine l'image avec l'image .png choisi au debut
 		g.drawImage(mapImage,0,0,null);
-		drawLemmingsCapacity(g,"bomb",posXcapacity2,posYcapacity);
-		drawLemmingsCapacity(g,"stopper",posXcapacity1,posYcapacity);
+		drawLemmingsCapacity(g2,"bomb",posXcapacity2,posYcapacity);
+		drawLemmingsCapacity(g2,"stopper",posXcapacity1,posYcapacity);
+		drawLemmingsCapacity(g2,"builder",posXcapacity3,posYcapacity);
+		drawLemmingsCapacity(g2,"basher",posXcapacity4,posYcapacity);
 	}
 
 	public int getSpawnX(){
@@ -228,6 +246,14 @@ public class World{
 	
 	public int getPosXcapacity2(){
 		return posXcapacity2;	
+	}
+	
+	public int getPosXcapacity3(){
+		return posXcapacity3;	
+	}
+	
+	public int getPosXcapacity4(){
+		return posXcapacity4;	
 	}
 	
 	public int getPosYcapacity(){
@@ -269,15 +295,98 @@ public class World{
 	public void setFinished(boolean finished, boolean victory){
 		this.finished = finished;
 		this.victory = victory;
+		iFinish = System.currentTimeMillis(); 
 	}
 	
-	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
+	//=========================PRIORITY==========================
+	
+	public void addLemmings(int i,Lemmings l){
+		list[i] = l;
+		sortLemmings(i);
+	}
+	
+	public void sortLemmings(int index){
+		if (list[list.length-1] == null) return;
+		for (int i=0;i<list.length;i++){
+			Lemmings l = list[i];
+			if (list[index].getJob()>l.getJob()){
+				reverseLemmings(i,index);
+				System.out.println("reverse "+i+" et "+index);
+				index = i;
+			}
+		}
+	}
+	
+	public void reverseLemmings(int i, int j){
+		Lemmings lTemp = list[j];
+		list[j] = list[i];
+		list[i] = lTemp;
+	}
+	
+	public void replaceLemmings(Lemmings l, Lemmings l2){
+		for (int i=0;i<list.length;i++){
+			if(l.getId()==list[i].getId()){
+				addLemmings(i,l2);
+				return;
+			}		
+		}
+	}
+	
+	public void printList(){
+		for (int i=0;i<list.length;i++){
+			if(list[i]!=null){
+				System.out.println("i : "+i+" | "+list[i].toString());
+			}
+		}
+	}
+//======================= END PRIORITY =========================
+	
+	public void drawLemmingsCapacity( Graphics g, String nomImage, int posX, int posY){
 		try{
+			//System.out.println("lemmings/"+nomImage+"Capacity.png");
 			imageCapacity = ImageIO.read(new File("lemmings/"+nomImage+"Capacity.png"));
 		}catch(Exception e){e.printStackTrace();}
 		g.drawImage(imageCapacity,posX,posY,null);
 		
 	}
+	
+	public void changeJob(Lemmings l,int state){
+		if(l instanceof Affecter){
+			((Affecter)l).resetMap();
+		}
+		Lemmings newLemming = null;
+		if(state == WALKER) newLemming = new Walker(l);
+		else if(state == STOPPER) newLemming = new Stopper(l);
+		else if(state == BUILDER) newLemming = new Builder(l);
+		else if(state == BASHER) newLemming = new Basher(l);
+		else{
+			System.out.println("Erreur : job non crée.");
+		}
+		int index = -1;
+		for(int i=0;i<list.length;i++){
+			if (list[i].getId()==l.getId()){
+				index = i;
+				break;
+			}
+		}
+		if((index == -1) || (newLemming==null)){
+			System.out.println("Invalide");
+			return;
+		}
+		replaceLemmings(list[index],newLemming);
+        	Lemmings[] tab = new Lemmings[1];
+		tab[0] = newLemming;
+		spawn.removeLemmingFromList(l.getId());
+		spawn.addLemmings(tab);
+		end.removeLemmingFromList(l.getId());
+		end.addLemmings(tab);
+
+	}	
+	
+	public long getiFinish(){
+		return iFinish;
+	}
+	
 }	
 
 

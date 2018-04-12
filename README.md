@@ -10,24 +10,25 @@ Bunch of ideas which are not decided yet to be into the program.
 
 ### Comment the code.
 ### Lemmings movement
-### Establish code hierarchy
+
+
+## Code hierarchy
 
   * Abstract Thing
-    * Abstract Living Thing
-      * Abstract Lemmings
-        * Walker
-        * Bomber
-        * Builder
-        * Blocker
-        * Abstract Digger
-          * Basher
-          * Excavater
-          * Miner
-        * Abstract Shifter
-          * Floater
-          * Climber
+    * Abstract Lemmings
+      * Walker
+      * Bomber
+      * Builder
+      * Blocker
+      * Abstract Digger
+        * Basher
+        * Excavater
+        * Miner
+      * Abstract Shifter ALMOST NOT SURE
+        * Floater NOT SURE
+        * Climber NOT SURE
     * Abstract Item
       * Spawn
       * Outside
     
-    * Interface Painter
+    * Interface Affecter

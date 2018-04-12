@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -46,7 +46,7 @@ public class Spawner extends Item{
         	
 	}
 	
-	public void draw(Graphics2D g){
+	public void draw(Graphics g){
 	//Dessine l'image avec l'image .png choisi au debut
 		if (!close){
 			if(GameWindow.getTps()<10){

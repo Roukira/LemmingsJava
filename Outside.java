@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -48,11 +48,14 @@ public class Outside extends Item{
 				l.win();
 				list.remove(i);
 			}
+			else if(!l.getAlive()){
+				list.remove(i);
+			}
 		}
 		
 	}
 	
-	public void draw(Graphics2D g){
+	public void draw(Graphics g){
 	//Dessine l'image avec l'image .png choisi au debut
 		if(GameWindow.getTps()%40<10) g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY+1-(int)(imageFirst.getHeight()),null);
 		if(GameWindow.getTps()%40<20) g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY+1-(int)(imageSecond.getHeight()),null);
