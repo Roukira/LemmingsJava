@@ -8,8 +8,8 @@ public class Digger extends Lemmings{
 
 //================== CONSTRUCTEURS ======================
 
-	public Digger(int id, int posX, int posY){
-		super(id,posX,posY);
+	public Digger(int posX, int posY){
+		super(posX,posY);
 		
 	}
 	
