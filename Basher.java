@@ -132,7 +132,7 @@ public class Basher extends Digger implements Affecter{
 		
 		int diggYend = height;
 		int diggYstart = 0;
-		int diggX = 7;
+		int diggX = 8;
 		
 		if (iBash<1){
 			diggYstart = (int)(2*height/3);
