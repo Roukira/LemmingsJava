@@ -176,7 +176,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public boolean walk(){
 	//Fonction qui fait marcher le lemmings
 		for (int i =0;i<(height);i++){
-			if(w.getPos(posX+direction*(width/2),posY-i)!=0){				//Verifie qur toute la hauteur du corps passe pour marcher
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0 && w.getPos(posX+direction*(width/2),posY-i)!=direction+3){				//Verifie qur toute la hauteur du corps passe pour marcher
+				//direction + 3 car w.WALL_RIGHT_CST = 4; et w.WALL_LEFT_CST = 2;
 				return false;
 			}
 		}
@@ -187,7 +188,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public boolean climbDown(){
 	//Fonction qui tente de descendre le lemming
 		int i;
-		
 		for (i=1;i<height/2;i++){			//descend si le leming n'a pas a se baisser trop 
 			if(w.getPos(posX+direction*(width/2),posY+i)==0 && w.getPos(posX+direction*(width/2)+(direction*3*(width/2)),i+posY-height+1)==0){	
 				for (int j =1;j<i;j++){
@@ -210,17 +210,19 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public boolean climbUp(){
 		int i,j;
 		for (i =(height/2);i<height;i++){
-			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0 && w.getPos(posX+direction*(width/2),posY-i)!=direction+3){
 			//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
+			
 				return false;
 			}
 		}
 		for (i =(height)/2+1;i>=0;i--){
-			if(w.getPos(posX+direction*(width/2),posY-i)!=0){
+			if(w.getPos(posX+direction*(width/2),posY-i)!=0 && w.getPos(posX+direction*(width/2),posY-i)!=direction+3){
 			//On regarde la taille de la marche et on la climb
 				for (j =i+1;j<i+height;j++){
-					if(w.getPos(posX+direction*(width/2),posY-j)!=0){
+					if(w.getPos(posX+direction*(width/2),posY-j)!=0 && w.getPos(posX+direction*(width/2),posY-j)!=direction+3){
 					//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
+							System.out.println("Ne peut pas climb ici");
 						return false;
 					}
 				}
