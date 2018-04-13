@@ -37,10 +37,10 @@ public class Spawner extends Item{
 		if(list.isEmpty()){
 			if (close) return;
 			close = true;
-			iClose = GameWindow.getTps();
+			iClose = Window.getTps();
 			return;
 		}
-		if(((GameWindow.getTps()%iSpawn)!=0)) return;
+		if(((Window.getTps()%iSpawn)!=0)) return;
         	list.get(0).spawn();
         	list.remove(0);
         	
@@ -49,19 +49,19 @@ public class Spawner extends Item{
 	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
 		if (!close){
-			if(GameWindow.getTps()<10){
+			if(Window.getTps()<10){
 				g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY-(int)(imageFirst.getHeight()/2),null);
 				return;
 			}
-			if(GameWindow.getTps()<20){
+			if(Window.getTps()<20){
 				g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY-(int)(imageSecond.getHeight()/2),null);
 				return;
 			}
-			if(GameWindow.getTps()<30){
+			if(Window.getTps()<30){
 				g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY-(int)(imageThird.getHeight()/2),null);
 				return;
 			}
-			if(GameWindow.getTps()<40){
+			if(Window.getTps()<40){
 				g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY-(int)(imageForth.getHeight()/2),null);
 				return;
 			}
@@ -69,19 +69,19 @@ public class Spawner extends Item{
 			
 		}
 		else{
-			if((GameWindow.getTps()-iClose)<10){
+			if((Window.getTps()-iClose)<10){
 				g.drawImage(imageFifth,posX-(int)(imageFifth.getWidth()/2),posY-(int)(imageFifth.getHeight()/2),null);
 				return;
 			}
-			if((GameWindow.getTps()-iClose)<20){
+			if((Window.getTps()-iClose)<20){
 				g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY-(int)(imageForth.getHeight()/2),null);
 				return;
 			}
-			if((GameWindow.getTps()-iClose)<30){
+			if((Window.getTps()-iClose)<30){
 				g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY-(int)(imageThird.getHeight()/2),null);
 				return;
 			}
-			if((GameWindow.getTps()-iClose)<40){
+			if((Window.getTps()-iClose)<40){
 				g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY-(int)(imageSecond.getHeight()/2),null);
 				return;
 			}

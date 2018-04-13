@@ -57,9 +57,9 @@ public class Outside extends Item{
 	
 	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
-		if(GameWindow.getTps()%40<10) g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY+1-(int)(imageFirst.getHeight()),null);
-		if(GameWindow.getTps()%40<20) g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY+1-(int)(imageSecond.getHeight()),null);
-		if(GameWindow.getTps()%40<30) g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY+1-(int)(imageThird.getHeight()),null);
+		if(Window.getTps()%40<10) g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY+1-(int)(imageFirst.getHeight()),null);
+		if(Window.getTps()%40<20) g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY+1-(int)(imageSecond.getHeight()),null);
+		if(Window.getTps()%40<30) g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY+1-(int)(imageThird.getHeight()),null);
 		else g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY+1-(int)(imageForth.getHeight()),null);
 	}
 	

@@ -82,15 +82,15 @@ public class Stopper extends Lemmings implements Affecter{
 			iStopBegin++;
 			return true;
 		}
-		else if((GameWindow.getTps()-iStop)%80 < 20){	
+		else if((Window.getTps()-iStop)%80 < 20){	
 			g.drawImage(image1,posX-width/2,posY-height,null);
 			return true;
 		}
-		else if((GameWindow.getTps()-iStop)%80 < 40){	
+		else if((Window.getTps()-iStop)%80 < 40){	
 			g.drawImage(image3,posX-width/2,posY-height,null);
 			return true;
 		}
-		else if((GameWindow.getTps()-iStop)%80 < 60){	
+		else if((Window.getTps()-iStop)%80 < 60){	
 			g.drawImage(image2,posX-width/2,posY-height,null);
 			return true;
 		}

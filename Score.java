@@ -21,7 +21,7 @@ public class Score extends Screen{
 	private int nbLemmingsDead;
 	private String completion;
 	
-	public Score(GameWindow gw){
+	public Score(Window gw){
 		super(gw);
 		try{
 			scoreBG = ImageIO.read(new File("score/Home.png"));
@@ -32,7 +32,7 @@ public class Score extends Screen{
 		buttonMainMenu = mainMenu;
 	}
 	
-	public Score(GameWindow gw, boolean victory){
+	public Score(Window gw, boolean victory){
 		this(gw);
 		try{
 			if(victory) scoreFG = ImageIO.read(new File("score/victory.png"));

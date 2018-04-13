@@ -117,13 +117,13 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public void drawMove(Graphics2D g){
 		if(action) return;
 		if (direction == 1){
-			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
+			if((Window.getTps()-iWalk)%10 > 5 && !inAir){		
 				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-height,null);
 			}
 			else g.drawImage(imageRight,posX-imageRight.getWidth()/2,posY-height,null);
 		}
 		else {
-			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
+			if((Window.getTps()-iWalk)%10 > 5 && !inAir){
 				g.drawImage(imageLeftStep,posX-imageLeftStep.getWidth()/2,posY-height,null);
 			}
 			else g.drawImage(imageLeft,posX-imageLeft.getWidth()/2,posY-height,null);
@@ -163,7 +163,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		
 		posY++;
 		inAir = true;
-		iWalk = GameWindow.getTps();
+		iWalk = Window.getTps();
 		iFall++;
 		action = false;
 		return true;	
