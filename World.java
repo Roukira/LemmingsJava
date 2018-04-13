@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.File;
 import java.awt.Color;
 import java.io.IOException;
@@ -217,13 +217,13 @@ public class World{
 		return true;
 	}
 	
-	public void draw(Graphics g, Graphics g2){
+	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
 		g.drawImage(mapImage,0,0,null);
-		drawLemmingsCapacity(g2,"bomb",posXcapacity2,posYcapacity);
-		drawLemmingsCapacity(g2,"stopper",posXcapacity1,posYcapacity);
-		drawLemmingsCapacity(g2,"builder",posXcapacity3,posYcapacity);
-		drawLemmingsCapacity(g2,"basher",posXcapacity4,posYcapacity);
+		drawLemmingsCapacity(g,"bomb",posXcapacity2,posYcapacity);
+		drawLemmingsCapacity(g,"stopper",posXcapacity1,posYcapacity);
+		drawLemmingsCapacity(g,"builder",posXcapacity3,posYcapacity);
+		drawLemmingsCapacity(g,"basher",posXcapacity4,posYcapacity);
 	}
 
 	public int getSpawnX(){
@@ -341,7 +341,7 @@ public class World{
 	}
 //======================= END PRIORITY =========================
 	
-	public void drawLemmingsCapacity( Graphics g, String nomImage, int posX, int posY){
+	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
 		try{
 			//System.out.println("lemmings/"+nomImage+"Capacity.png");
 			imageCapacity = ImageIO.read(new File("lemmings/"+nomImage+"Capacity.png"));

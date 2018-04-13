@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -77,16 +77,13 @@ public class Basher extends Digger implements Affecter{
 				return;
 			}
 			if (iBash<1){
-				System.out.println("order 1");
-				
 				affectMap();
 				iBash = iBASH_MAX;
 			}else if( iBash == (int)(2*iBASH_MAX/3)){
-				System.out.println("order 12");
 				affectMap();
 			}else if( iBash == (int)(iBASH_MAX/3)){
 				
-				affectMap();System.out.println("order 13");
+				affectMap(); 
 				posX+=5*direction;
 			}
 			iBash--;
@@ -107,7 +104,7 @@ public class Basher extends Digger implements Affecter{
 		return res;
 	}
 	
-	public void draw(Graphics g){
+	public void draw(Graphics2D g){
 	//Dessine le lemming
 		super.draw(g);
 		if (!alive) return;
@@ -116,7 +113,7 @@ public class Basher extends Digger implements Affecter{
 		if (affectMapBool) drawBash(g);
 	}
 	
-	public void drawBash(Graphics g){
+	public void drawBash(Graphics2D g){
 		if (direction == 1){
 			if (iBash<(int)(1+2*iBASH_MAX/3)) g.drawImage(basherImage2,posX-(width/2),posY-height,null);
 			else if (iBash<(int)(1+iBASH_MAX/3)) g.drawImage(basherImage1,posX-(width/2),posY-height,null);

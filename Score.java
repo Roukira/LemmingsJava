@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Score extends Screen{
 
@@ -21,7 +21,7 @@ public class Score extends Screen{
 	private int nbLemmingsDead;
 	private String completion;
 	
-	public Score(GameWindow gw){
+	public Score(Window gw){
 		super(gw);
 		try{
 			scoreBG = ImageIO.read(new File("score/Home.png"));
@@ -32,7 +32,7 @@ public class Score extends Screen{
 		buttonMainMenu = mainMenu;
 	}
 	
-	public Score(GameWindow gw, boolean victory){
+	public Score(Window gw, boolean victory){
 		this(gw);
 		try{
 			if(victory) scoreFG = ImageIO.read(new File("score/victory.png"));
@@ -57,7 +57,7 @@ public class Score extends Screen{
 		else completion = String.format("%.1f",100*(nbLemmingsAlive*1.0)/nbLemmings);
 	}
 	
-	public void draw(Graphics g){
+	public void draw(Graphics2D g){
 		super.draw(g);
 		g.drawImage(scoreBG,0,0,null);
 		g.drawImage(scoreFG,0,0,null);

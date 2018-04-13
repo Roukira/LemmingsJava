@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -93,7 +93,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		return "Lemmings number "+id;
 	}
 	
-	public void draw(Graphics g){
+	public void draw(Graphics2D g){
 		if(drawDeath(g)) return;
 		if(!inWorld) return;
 		if(!alive) return;
@@ -102,7 +102,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 	
-	public void drawBomb(Graphics g){
+	public void drawBomb(Graphics2D g){
 		if(bombCountdown>0){
 			g.setColor(Color.white);
 			g.setFont(new Font("default", Font.BOLD, 14));
@@ -114,23 +114,23 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		}
 	}
 	
-	public void drawMove(Graphics g){
+	public void drawMove(Graphics2D g){
 		if(action) return;
 		if (direction == 1){
-			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){		
+			if((Window.getTps()-iWalk)%10 > 5 && !inAir){		
 				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-height,null);
 			}
 			else g.drawImage(imageRight,posX-imageRight.getWidth()/2,posY-height,null);
 		}
 		else {
-			if((GameWindow.getTps()-iWalk)%10 > 5 && !inAir){
+			if((Window.getTps()-iWalk)%10 > 5 && !inAir){
 				g.drawImage(imageLeftStep,posX-imageLeftStep.getWidth()/2,posY-height,null);
 			}
 			else g.drawImage(imageLeft,posX-imageLeft.getWidth()/2,posY-height,null);
 		}
 	}
 	
-	public boolean drawDeath(Graphics g){
+	public boolean drawDeath(Graphics2D g){
 	
 		if (iDeath != 0){
 			//if(getClass().toString().contains("class Stopper")) System.out.println("death");
@@ -163,7 +163,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		
 		posY++;
 		inAir = true;
-		iWalk = GameWindow.getTps();
+		iWalk = Window.getTps();
 		iFall++;
 		action = false;
 		return true;	

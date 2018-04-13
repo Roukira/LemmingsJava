@@ -5,18 +5,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public abstract class Screen{
 
-	protected GameWindow gw;
+	protected Window gw;
 	protected boolean onScreen = false;
 	
-	public Screen(GameWindow gw){
+	public Screen(Window gw){
 		this.gw = gw;
 	}
 	
-	public void draw(Graphics g){
+	public void draw(Graphics2D g){
 		if(!onScreen) return;
 	}
 	
