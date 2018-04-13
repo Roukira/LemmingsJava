@@ -23,7 +23,7 @@ public class MainMenu extends Screen{
 	private boolean w2default = true;
 	private boolean w3default = true;
 	
-	public MainMenu(GameWindow gw){
+	public MainMenu(Window gw){
 		super(gw);
 		try{
 			mainMenuBG = ImageIO.read(new File("mainmenu/Home.png"));

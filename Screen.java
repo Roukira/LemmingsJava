@@ -9,10 +9,10 @@ import java.awt.Graphics2D;
 
 public abstract class Screen{
 
-	protected GameWindow gw;
+	protected Window gw;
 	protected boolean onScreen = false;
 	
-	public Screen(GameWindow gw){
+	public Screen(Window gw){
 		this.gw = gw;
 	}
 	
