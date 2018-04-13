@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -66,7 +66,7 @@ public class Stopper extends Lemmings implements Affecter{
 
 //===================== METHODES =========================
 	
-	public void draw(Graphics g){
+	public void draw(Graphics2D g){
 	//Dessine le lemming
 		super.draw(g);
 		if (!alive) return;
@@ -75,22 +75,22 @@ public class Stopper extends Lemmings implements Affecter{
 		drawStop(g);
 	}
 	
-	public boolean drawStop(Graphics g){
+	public boolean drawStop(Graphics2D g){
 		if(!action) return false;
 		else if(iStopBegin<20){		
 			g.drawImage(image0,posX-width/2,posY-height,null);
 			iStopBegin++;
 			return true;
 		}
-		else if((GameWindow.getTps()-iStop)%80 < 20){	
+		else if((Window.getTps()-iStop)%80 < 20){	
 			g.drawImage(image1,posX-width/2,posY-height,null);
 			return true;
 		}
-		else if((GameWindow.getTps()-iStop)%80 < 40){	
+		else if((Window.getTps()-iStop)%80 < 40){	
 			g.drawImage(image3,posX-width/2,posY-height,null);
 			return true;
 		}
-		else if((GameWindow.getTps()-iStop)%80 < 60){	
+		else if((Window.getTps()-iStop)%80 < 60){	
 			g.drawImage(image2,posX-width/2,posY-height,null);
 			return true;
 		}

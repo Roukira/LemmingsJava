@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -91,7 +91,7 @@ public class Builder extends Lemmings implements Affecter{
 
 //===================== METHODES =========================
 	
-	public void draw(Graphics g){
+	public void draw(Graphics2D g){
 	//Dessine le lemming
 		super.draw(g);
 		if (!alive) return;
@@ -100,7 +100,7 @@ public class Builder extends Lemmings implements Affecter{
 		drawBuild(g);
 	}
 	
-	public void drawBuild(Graphics g){
+	public void drawBuild(Graphics2D g){
 		if (nbSteps==0){
 			if(iWait>140) g.drawImage(builderWait0,posX-(width/2),posY-height,null);
 			else if (iWait>130) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
