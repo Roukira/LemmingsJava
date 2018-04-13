@@ -22,6 +22,10 @@ public class World{
 	private BufferedImage imageCapacity;
 	private BufferedImage imageCapacityBorder;
 	private BufferedImage imageCapacitySelectBorder;
+	private BufferedImage imageBasherCapacity;
+	private BufferedImage imageBuilderCapacity;
+	private BufferedImage imageBombCapacity;
+	private BufferedImage imageStopperCapacity;
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
@@ -30,7 +34,7 @@ public class World{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 13;
+	public static final int settingsLines = 9;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -45,6 +49,8 @@ public class World{
 	private long iFinish = -1;
 	private boolean finished = false;
 	private boolean victory = false;
+	public static final int POSxCAPACITYspace = 65;
+	public static final int POSyCAPACITY = 20;
 	public static final int WALKER = 1;
 	public static final int STOPPER = 4;
 	public static final int BOMBER = 0;
@@ -96,6 +102,10 @@ public class World{
 			}
 			imageCapacityBorder = ImageIO.read(new File("world/capacityBorder.png"));
 			imageCapacitySelectBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
+			imageBasherCapacity = ImageIO.read(new File("lemmings/basherCapacity.png"));
+			imageBuilderCapacity = ImageIO.read(new File("lemmings/builderCapacity.png"));
+			imageBombCapacity = ImageIO.read(new File("lemmings/bombCapacity.png"));
+			imageStopperCapacity  = ImageIO.read(new File("lemmings/stopperCapacity.png"));
 			spawnX = settings[0];
 			spawnY = settings[1];
 			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
@@ -103,12 +113,13 @@ public class World{
 			outsideY = settings[3];
 			loadLemmings(settings[6]);
 			end = new Outside(settings[4],outsideX,outsideY,list,this);
-			posYcapacity = settings[7]; 
-			posXcapacity1 = settings[8];
-			posXcapacity2 = settings[9];
-			posXcapacity3 = settings[10];
-			posXcapacity4 = settings[11];
-			airIndex = settings[12];
+			posYcapacity = POSyCAPACITY; 
+			posXcapacity1 = settings[7];
+			System.out.println("pos x des capacites "+posXcapacity1);
+			posXcapacity2 = posXcapacity1 + POSxCAPACITYspace;
+			posXcapacity3 = posXcapacity2 + POSxCAPACITYspace;
+			posXcapacity4 = posXcapacity3 + POSxCAPACITYspace;
+			airIndex = settings[8];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -217,13 +228,13 @@ public class World{
 		return true;
 	}
 	
-	public void draw(Graphics2D g){
+	public void draw(Graphics2D g, Graphics2D g2){
 	//Dessine l'image avec l'image .png choisi au debut
 		g.drawImage(mapImage,0,0,null);
-		drawLemmingsCapacity(g,"bomb",posXcapacity2,posYcapacity);
-		drawLemmingsCapacity(g,"stopper",posXcapacity1,posYcapacity);
-		drawLemmingsCapacity(g,"builder",posXcapacity3,posYcapacity);
-		drawLemmingsCapacity(g,"basher",posXcapacity4,posYcapacity);
+		g2.drawImage(imageBombCapacity,posXcapacity2,POSyCAPACITY,null);
+		g2.drawImage(imageStopperCapacity,posXcapacity1,POSyCAPACITY,null);
+		g2.drawImage(imageBuilderCapacity,posXcapacity3,POSyCAPACITY,null);
+		g2.drawImage(imageBasherCapacity,posXcapacity4,POSyCAPACITY,null);
 	}
 
 	public int getSpawnX(){
@@ -257,7 +268,7 @@ public class World{
 	}
 	
 	public int getPosYcapacity(){
-		return posYcapacity;	
+		return POSyCAPACITY;	
 	}
 	
 	public BufferedImage getImageCapacityBorder(){
@@ -341,14 +352,6 @@ public class World{
 	}
 //======================= END PRIORITY =========================
 	
-	public void drawLemmingsCapacity( Graphics2D g, String nomImage, int posX, int posY){
-		try{
-			//System.out.println("lemmings/"+nomImage+"Capacity.png");
-			imageCapacity = ImageIO.read(new File("lemmings/"+nomImage+"Capacity.png"));
-		}catch(Exception e){e.printStackTrace();}
-		g.drawImage(imageCapacity,posX,posY,null);
-		
-	}
 	
 	public void changeJob(Lemmings l,int state){
 		if(l instanceof Affecter){

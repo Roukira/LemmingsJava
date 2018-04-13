@@ -51,6 +51,8 @@ public class Input implements MouseListener,MouseMotionListener{
 		w.getFrame().setCursor(CurseurInit);
 		w.getCanvas().addMouseListener(this);
 		w.getCanvas().addMouseMotionListener(this);
+		w.getCanvasCapacity().addMouseListener(this);
+		w.getCanvasCapacity().addMouseMotionListener(this);
 	}
 	
 	public boolean lemmingsInRange(Lemmings l){
@@ -78,6 +80,7 @@ public class Input implements MouseListener,MouseMotionListener{
 	
 	
 	public void drawSelectZone(Graphics2D g){
+	//=======partie select blanche======
 		World world = w.getCurrentWorld();
 		if ( posXmouse > world.getPosXcapacity1() && posXmouse < world.getPosXcapacity1()+60
 		&& posYmouse > world.getPosYcapacity() && posYmouse < world.getPosYcapacity()+60){
@@ -117,7 +120,7 @@ public class Input implements MouseListener,MouseMotionListener{
 		}else{
 			border = redBorder;
 		}
-		g.drawImage(border,posX,posY,null);
+		g.drawImage(border,posX,10,null);
 	}
 	
 	
@@ -133,6 +136,7 @@ public class Input implements MouseListener,MouseMotionListener{
 	//Invoked when the mouse has been clicked on a component.
 		int posXclic = e.getX();
 		int posYclic = e.getY();
+		System.out.println(""+posXclic+" "+posYclic);
 		
 		World world = w.getCurrentWorld();
 		Score score = w.getScore();
