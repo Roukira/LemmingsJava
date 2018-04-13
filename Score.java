@@ -9,36 +9,39 @@ import java.awt.Graphics2D;
 
 public class Score extends Screen{
 
-	private BufferedImage scoreBG;
+	private BufferedImage scoreVictory;
+	private BufferedImage scoreDefeat;
 	private BufferedImage scoreFG;
+	private BufferedImage scoreBG;
 	private BufferedImage mainMenu;
 	private BufferedImage mainMenuSelect;
 	private BufferedImage buttonMainMenu;
+	private BufferedImage resetMapButton;
 	private boolean mainDefault = true;
 	private boolean victory;
 	private int nbLemmings;
 	private int nbLemmingsAlive;
 	private int nbLemmingsDead;
 	private String completion;
+	private int victoryCondition;
 	
 	public Score(Window gw){
 		super(gw);
 		try{
 			scoreBG = ImageIO.read(new File("score/Home.png"));
 			mainMenu = ImageIO.read(new File("score/ButtonMainMenu.png"));
+			scoreVictory = ImageIO.read(new File("score/victory.png"));
+			scoreDefeat = ImageIO.read(new File("score/defeat.png"));
 			mainMenuSelect = ImageIO.read(new File("score/ButtonMainMenuSelect.png"));
+			resetMapButton = ImageIO.read(new File("world/resetMapbutton.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		buttonMainMenu = mainMenu;
 	}
 	
-	public Score(Window gw, boolean victory){
+	public Score(Window gw, int victoryCondition){
 		this(gw);
-		try{
-			if(victory) scoreFG = ImageIO.read(new File("score/victory.png"));
-			else scoreFG = ImageIO.read(new File("score/defeat.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
+		this.victoryCondition = victoryCondition;
 		calculateScore();
 	}
 	
@@ -53,8 +56,10 @@ public class Score extends Screen{
 			if(list[i].getAlive()) nbLemmingsAlive++;
 			else nbLemmingsDead++;
 		}
-		if (nbLemmings == nbLemmingsAlive) completion = "100";
-		else completion = String.format("%.1f",100*(nbLemmingsAlive*1.0)/nbLemmings);
+		double completionCount = 100*(nbLemmingsAlive*1.0)/nbLemmings;
+		if(completionCount>=victoryCondition) scoreFG = scoreVictory;
+		else scoreFG = scoreDefeat;
+		completion = String.format("%.1f",completionCount);
 	}
 	
 	public void draw(Graphics2D g){
@@ -67,6 +72,7 @@ public class Score extends Screen{
 		g.drawString("Number of Lemmings : "+nbLemmings,50,300);
 		g.drawString("Deaths : "+nbLemmingsDead,50,330);
 		g.drawString("Completion : "+completion+"%",50,360);
+		g.drawImage(resetMapButton,560,360,null);
 	}
 	
 	public void showSelectButton(){

@@ -143,7 +143,8 @@ public class Input implements MouseListener,MouseMotionListener{
 		MainMenu mainMenu = w.getMainMenu();
 		
 		if (score.getOnScreen()){
-			if(posXclic >= 450 && posXclic <=570 && posYclic>=300 && posYclic <=350){
+			if (posXclic >=560 && posXclic <=590 && posYclic>=360 && posYclic<=390) w.resetMap();
+			else if(posXclic >= 450 && posXclic <=570 && posYclic>=300 && posYclic <=350){
 				w.moveToMainMenu();
 			}
 			return;
@@ -152,6 +153,23 @@ public class Input implements MouseListener,MouseMotionListener{
 		
 		if(worldSelection()) return;
 		if(world == null) return;
+		
+		if (posXclic >=world.getWidth()-40 && posXclic <=world.getWidth()-10 && posYclic>=60 && posYclic<=90){
+			w.resetMap();
+			return;
+		}
+		if (posXclic >=world.getWidth()-40 && posXclic <=world.getWidth()-10 && posYclic>=20 && posYclic<=50){
+			if (w.FPS == 60){
+				w.FPS = 120;
+				w.ns = 1000000000/w.FPS;
+			}
+			else{
+				w.FPS = 60;
+				w.ns = 1000000000/w.FPS;
+			}
+			System.out.println(w.FPS);
+			return;
+		}
 		if ( posXclic > world.getPosXcapacity1() && posXclic < world.getPosXcapacity1()+60
 		&& posYclic > world.getPosYcapacity() && posYclic < world.getPosYcapacity()+60){
 		//remplacer 60 par un truc propre			

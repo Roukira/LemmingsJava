@@ -17,6 +17,11 @@ public class Window {
 	private BufferStrategy bs2;
 	private Input input;
 	
+	public long preDrawTime;
+	
+	public static double FPS = 60.0;
+	public static double ns = 1000000000/FPS;
+	
 	private static int tps = 0;			//compteur de temps
 	
 	private static World world;
@@ -39,7 +44,7 @@ public class Window {
 		frame = new JFrame(title);
 		frame.setSize(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setLayout(new BorderLayout());
 		
@@ -50,7 +55,6 @@ public class Window {
 		canvas.setFocusable(false);
 		
 		canvasCapacity = new Canvas();
-		canvasCapacity.setBackground(Color.blue);
 		//canvas.setPreferredSize(new Dimension(width, 100));
 		
 		frame.add(canvas, BorderLayout.CENTER);
@@ -68,6 +72,8 @@ public class Window {
 		mainMenu.setOnScreen(true);
 		score = new Score(this);
 		score.setOnScreen(false);
+		
+		preDrawTime = System.currentTimeMillis();
 		
 	}
 
@@ -106,7 +112,7 @@ public class Window {
 	//Modifie le monde actuel
 		
 		input.setCapacityClicSetter(0);
-		this.world = w;			
+		this.world = w;	
 	}
 	
 	public static World getCurrentWorld(){
@@ -137,8 +143,10 @@ public class Window {
         	
         	world.getOutside().update();
         	
+        	world.getStats().update();
+        	
         	if(allDead){
-        		world.setFinished(true,false);
+        		world.setFinished(true);
         		canvasCapacity.setSize(0,0);
         		
         	}
@@ -151,12 +159,11 @@ public class Window {
 		do{
    			try{
    				g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-   				g2 = (Graphics2D)bs2.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
    				if(score.getOnScreen()) score.draw(g);
    				else if(mainMenu.getOnScreen()) mainMenu.draw(g);
         			else{
 					if(world!=null){
-						world.draw(g,g2); //dessine le monde
+						world.draw(g); //dessine le monde
 						world.getSpawner().draw(g);
 						world.getOutside().draw(g);
 						for(int i=0;i<world.getLemmingsList().length;i++){
@@ -167,32 +174,32 @@ public class Window {
 							moveToScoreScreen();	
 							canvasCapacity.setSize(0,0);
 						}
-						input.drawSelectZone(g2);
 					}
 					
 				}
     			}
     			finally{
-    				g2.dispose();
            			g.dispose(); //termine l'utilisation de l'outil de dessin
     			}
     			bs.show(); //actualise la fenetre de dessin avec la nouvelle
-    			bs2.show();
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
-	}
-	
-	public static void waitForFrame(long preTime){
-		long delta = System.currentTimeMillis()-preTime;
-		if (delta<17) {
-			delta = (long)17 - delta;
-			pause((int)delta);
+		
+		if(world != null && !world.getFinished()){
+			do{
+	   			try{
+	   				g2 = (Graphics2D)bs2.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
+	   				world.drawCap(g2);
+					world.getStats().draw(g2);
+					input.drawSelectZone(g2);
+	    			}
+	    			finally{
+	    				g2.dispose();
+	    			}
+	    			bs2.show();
+			} while (bs2.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
 		}
+		Toolkit.getDefaultToolkit().sync(); //force la fenetre a update meme qd souris en dehors
 	}
-	
-	public static void pause(int ms){
-	//Pause le monde
-		try{Thread.sleep(ms);}catch(Exception e){};
-	}	
 	
 	public void newCurrentWorld(int worldID){
 		World w = new World(worldID);
@@ -201,6 +208,7 @@ public class Window {
 		frame.setSize(w.getWidth(),w.getHeight()+100);
 		canvas.setSize(w.getWidth(),w.getHeight());
 		canvasCapacity.setSize(w.getWidth(),100);
+		frame.setLocationRelativeTo(null);
 	}
 	
 	public void moveToMainMenu(){
@@ -208,13 +216,23 @@ public class Window {
 		mainMenu.setOnScreen(true);
 		frame.setSize(600,400);
 		canvas.setSize(600,400);
+		frame.setLocationRelativeTo(null);
 	}
 	
 	public void moveToScoreScreen(){
-		score = new Score(this,world.getVictory());
+		score = new Score(this,world.getVictoryCondition());
 		score.setOnScreen(true);
 		frame.setSize(600,400);
 		canvas.setSize(600,400);
+		frame.setLocationRelativeTo(null);
+	}
+	
+	public void resetMap(){
+		mainMenu.setOnScreen(false);
+		score.setOnScreen(false);
+		int newID = world.getID();
+		world = null;
+		newCurrentWorld(newID);
 	}
 	
 	

@@ -19,6 +19,9 @@ public class World{
 	private int id;	
 	private Lemmings[] list;									//identifiant
 	private BufferedImage mapImage;							//Image en .png de la carte a charger
+	private BufferedImage lemmingsPanelImage;
+	private BufferedImage fastForwardButton;
+	private BufferedImage resetMapButton;
 	private BufferedImage imageCapacity;
 	private BufferedImage imageCapacityBorder;
 	private BufferedImage imageCapacitySelectBorder;
@@ -34,7 +37,7 @@ public class World{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 9;
+	public static final int settingsLines = 10;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -48,7 +51,7 @@ public class World{
 	private int posYcapacity;
 	private long iFinish = -1;
 	private boolean finished = false;
-	private boolean victory = false;
+	private int victoryCondition;
 	public static final int POSxCAPACITYspace = 65;
 	public static final int POSyCAPACITY = 20;
 	public static final int WALKER = 1;
@@ -56,6 +59,8 @@ public class World{
 	public static final int BOMBER = 0;
 	public static final int BUILDER = 3;
 	public static final int BASHER = 2;
+	
+	Stats stats;
 	
 //================== CONSTRUCTEURS ======================
 	
@@ -84,6 +89,7 @@ public class World{
   				}
 			}
 		}
+		stats = new Stats(this);
 	}
 	
 //===================== METHODES =========================
@@ -106,6 +112,9 @@ public class World{
 			imageBuilderCapacity = ImageIO.read(new File("lemmings/builderCapacity.png"));
 			imageBombCapacity = ImageIO.read(new File("lemmings/bombCapacity.png"));
 			imageStopperCapacity  = ImageIO.read(new File("lemmings/stopperCapacity.png"));
+			lemmingsPanelImage = ImageIO.read(new File("world/lemmingspanel.png"));
+			fastForwardButton = ImageIO.read(new File("world/fastforwardbutton.png"));
+			resetMapButton = ImageIO.read(new File("world/resetMapbutton.png"));
 			spawnX = settings[0];
 			spawnY = settings[1];
 			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
@@ -120,6 +129,7 @@ public class World{
 			posXcapacity3 = posXcapacity2 + POSxCAPACITYspace;
 			posXcapacity4 = posXcapacity3 + POSxCAPACITYspace;
 			airIndex = settings[8];
+			victoryCondition = settings[9];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -165,6 +175,10 @@ public class World{
 	
 	public int getHeight(){
 		return height;
+	}
+	
+	public int getID(){
+		return id;
 	}
 	
 	public void fillMap(){
@@ -228,13 +242,22 @@ public class World{
 		return true;
 	}
 	
-	public void draw(Graphics2D g, Graphics2D g2){
+	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
 		g.drawImage(mapImage,0,0,null);
+		
+	}
+	
+	public void drawCap(Graphics2D g2){
+		g2.drawImage(lemmingsPanelImage,0,0,null);
+		g2.setColor(Color.DARK_GRAY);
+		g2.fillRect(400,0,width,100);
 		g2.drawImage(imageBombCapacity,posXcapacity2,POSyCAPACITY,null);
 		g2.drawImage(imageStopperCapacity,posXcapacity1,POSyCAPACITY,null);
 		g2.drawImage(imageBuilderCapacity,posXcapacity3,POSyCAPACITY,null);
 		g2.drawImage(imageBasherCapacity,posXcapacity4,POSyCAPACITY,null);
+		g2.drawImage(fastForwardButton,width-40,20,null);
+		g2.drawImage(resetMapButton,width-40,60,null);
 	}
 
 	public int getSpawnX(){
@@ -299,14 +322,16 @@ public class World{
 		return finished;
 	}
 	
-	public boolean getVictory(){
-		return victory;
+	public int getVictoryCondition(){
+		return victoryCondition;
+	}
+	public void setFinished(boolean finished){
+		this.finished = finished;
+		iFinish = System.currentTimeMillis(); 
 	}
 	
-	public void setFinished(boolean finished, boolean victory){
-		this.finished = finished;
-		this.victory = victory;
-		iFinish = System.currentTimeMillis(); 
+	public Stats getStats(){
+		return stats;
 	}
 	
 	//=========================PRIORITY==========================

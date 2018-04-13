@@ -17,6 +17,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected int job; 			//si en pleine action
 	protected boolean action;				//quelle action : 0 si aucune plus tard classe Action
 	protected boolean alive; 				//dead or alive
+	protected boolean spawned;
 	protected boolean inWorld;			//si il est entre dans le terrain
 	protected boolean outside;			//si il a reussi a sortir
 	protected int iDeath = 0;
@@ -53,6 +54,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		inWorld = false;			//initialement, le lemming nest pas dans le monde jusqu au spawn
 		alive = true;				//initialement, il est en vie
 		action = false;				//classe Action
+		spawned = false;
 		job = World.WALKER;
 		try{
 			
@@ -81,6 +83,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		inAir = l.inAir;
 		iWalk = l.iWalk;
 		alive = l.alive;
+		spawned = l.spawned;
 		bombCountdown = l.bombCountdown;		
 	}
 
@@ -262,6 +265,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public void spawn(){
 		inWorld = true;
+		spawned = true;
 	}
 	
 	public void win(){
@@ -316,6 +320,10 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public boolean getAlive(){
 		return alive;
+	}
+	
+	public boolean getSpawned(){
+		return spawned;
 	}
 	
 	public long getBombCountdown(){

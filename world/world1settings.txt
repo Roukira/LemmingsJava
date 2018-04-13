@@ -7,7 +7,7 @@
 1
 200
 0
-
+100
 
 //explication
 
@@ -21,3 +21,4 @@ nb lemmings
 posX image capacite
 posy image capacite
 couleur de l'air
+condition victoire en %
