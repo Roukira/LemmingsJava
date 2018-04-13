@@ -12,7 +12,9 @@ public class Window {
 
 	private JFrame frame;
 	private Canvas canvas;
+	private Canvas canvasCapacity;
 	private BufferStrategy bs;
+	private BufferStrategy bs2;
 	private Input input;
 	
 	private static int tps = 0;			//compteur de temps
@@ -39,6 +41,7 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		frame.setLayout(new BorderLayout());
 		
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(width, height));
@@ -46,10 +49,18 @@ public class Window {
 		canvas.setMinimumSize(new Dimension(width, height));
 		canvas.setFocusable(false);
 		
-		frame.add(canvas);
+		canvasCapacity = new Canvas();
+		canvasCapacity.setBackground(Color.blue);
+		//canvas.setPreferredSize(new Dimension(width, 100));
+		
+		frame.add(canvas, BorderLayout.CENTER);
+		frame.add(canvasCapacity, BorderLayout.SOUTH);
 		frame.setVisible(true);
 		canvas.createBufferStrategy(3);				//fenetre de dessin des pixels
 		bs = canvas.getBufferStrategy();				//assigne a bs la fenetre de dessin
+		canvasCapacity.createBufferStrategy(3);				//fenetre de dessin des pixels
+		bs2 = canvasCapacity.getBufferStrategy();				//assigne a bs la fenetre de dessin
+		
 		input = new Input(this);
 		frame.pack();
 		
@@ -62,6 +73,10 @@ public class Window {
 
 	public Canvas getCanvas(){
 		return canvas;
+	}
+	
+	public Canvas getCanvasCapacity(){
+		return canvasCapacity;
 	}
 	
 	public JFrame getFrame(){
@@ -124,20 +139,24 @@ public class Window {
         	
         	if(allDead){
         		world.setFinished(true,false);
+        		canvasCapacity.setSize(0,0);
+        		
         	}
 	}
 	
 	public void draw(){
 	//dessine toute la fenetre
 		Graphics2D g = null; //pointeur de l'outil de dessin
+		Graphics2D g2 = null;
 		do{
    			try{
    				g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
+   				g2 = (Graphics2D)bs2.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
    				if(score.getOnScreen()) score.draw(g);
    				else if(mainMenu.getOnScreen()) mainMenu.draw(g);
         			else{
 					if(world!=null){
-						world.draw(g); //dessine le monde
+						world.draw(g,g2); //dessine le monde
 						world.getSpawner().draw(g);
 						world.getOutside().draw(g);
 						for(int i=0;i<world.getLemmingsList().length;i++){
@@ -146,16 +165,19 @@ public class Window {
 					
 						if(world.getFinished()){
 							moveToScoreScreen();	
+							canvasCapacity.setSize(0,0);
 						}
-						input.drawSelectZone(g);
+						input.drawSelectZone(g2);
 					}
 					
 				}
     			}
     			finally{
+    				g2.dispose();
            			g.dispose(); //termine l'utilisation de l'outil de dessin
     			}
     			bs.show(); //actualise la fenetre de dessin avec la nouvelle
+    			bs2.show();
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
 	}
 	
@@ -176,8 +198,9 @@ public class Window {
 		World w = new World(worldID);
 		setWorld(w);
 		w.spawnLemmings();
-		frame.setSize(w.getWidth(),w.getHeight());
+		frame.setSize(w.getWidth(),w.getHeight()+100);
 		canvas.setSize(w.getWidth(),w.getHeight());
+		canvasCapacity.setSize(w.getWidth(),100);
 	}
 	
 	public void moveToMainMenu(){
