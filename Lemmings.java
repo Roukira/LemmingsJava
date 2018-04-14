@@ -33,7 +33,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
 	protected BufferedImage deathFirst;
 	protected BufferedImage deathSecond;	
-	protected long bombCountdown=-1;
+	protected int bombCountdown=-1;
 	protected BufferedImage boom5;
 	protected BufferedImage boom4;
 	protected BufferedImage boom3;
@@ -109,11 +109,11 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(bombCountdown>0){
 			g.setColor(Color.white);
 			g.setFont(new Font("default", Font.BOLD, 14));
-			if (System.currentTimeMillis()-bombCountdown<1000) g.drawString(""+5,posX-width/2,posY-2*height);
-			else if (System.currentTimeMillis()-bombCountdown<2000) g.drawString(""+4,posX-width/2,posY-2*height);
-			else if (System.currentTimeMillis()-bombCountdown<3000) g.drawString(""+3,posX-width/2,posY-2*height);
-			else if (System.currentTimeMillis()-bombCountdown<4000) g.drawString(""+2,posX-width/2,posY-2*height);
-			else if (System.currentTimeMillis()-bombCountdown<5000) g.drawString(""+1,posX-width/2,posY-2*height);
+			if (Window.getTps()-bombCountdown<60) g.drawString(""+5,posX-width/2,posY-2*height);
+			else if (Window.getTps()-bombCountdown<120) g.drawString(""+4,posX-width/2,posY-2*height);
+			else if (Window.getTps()-bombCountdown<180) g.drawString(""+3,posX-width/2,posY-2*height);
+			else if (Window.getTps()-bombCountdown<240) g.drawString(""+2,posX-width/2,posY-2*height);
+			else if (Window.getTps()-bombCountdown<300) g.drawString(""+1,posX-width/2,posY-2*height);
 		}
 	}
 	
@@ -239,8 +239,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public boolean bomb(){
 		if(bombCountdown == -1) return false;
-		long time = System.currentTimeMillis()-bombCountdown;
-		if(time>5000 && inWorld){
+		int time = Window.getTps()-bombCountdown;
+		if(time>300 && inWorld){
 			System.out.println("direction : "+direction);
 			for (int i = posX-bombRadius;i<posX+bombRadius;i++){
 				for (int j = posY-bombRadius;j<posY+bombRadius;j++){
@@ -260,7 +260,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	}
 	
 	public void startBomb(){
-		bombCountdown = System.currentTimeMillis();
+		bombCountdown = Window.getTps();
 	}
 	
 	public void spawn(){

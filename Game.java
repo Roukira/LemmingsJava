@@ -31,7 +31,6 @@ public class Game{
 				updates = 0;
 				frames = 0;
 			}
-			UI.preDrawTime = System.currentTimeMillis();
 		}
 		//UI.dispose();
 	}

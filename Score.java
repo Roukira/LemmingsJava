@@ -69,6 +69,9 @@ public class Score extends Screen{
 		g.drawImage(buttonMainMenu,450,300,null);
 		g.setColor(Color.white);
 		g.setFont(new Font("default", Font.BOLD, 12));
+		System.out.println("nbLem : "+nbLemmings);
+		System.out.println("nbLemDead : "+nbLemmingsDead);
+		System.out.println("completion : "+completion);
 		g.drawString("Number of Lemmings : "+nbLemmings,50,300);
 		g.drawString("Deaths : "+nbLemmingsDead,50,330);
 		g.drawString("Completion : "+completion+"%",50,360);

@@ -15,9 +15,9 @@ public class Window {
 	private Canvas canvasCapacity;
 	private BufferStrategy bs;
 	private BufferStrategy bs2;
-	private Input input;
 	
-	public long preDrawTime;
+	private InputGame canvasInput;
+	private InputGameUI canvasCapacityInput;
 	
 	public static double FPS = 60.0;
 	public static double ns = 1000000000/FPS;
@@ -65,15 +65,14 @@ public class Window {
 		canvasCapacity.createBufferStrategy(3);				//fenetre de dessin des pixels
 		bs2 = canvasCapacity.getBufferStrategy();				//assigne a bs la fenetre de dessin
 		
-		input = new Input(this);
+		canvasInput = new InputGame(this);
+		canvasCapacityInput = new InputGameUI(this);
 		frame.pack();
 		
 		mainMenu = new MainMenu(this);
 		mainMenu.setOnScreen(true);
 		score = new Score(this);
 		score.setOnScreen(false);
-		
-		preDrawTime = System.currentTimeMillis();
 		
 	}
 
@@ -83,6 +82,14 @@ public class Window {
 	
 	public Canvas getCanvasCapacity(){
 		return canvasCapacity;
+	}
+	
+	public InputGame getCanvasInput(){
+		return canvasInput;
+	}
+	
+	public InputGameUI getCanvasCapacityInput(){
+		return canvasCapacityInput;
 	}
 	
 	public JFrame getFrame(){
@@ -111,7 +118,7 @@ public class Window {
 	public void setWorld(World w){
 	//Modifie le monde actuel
 		
-		input.setCapacityClicSetter(0);
+		canvasCapacityInput.setCapacityClicSetter(0);
 		this.world = w;	
 	}
 	
@@ -139,7 +146,8 @@ public class Window {
         		
         	}
         	
-        	input.update();
+        	canvasInput.update();
+        	canvasCapacityInput.update();
         	
         	world.getOutside().update();
         	
@@ -190,7 +198,7 @@ public class Window {
 	   				g2 = (Graphics2D)bs2.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
 	   				world.drawCap(g2);
 					world.getStats().draw(g2);
-					input.drawSelectZone(g2);
+					canvasCapacityInput.draw(g2);
 	    			}
 	    			finally{
 	    				g2.dispose();
@@ -222,8 +230,10 @@ public class Window {
 	public void moveToScoreScreen(){
 		score = new Score(this,world.getVictoryCondition());
 		score.setOnScreen(true);
+		mainMenu.setOnScreen(false);
 		frame.setSize(600,400);
 		canvas.setSize(600,400);
+		canvasCapacity.setSize(0,0);
 		frame.setLocationRelativeTo(null);
 	}
 	

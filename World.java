@@ -37,23 +37,24 @@ public class World{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 10;
+	public static final int settingsLines = 12;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
 	private int spawnY;
 	private int outsideX;
 	private int outsideY;
-	private int posXcapacity1;
-	private int posXcapacity2;
-	private int posXcapacity3;
-	private int posXcapacity4;
-	private int posYcapacity;
-	private long iFinish = -1;
+	public static final int posXcapacity1 = 0;
+	public static final int posXcapacity2 = 70;
+	public static final int posXcapacity3 = 140;
+	public static final int posXcapacity4 = 210;
+	public static final int posYcapacity = 10;
+	private int stopperLimit;
+	private int bomberLimit;
+	private int builderLimit;
+	private int basherLimit;
 	private boolean finished = false;
 	private int victoryCondition;
-	public static final int POSxCAPACITYspace = 65;
-	public static final int POSyCAPACITY = 20;
 	public static final int WALKER = 1;
 	public static final int STOPPER = 4;
 	public static final int BOMBER = 0;
@@ -117,19 +118,17 @@ public class World{
 			resetMapButton = ImageIO.read(new File("world/resetMapbutton.png"));
 			spawnX = settings[0];
 			spawnY = settings[1];
-			spawn = new Spawner(settings[4],spawnX,spawnY,settings[5]);
+			spawn = new Spawner(spawnX,spawnY,settings[4]);
 			outsideX = settings[2];
 			outsideY = settings[3];
-			loadLemmings(settings[6]);
-			end = new Outside(settings[4],outsideX,outsideY,list,this);
-			posYcapacity = POSyCAPACITY; 
-			posXcapacity1 = settings[7];
-			System.out.println("pos x des capacites "+posXcapacity1);
-			posXcapacity2 = posXcapacity1 + POSxCAPACITYspace;
-			posXcapacity3 = posXcapacity2 + POSxCAPACITYspace;
-			posXcapacity4 = posXcapacity3 + POSxCAPACITYspace;
-			airIndex = settings[8];
-			victoryCondition = settings[9];
+			loadLemmings(settings[5]);
+			end = new Outside(outsideX,outsideY,list,this);
+			airIndex = settings[6];
+			victoryCondition = settings[7];
+			stopperLimit = settings[8];
+			bomberLimit = settings[9];
+			builderLimit = settings[10];
+			basherLimit = settings[11];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -252,10 +251,15 @@ public class World{
 		g2.drawImage(lemmingsPanelImage,0,0,null);
 		g2.setColor(Color.DARK_GRAY);
 		g2.fillRect(400,0,width,100);
-		g2.drawImage(imageBombCapacity,posXcapacity2,POSyCAPACITY,null);
-		g2.drawImage(imageStopperCapacity,posXcapacity1,POSyCAPACITY,null);
-		g2.drawImage(imageBuilderCapacity,posXcapacity3,POSyCAPACITY,null);
-		g2.drawImage(imageBasherCapacity,posXcapacity4,POSyCAPACITY,null);
+		g2.drawImage(imageBombCapacity,posXcapacity2,posYcapacity,null);
+		g2.drawImage(imageStopperCapacity,posXcapacity1,posYcapacity,null);
+		g2.drawImage(imageBuilderCapacity,posXcapacity3,posYcapacity,null);
+		g2.drawImage(imageBasherCapacity,posXcapacity4,posYcapacity,null);
+		g2.setColor(Color.white);
+		g2.drawString(""+stopperLimit,posXcapacity1,posYcapacity+60);
+		g2.drawString(""+bomberLimit,posXcapacity2,posYcapacity+60);
+		g2.drawString(""+builderLimit,posXcapacity3,posYcapacity+60);
+		g2.drawString(""+basherLimit,posXcapacity4,posYcapacity+60);
 		g2.drawImage(fastForwardButton,width-40,20,null);
 		g2.drawImage(resetMapButton,width-40,60,null);
 	}
@@ -291,7 +295,7 @@ public class World{
 	}
 	
 	public int getPosYcapacity(){
-		return POSyCAPACITY;	
+		return posYcapacity;	
 	}
 	
 	public BufferedImage getImageCapacityBorder(){
@@ -327,7 +331,6 @@ public class World{
 	}
 	public void setFinished(boolean finished){
 		this.finished = finished;
-		iFinish = System.currentTimeMillis(); 
 	}
 	
 	public Stats getStats(){
@@ -384,9 +387,33 @@ public class World{
 		}
 		Lemmings newLemming = null;
 		if(state == WALKER) newLemming = new Walker(l);
-		else if(state == STOPPER) newLemming = new Stopper(l);
-		else if(state == BUILDER) newLemming = new Builder(l);
-		else if(state == BASHER) newLemming = new Basher(l);
+		else if(state == STOPPER){
+			if(stopperLimit>0){
+				stopperLimit--;
+				newLemming = new Stopper(l);
+			}
+			
+		}
+		else if(state == BOMBER){
+			if(bomberLimit>0){
+				bomberLimit--;
+				l.startBomb();
+			}
+			return;
+			
+		}
+		else if(state == BUILDER){
+			if(builderLimit>0){
+				builderLimit--;
+				newLemming = new Builder(l);
+			}
+		}
+		else if(state == BASHER){ 
+			if(basherLimit>0){
+				basherLimit--;
+				newLemming = new Basher(l);
+			}
+		}
 		else{
 			System.out.println("Erreur : job non crée.");
 		}
@@ -398,7 +425,7 @@ public class World{
 			}
 		}
 		if((index == -1) || (newLemming==null)){
-			System.out.println("Invalide");
+			System.out.println("Out of lemmings of this type");
 			return;
 		}
 		replaceLemmings(list[index],newLemming);
@@ -409,10 +436,6 @@ public class World{
 		end.removeLemmingFromList(l.getId());
 		end.addLemmings(tab);
 
-	}	
-	
-	public long getiFinish(){
-		return iFinish;
 	}
 	
 }	

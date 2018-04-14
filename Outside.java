@@ -7,26 +7,21 @@ import java.io.File;
 
 public class Outside extends Item{
 
-	private int id;
 	private BufferedImage imageFirst;
 	private BufferedImage imageSecond;
 	private BufferedImage imageThird;
 	private BufferedImage imageForth;
 	private World w;
 	
-	public Outside(int id, int posX, int posY, Lemmings[] list, World w){
+	public Outside(int posX, int posY, Lemmings[] list, World w){
 		super(posX,posY);
-		this.id = id;
 		this.w = w;
 		fillArray(list);
 		try{
-			
-			if(id == 1){
-				imageFirst = ImageIO.read(new File("world/outside"+id+"-"+1+".png"));
-				imageSecond = ImageIO.read(new File("world/outside"+id+"-"+2+".png"));
-				imageThird = ImageIO.read(new File("world/outside"+id+"-"+3+".png"));
-				imageForth = ImageIO.read(new File("world/outside"+id+"-"+4+".png"));
-			}
+			imageFirst = ImageIO.read(new File("world/outside1-1.png"));
+			imageSecond = ImageIO.read(new File("world/outside1-2.png"));
+			imageThird = ImageIO.read(new File("world/outside1-3.png"));
+			imageForth = ImageIO.read(new File("world/outside1-4.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}

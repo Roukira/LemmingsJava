@@ -7,7 +7,6 @@ import java.io.File;
 
 public class Spawner extends Item{
 
-	private int id;
 	private BufferedImage imageFirst;
 	private BufferedImage imageSecond;
 	private BufferedImage imageThird;
@@ -17,18 +16,15 @@ public class Spawner extends Item{
 	private boolean close = false;
 	private int iClose = 0;
 	
-	public Spawner(int id, int posX, int posY, int iSpawn){
+	public Spawner(int posX, int posY, int iSpawn){
 		super(posX,posY);
-		this.id = id;
 		this.iSpawn = iSpawn;
 		try{
-			if(id == 1){
-				imageFirst = ImageIO.read(new File("world/spawn"+id+"-"+1+".png"));
-				imageSecond = ImageIO.read(new File("world/spawn"+id+"-"+2+".png"));
-				imageThird = ImageIO.read(new File("world/spawn"+id+"-"+3+".png"));
-				imageForth = ImageIO.read(new File("world/spawn"+id+"-"+4+".png"));
-				imageFifth = ImageIO.read(new File("world/spawn"+id+"-"+5+".png"));
-			}
+			imageFirst = ImageIO.read(new File("world/spawn1-1.png"));
+			imageSecond = ImageIO.read(new File("world/spawn1-2.png"));
+			imageThird = ImageIO.read(new File("world/spawn1-3.png"));
+			imageForth = ImageIO.read(new File("world/spawn1-4.png"));
+			imageFifth = ImageIO.read(new File("world/spawn1-5.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}

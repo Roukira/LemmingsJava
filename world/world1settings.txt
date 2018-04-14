@@ -2,12 +2,14 @@
 300
 411
 328
-1
 50
 1
-200
 0
 100
+1
+1
+1
+1
 
 //explication
 
@@ -15,10 +17,11 @@ posX du spawn
 posY du spawn
 posX du outsider
 posY du outsider
-je sais plus
 frequence du spawnage
 nb lemmings
-posX image capacite
-posy image capacite
 couleur de l'air
 condition victoire en %
+StopperLimit
+BomberLimit
+BuilderLimit
+BasherLimit
