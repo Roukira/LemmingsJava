@@ -34,7 +34,7 @@ public class InputGame extends Input{
 		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point( 10, 10 ), "Pointeur" );
 		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point( 10, 10 ), "Pointeur" );
 		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point( 10, 10 ), "Pointeur" );
-		w.getFrame().setCursor(CurseurInit); //test getCanvas
+		w.getCanvas().setCursor(CurseurInit); //test getCanvas
 		w.getCanvas().addMouseListener(this);
 		w.getCanvas().addMouseMotionListener(this);
 	}
@@ -53,31 +53,27 @@ public class InputGame extends Input{
 			}
 		}
 		if (cursorOnLemmings){
-        		if (getCapacityClicSetter()==0) w.getFrame().setCursor( CurseurSelect );
-        		else w.getFrame().setCursor( CurseurSelectRed );
+        		if (getCapacityClicSetter()==0) w.getCanvas().setCursor( CurseurSelect );
+        		else w.getCanvas().setCursor( CurseurSelectRed );
         	}
         	else{
         		if (getCapacityClicSetter()==0) w.getFrame().setCursor( CurseurInit );
-        		else w.getFrame().setCursor( CurseurInitRed );
+        		else w.getCanvas().setCursor( CurseurInitRed );
         	}
 	}
+	
+	public void draw(Graphics2D g){}
 	
 	public int getCapacityClicSetter(){
 		return w.getCanvasCapacityInput().getCapacityClicSetter();
 	}
 	
-	public void draw(Graphics2D g){
-		
-	}
-	
 	//===================MOUSE EVENT========================================================
         
-        public void mouseMoved(MouseEvent e) {
-        //a chaque mouvement retourne un event
-        	super.mouseMoved(e);
+        public void updateButtons(){
         	changeWorldButton();
         	changeMainMenueButton();
-    	}
+        }
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
@@ -153,6 +149,12 @@ public class InputGame extends Input{
         	}
         	else{
             		score.showDefaultButton();
+        	}
+        	if(posXmouse >= 560 && posXmouse <=590 && posYmouse>=360 && posYmouse <=390){
+        		score.showResetMapSelectButton();
+        	}
+        	else{
+            		score.showResetMapDefaultButton();
         	}
     	}
     	

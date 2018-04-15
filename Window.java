@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 
-public class Window {
+public class Window implements Updatable{
 
 	private JFrame frame;
 	private Canvas canvas;
@@ -126,6 +126,12 @@ public class Window {
 		return world;
 	}
 	
+	public void changeGameSpeed(int speed){
+		FPS = 60*speed;
+		ns = 1000000000/FPS;
+		System.out.println("Changed speed to " + FPS);
+	}
+	
 	public void update(){
 	//met a jour le monde
 		if(score.getOnScreen()) return;
@@ -196,7 +202,6 @@ public class Window {
 			do{
 	   			try{
 	   				g2 = (Graphics2D)bs2.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-	   				world.drawCap(g2);
 					world.getStats().draw(g2);
 					canvasCapacityInput.draw(g2);
 	    			}
@@ -229,6 +234,7 @@ public class Window {
 	
 	public void moveToScoreScreen(){
 		score = new Score(this,world.getVictoryCondition());
+		changeGameSpeed(1);
 		score.setOnScreen(true);
 		mainMenu.setOnScreen(false);
 		frame.setSize(600,400);

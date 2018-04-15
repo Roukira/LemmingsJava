@@ -1,6 +1,6 @@
 import java.awt.Graphics2D;
 
-public abstract class Thing{
+public abstract class Thing implements Renderable,Updatable{
 
 	protected int posX;
 	protected int posY;

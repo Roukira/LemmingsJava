@@ -7,7 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-public class Stats{
+public class Stats implements Renderable,Updatable{
 	
 	private World w;
 	
@@ -55,13 +55,13 @@ public class Stats{
 		
 	}
 	
-	public void draw(Graphics2D g2){
+	public void draw(Graphics2D g){
 		if (w == null) return;
-		g2.setColor(Color.white);
-		g2.setFont(new Font("default", Font.BOLD, 12));
-		g2.drawString("Number of Lemmings : "+nbLemmings,420,20);
-		g2.drawString("Deaths : "+nbLemmingsDead,420,40);
-		g2.drawString("Completion : "+completion+"%",420,60);
+		g.setColor(Color.white);
+		g.setFont(new Font("default", Font.BOLD, 12));
+		g.drawString("Number of Lemmings : "+nbLemmings,420,20);
+		g.drawString("Deaths : "+nbLemmingsDead,420,40);
+		g.drawString("Completion : "+completion+"%",420,60);
 	}
 	
 	public int getNbLemmings(){

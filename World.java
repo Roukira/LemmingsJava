@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class World{
+public class World implements Renderable{
 	//classe qui represente le monde actuel dans la fenetre principale
 	
 //==================== ATTRIBUTS ========================	
@@ -19,16 +19,7 @@ public class World{
 	private int id;	
 	private Lemmings[] list;									//identifiant
 	private BufferedImage mapImage;							//Image en .png de la carte a charger
-	private BufferedImage lemmingsPanelImage;
-	private BufferedImage fastForwardButton;
-	private BufferedImage resetMapButton;
-	private BufferedImage imageCapacity;
-	private BufferedImage imageCapacityBorder;
-	private BufferedImage imageCapacitySelectBorder;
-	private BufferedImage imageBasherCapacity;
-	private BufferedImage imageBuilderCapacity;
-	private BufferedImage imageBombCapacity;
-	private BufferedImage imageStopperCapacity;
+	
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
@@ -44,17 +35,15 @@ public class World{
 	private int spawnY;
 	private int outsideX;
 	private int outsideY;
-	public static final int posXcapacity1 = 0;
-	public static final int posXcapacity2 = 70;
-	public static final int posXcapacity3 = 140;
-	public static final int posXcapacity4 = 210;
-	public static final int posYcapacity = 10;
+	
 	private int stopperLimit;
 	private int bomberLimit;
 	private int builderLimit;
 	private int basherLimit;
+	
 	private boolean finished = false;
 	private int victoryCondition;
+	
 	public static final int WALKER = 1;
 	public static final int STOPPER = 4;
 	public static final int BOMBER = 0;
@@ -107,15 +96,6 @@ public class World{
 				currentLine = br.readLine();
 				settings[i] = Integer.parseInt(currentLine);
 			}
-			imageCapacityBorder = ImageIO.read(new File("world/capacityBorder.png"));
-			imageCapacitySelectBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
-			imageBasherCapacity = ImageIO.read(new File("lemmings/basherCapacity.png"));
-			imageBuilderCapacity = ImageIO.read(new File("lemmings/builderCapacity.png"));
-			imageBombCapacity = ImageIO.read(new File("lemmings/bombCapacity.png"));
-			imageStopperCapacity  = ImageIO.read(new File("lemmings/stopperCapacity.png"));
-			lemmingsPanelImage = ImageIO.read(new File("world/lemmingspanel.png"));
-			fastForwardButton = ImageIO.read(new File("world/fastforwardbutton.png"));
-			resetMapButton = ImageIO.read(new File("world/resetMapbutton.png"));
 			spawnX = settings[0];
 			spawnY = settings[1];
 			spawn = new Spawner(spawnX,spawnY,settings[4]);
@@ -246,23 +226,6 @@ public class World{
 		g.drawImage(mapImage,0,0,null);
 		
 	}
-	
-	public void drawCap(Graphics2D g2){
-		g2.drawImage(lemmingsPanelImage,0,0,null);
-		g2.setColor(Color.DARK_GRAY);
-		g2.fillRect(400,0,width,100);
-		g2.drawImage(imageBombCapacity,posXcapacity2,posYcapacity,null);
-		g2.drawImage(imageStopperCapacity,posXcapacity1,posYcapacity,null);
-		g2.drawImage(imageBuilderCapacity,posXcapacity3,posYcapacity,null);
-		g2.drawImage(imageBasherCapacity,posXcapacity4,posYcapacity,null);
-		g2.setColor(Color.white);
-		g2.drawString(""+stopperLimit,posXcapacity1,posYcapacity+60);
-		g2.drawString(""+bomberLimit,posXcapacity2,posYcapacity+60);
-		g2.drawString(""+builderLimit,posXcapacity3,posYcapacity+60);
-		g2.drawString(""+basherLimit,posXcapacity4,posYcapacity+60);
-		g2.drawImage(fastForwardButton,width-40,20,null);
-		g2.drawImage(resetMapButton,width-40,60,null);
-	}
 
 	public int getSpawnX(){
 		return spawnX;	
@@ -276,34 +239,6 @@ public class World{
 	}
 	public int getOutsideY(){
 		return outsideY;	
-	}
-	
-	public int getPosXcapacity1(){
-		return posXcapacity1;	
-	}
-	
-	public int getPosXcapacity2(){
-		return posXcapacity2;	
-	}
-	
-	public int getPosXcapacity3(){
-		return posXcapacity3;	
-	}
-	
-	public int getPosXcapacity4(){
-		return posXcapacity4;	
-	}
-	
-	public int getPosYcapacity(){
-		return posYcapacity;	
-	}
-	
-	public BufferedImage getImageCapacityBorder(){
-		return imageCapacityBorder;
-	}
-	
-	public BufferedImage getImageCapacitySelectBorder(){
-		return imageCapacitySelectBorder;
 	}
 	
 	public void spawnLemmings(){
@@ -335,6 +270,14 @@ public class World{
 	
 	public Stats getStats(){
 		return stats;
+	}
+	
+	public int getLemmingsLimit(int state){
+		if (state == BOMBER) return bomberLimit;
+		else if (state == BUILDER) return builderLimit;
+		else if (state == BASHER) return basherLimit;
+		else if (state == STOPPER) return stopperLimit;
+		else return -20;
 	}
 	
 	//=========================PRIORITY==========================

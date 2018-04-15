@@ -7,7 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-public abstract class Screen{
+public abstract class Screen implements Renderable{
 
 	protected Window gw;
 	protected boolean onScreen = false;

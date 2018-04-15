@@ -16,7 +16,10 @@ public class Score extends Screen{
 	private BufferedImage mainMenu;
 	private BufferedImage mainMenuSelect;
 	private BufferedImage buttonMainMenu;
+	private BufferedImage resetMapButtonDefault;
+	private BufferedImage resetMapButtonHover;
 	private BufferedImage resetMapButton;
+	private boolean resetMapDefault = true;
 	private boolean mainDefault = true;
 	private boolean victory;
 	private int nbLemmings;
@@ -33,10 +36,12 @@ public class Score extends Screen{
 			scoreVictory = ImageIO.read(new File("score/victory.png"));
 			scoreDefeat = ImageIO.read(new File("score/defeat.png"));
 			mainMenuSelect = ImageIO.read(new File("score/ButtonMainMenuSelect.png"));
-			resetMapButton = ImageIO.read(new File("world/resetMapbutton.png"));
+			resetMapButtonDefault = ImageIO.read(new File("world/resetMapbutton.png"));
+			resetMapButtonHover = ImageIO.read(new File("world/resetMapbuttonHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		buttonMainMenu = mainMenu;
+		resetMapButton = resetMapButtonDefault;
 	}
 	
 	public Score(Window gw, int victoryCondition){
@@ -69,9 +74,6 @@ public class Score extends Screen{
 		g.drawImage(buttonMainMenu,450,300,null);
 		g.setColor(Color.white);
 		g.setFont(new Font("default", Font.BOLD, 12));
-		System.out.println("nbLem : "+nbLemmings);
-		System.out.println("nbLemDead : "+nbLemmingsDead);
-		System.out.println("completion : "+completion);
 		g.drawString("Number of Lemmings : "+nbLemmings,50,300);
 		g.drawString("Deaths : "+nbLemmingsDead,50,330);
 		g.drawString("Completion : "+completion+"%",50,360);
@@ -89,6 +91,20 @@ public class Score extends Screen{
 		if (!mainDefault){
 			buttonMainMenu = mainMenu;
 			mainDefault = true;
+		}
+	}
+	
+	public void showResetMapSelectButton(){
+		if (resetMapDefault){
+			resetMapButton = resetMapButtonHover;
+			resetMapDefault = false;
+		}
+	}
+	
+	public void showResetMapDefaultButton(){
+		if (!resetMapDefault){
+			resetMapButton = resetMapButtonDefault;
+			resetMapDefault = true;
 		}
 	}
 

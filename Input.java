@@ -7,7 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-public abstract class Input implements MouseListener,MouseMotionListener{
+public abstract class Input implements MouseListener,MouseMotionListener,Updatable, Renderable{
 	
 	protected Window w;
 	protected int posXmouse = 0;
@@ -21,7 +21,7 @@ public abstract class Input implements MouseListener,MouseMotionListener{
 	
 	public abstract void update();
 	
-	public abstract void draw(Graphics2D g);
+	public abstract void draw(Graphics2D g); 
 	
 	public abstract void mouseClicked(MouseEvent e); 
 	
@@ -33,10 +33,13 @@ public abstract class Input implements MouseListener,MouseMotionListener{
 		return false;
 	}
 	
+	public abstract void updateButtons();
+	
 	public void mouseMoved(MouseEvent e) {
         //a chaque mouvement retourne un event
         	posXmouse = e.getX();
         	posYmouse = e.getY();
+        	updateButtons();
    	}
 	
 	public void mousePressed(MouseEvent e) {
