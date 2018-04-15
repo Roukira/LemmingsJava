@@ -82,6 +82,7 @@ public class InputGameUI extends Input{
 		
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(400,0,world.getWidth(),100);
+		world.getStats().draw(g);
 		
 		g.drawImage(imageBombCapacity,posXcapacity2,posYcapacity,null);
 		g.drawImage(imageStopperCapacity,posXcapacity1,posYcapacity,null);
