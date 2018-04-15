@@ -60,19 +60,17 @@ public class Basher extends Digger implements Affecter{
 		if (!inWorld) return;
 		if(!affectMapBool){
 			if (fall()) return;
-			if (walk()) return;
+			if (goAhead()) return;
 			affectMapBool = true;
 			this.job = World.BASHER;
 			this.action = true;
 			move();
 		}else{
 			if (fall()){
-				System.out.println("comment peut il tomber???");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
-			if (walk()){
-				System.out.println("comment peut il tomber???");
+			if (goAhead()){
 				w.changeJob(this,World.WALKER);
 				return;
 			}
@@ -82,7 +80,6 @@ public class Basher extends Digger implements Affecter{
 			}else if( iBash == (int)(2*iBASH_MAX/3)){
 				affectMap();
 			}else if( iBash == (int)(iBASH_MAX/3)){
-				
 				affectMap(); 
 				posX+=5*direction;
 			}
@@ -93,12 +90,17 @@ public class Basher extends Digger implements Affecter{
 	
 	}
 	
-	public boolean walk(){
+	public boolean goAhead(){
+		boolean res = true;
 		int tmpWidht = width;
 		int tmpHeight = height;
 		width = imageRight.getWidth();
 		height = imageRight.getHeight();
-		boolean res = super.walk();
+		if (!super.walk()){
+			if (!super.climbUp()){
+				res = super.climbDown();
+			}
+		}
 		width = tmpWidht;
 		height = tmpHeight;
 		return res;
@@ -145,7 +147,9 @@ public class Basher extends Digger implements Affecter{
 		}	
 		for (int i=-width/2;i<=diggX;i++){
 			for (int j = diggYstart; j<=diggYend;j++){
-				if (w.getPos(posX+direction*i,posY-j)==-1){
+				if (w.getPos(posX+direction*i,posY-j)==-1 
+					|| w.getPos(posX+direction*i,posY-j)==3
+					|| w.getPos(posX+direction*i,posY-j)==5){
 					w.changeJob(this,World.WALKER);
 					return;
 				}

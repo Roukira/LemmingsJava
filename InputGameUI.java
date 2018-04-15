@@ -35,7 +35,7 @@ public class InputGameUI extends Input{
 	public static final int posXcapacity2 = 70;
 	public static final int posXcapacity3 = 140;
 	public static final int posXcapacity4 = 210;
-	public static final int posYcapacity = 10;
+	public static final int posYcapacity = 20;
 	
 	public static final int REGULArBORDER = 0;
 	public static final int SELECtBORDER = 1;
