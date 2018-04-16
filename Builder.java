@@ -23,8 +23,8 @@ public class Builder extends Lemmings implements Affecter{
 	private BufferedImage builderWait3;
 	
 	private BufferedImage buildStep;
-	private boolean affectMapBool = false;
 	private boolean outOfBounds = false;
+	private boolean changeJobBool = false;
 	private int nbSteps = 20;
 	
 	private int iBuild = 80;
@@ -124,10 +124,10 @@ public class Builder extends Lemmings implements Affecter{
 			else g.drawImage(builderImage0,posX-(width/2),posY-height,null);
 		}
 		else{
-			if (iBuild<20) g.drawImage(builderImageReverse3,posX+(width/2),posY-height,null);
-			else if (iBuild<40) g.drawImage(builderImageReverse2,posX+(width/2),posY-height,null);
-			else if (iBuild<60) g.drawImage(builderImageReverse1,posX+(width/2),posY-height,null);
-			else g.drawImage(builderImageReverse0,posX+(width/2),posY-height,null);
+			if (iBuild<20) g.drawImage(builderImageReverse3,posX-(width/2),posY-height,null);
+			else if (iBuild<40) g.drawImage(builderImageReverse2,posX-(width/2),posY-height,null);
+			else if (iBuild<60) g.drawImage(builderImageReverse1,posX-(width/2),posY-height,null);
+			else g.drawImage(builderImageReverse0,posX-(width/2),posY-height,null);
 		}
 		g.setColor(Color.white);
 		g.setFont(new Font("default", Font.BOLD, 12));
@@ -146,12 +146,36 @@ public class Builder extends Lemmings implements Affecter{
 		else type_CST = w.WALL_RIGHT_CST;
 		
 		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= 0) type_CST = w.GROUND_CST;
-		if (!w.addObjectToWorld(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight(), type_CST, buildStep)){ 
+		int startX;
+		if (direction == 1) startX = posX+buildStep.getWidth()/2;
+		else startX = posX-3*buildStep.getWidth()/2;
+		if (!w.addObjectToWorld(startX,posY-buildStep.getHeight(), type_CST, buildStep, direction)){ 
 			System.out.println("Out of bounds");
 			outOfBounds = true;
+			int newPosX = checkLastValidPosX();
+			if (newPosX !=-1) posX = newPosX -direction*buildStep.getWidth();
+			else changeJobBool = true;
+			
 		}
-		affectMapBool = true;
 		return;
+	}
+	
+	public int checkLastValidPosX(){
+		if (direction == 1){
+			for (int i = posX+buildStep.getWidth();i>=posX;i--){
+				if(w.getPos(i,posY)==0){
+					return i;
+				}
+			}
+		}
+		else{
+			for (int i = posX-buildStep.getWidth();i<=posX;i++){
+				if(w.getPos(i,posY)==0){
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 	
 	public void resetMap(){}
@@ -186,6 +210,11 @@ public class Builder extends Lemmings implements Affecter{
 		}
 		if(iBuild<0){
 			affectMap();
+			if (changeJobBool){
+				System.out.println("Walker because not enough place");
+				w.changeJob(this,w.WALKER);
+				return;
+			}
 			nbSteps--;
 			nbStepsString = ""+nbSteps;
 			posX+=direction*buildStep.getWidth();

@@ -208,17 +208,29 @@ public class World implements Renderable{
 	}
 	
 	
-	public boolean addObjectToWorld(int posX, int posY, int type_CST, BufferedImage image){
+	public boolean addObjectToWorld(int posX, int posY, int type_CST, BufferedImage image, int direction){
 	//pas sur encore
 		if (posX>=width || posX<0 || posY<0 || posY >=height || posX+image.getWidth()>=width || posY+image.getHeight()>=height) return false;
-		for(int i = posX;i<posX+image.getWidth();i++){
-			for(int j = posY;j<posY+image.getHeight();j++){
-				if (getPos(i,j)==1) return false;
-				setMapTypeAtPos(i,j,type_CST);
-				setMapPixelColor(i,j,getColor(i-posX,j-posY,image));
+		if (direction == 1){
+			for(int i = posX;i<posX+image.getWidth();i++){
+				for(int j = posY;j<posY+image.getHeight();j++){
+					if (getPos(i,j)==1) return false;
+					else setMapTypeAtPos(i,j,type_CST);
+					setMapPixelColor(i,j,getColor(i-posX,j-posY,image));
+				}
+			}
+		}
+		else{
+			for(int i = posX+image.getWidth()-1;i>=posX;i--){
+				for(int j = posY+image.getHeight()-1;j>=posY;j--){
+					if (getPos(i,j)==1) return false;
+					else setMapTypeAtPos(i,j,type_CST);
+					setMapPixelColor(i,j,getColor(i-posX,j-posY,image));
+				}
 			}
 		}
 		return true;
+		
 	}
 	
 	public void draw(Graphics2D g){
