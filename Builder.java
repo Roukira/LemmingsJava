@@ -124,10 +124,10 @@ public class Builder extends Lemmings implements Affecter{
 			else g.drawImage(builderImage0,posX-(width/2),posY-height,null);
 		}
 		else{
-			if (iBuild<20) g.drawImage(builderImageReverse3,posX-(width/2),posY-height,null);
-			else if (iBuild<40) g.drawImage(builderImageReverse2,posX-(width/2),posY-height,null);
-			else if (iBuild<60) g.drawImage(builderImageReverse1,posX-(width/2),posY-height,null);
-			else g.drawImage(builderImageReverse0,posX-(width/2),posY-height,null);
+			if (iBuild<20) g.drawImage(builderImageReverse3,posX+(width/2),posY-height,null);
+			else if (iBuild<40) g.drawImage(builderImageReverse2,posX+(width/2),posY-height,null);
+			else if (iBuild<60) g.drawImage(builderImageReverse1,posX+(width/2),posY-height,null);
+			else g.drawImage(builderImageReverse0,posX+(width/2),posY-height,null);
 		}
 		g.setColor(Color.white);
 		g.setFont(new Font("default", Font.BOLD, 12));
@@ -139,12 +139,12 @@ public class Builder extends Lemmings implements Affecter{
 	
 	public void affectMap(){
 		if (iBuild>0) {
-			affectMapBool = false;
 			return;
 		}
 		int type_CST;
 		if (direction==1) type_CST = w.WALL_LEFT_CST;
 		else type_CST = w.WALL_RIGHT_CST;
+		
 		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= 0) type_CST = w.GROUND_CST;
 		if (!w.addObjectToWorld(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight(), type_CST, buildStep)){ 
 			System.out.println("Out of bounds");
@@ -156,39 +156,46 @@ public class Builder extends Lemmings implements Affecter{
 	
 	public void resetMap(){}
 	
-	public boolean haveEnoughPlace(){
-		for (int i = posX-width/2;i<posX+width/2;i++){
-			for (int j = posY-buildStep.getHeight();j>posY-height;j--){
-				int pos = w.getPos(i,j);
-				if (pos == -1 || pos == 1) return false;
-			}
+	public boolean haveEnoughPlaceAbove(){
+		int i = posX;
+		for (int j = posY-height;j>posY-height-buildStep.getHeight();j--){
+			//w.setMapPixelColor(i,j,Color.red);
+			if (w.getPos(i,j) == -1 || w.getPos(i,j) == 1) return false;
 		}
 		return true;
 	}
 	
+	
 	public void move(){
 		if (!inWorld) return;
 		if (fall()) return;
-		if (!haveEnoughPlace()){
-			w.changeJob(this,w.WALKER);
-			return;
-		}
-		affectMap();
+		//if (!haveEnoughPlace()){
+		action=true;
+		
+		
 		if(nbSteps==0){
 			if(iWait>0) iWait--;
 			else w.changeJob(this,w.WALKER);
 			return;
 		}
-		if(outOfBounds){
+		
+		if (!haveEnoughPlaceAbove()){
+			System.out.println("Changement de builder a Walker babe");
 			w.changeJob(this,w.WALKER);
 			return;
 		}
-		if(affectMapBool){
+		if(iBuild<0){
+			affectMap();
 			nbSteps--;
 			nbStepsString = ""+nbSteps;
 			posX+=direction*buildStep.getWidth();
 			posY-=buildStep.getHeight();
 			iBuild = 80;
+		}
+		if(outOfBounds){
+			//w.changeJob(this,w.WALKER);
+			direction = -direction;
+			outOfBounds = false;
 		}
 		else iBuild--;
 		

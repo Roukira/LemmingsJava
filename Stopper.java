@@ -130,13 +130,17 @@ public class Stopper extends Lemmings implements Affecter{
 	
 	public boolean haveEnoughPlace(){
 	//Fonction qui tente de descendre le lemming
-		int i;
+		int i,j;
 		
 		for (i=0;i<height;i++){		//recherche pour la place 
-			if(w.getPos(posX+(width/2),posY-i)!=0 || w.getPos(posX-(width/2),posY-i)!=0){	//et qu'il peut rentrer
-				//System.out.println("False pas la place");
-				enoughPlace = false;
-				return false;
+			for (j=0;j<=width/2;j++){
+				//w.setMapPixelColor(posX+j,posY-i,Color.green);
+				if(w.getPos(posX+j,posY-i)!=0 || w.getPos(posX-j,posY-i)!=0){	//et qu'il peut rentrer
+					
+					System.out.println("False pas la place");
+					enoughPlace = false;
+					return false;
+				}
 			}
 		}
 		//System.out.println("VVrai y a la place");

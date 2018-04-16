@@ -27,7 +27,6 @@ public class Game{
 			
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
-				System.out.println(updates + "Ticks, FPS "+frames);
 				updates = 0;
 				frames = 0;
 			}
