@@ -143,7 +143,7 @@ public class InputGameUI extends Input{
 		}else{
 			border = redBorder;
 		}
-		g.drawImage(border,posX,10,null);
+		g.drawImage(border,posX,posY,null);
 	}
 	
 	
