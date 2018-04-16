@@ -23,7 +23,7 @@ public class Stopper extends Lemmings implements Affecter{
 	private int tPosYUpper;
 	private int tPosYLower;
 	private boolean affectMapBool = false;
-	private boolean directionChanged = false;
+	private int directionChanged = 0;
 
 //================== CONSTRUCTEURS ======================
 
@@ -164,14 +164,18 @@ public class Stopper extends Lemmings implements Affecter{
 		//System.out.println("False pas la place");
 		if (!affectMapBool){
 			if (walk()) return;
-			if (!directionChanged){
-				directionChanged = true;	
+			if (directionChanged<2){
+				directionChanged ++;	
 				direction = -direction;
 			}else w.changeJob(this,w.WALKER);
 		}
 	}
 	
 	public boolean walk(){
+		int tmpWidht = width;
+		int tmpHeight = height;
+		width = imageRight.getWidth();
+		height = imageRight.getHeight();
 		boolean res = super.walk();
 		if(res){
 			resetMap();
@@ -180,6 +184,8 @@ public class Stopper extends Lemmings implements Affecter{
 			tPosYUpper = posY-height;
 			tPosYLower = posY;
 		}
+		width = tmpWidht;
+		height = tmpHeight;
 		return res;
 	}
 	
