@@ -155,7 +155,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		
 		for (int i=0;i<(width/2);i++){
 			if(w.getPos(posX-i,posY+1)!=0 || w.getPos(posX+i,posY+1)!=0){
-				if (iFall<maxFall && posY<=w.getHeight()) {
+				if (iFall<maxFall && posY+2<=w.getHeight()) {
 					iFall = 0;
 				}
 				else kill();
