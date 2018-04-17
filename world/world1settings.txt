@@ -10,6 +10,7 @@
 1
 1
 1
+1
 
 //explication
 
@@ -25,3 +26,4 @@ StopperLimit
 BomberLimit
 BuilderLimit
 BasherLimit
+MinerLimit
