@@ -176,6 +176,10 @@ public class InputGame extends Input{
         				world.changeJob(l,World.MINER);
 					System.out.println("turn into MINER");
 					return;
+				}else if (World.EXCAVATER != l.getJob() && getCapacityClicSetter() == 6 && l.getInWorld() && e.getButton()==1){
+        				world.changeJob(l,World.EXCAVATER);
+					System.out.println("turn into EXCAVATER");
+					return;
 				}
         			
         		}

@@ -31,6 +31,7 @@ public class InputGameUI extends Input{
 	private BufferedImage imageBombCapacity;
 	private BufferedImage imageStopperCapacity;
 	private BufferedImage imageMinerCapacity;
+	private BufferedImage imageExcavaterCapacity;
 	
 	
 	public static final int posXcapacity1 = 0;
@@ -38,6 +39,7 @@ public class InputGameUI extends Input{
 	public static final int posXcapacity3 = 140;
 	public static final int posXcapacity4 = 210;
 	public static final int posXcapacity5 = 280;
+	public static final int posXcapacity6 = 350;
 	public static final int posYcapacity = 20;
 	
 	public static final int REGULArBORDER = 0;
@@ -60,6 +62,7 @@ public class InputGameUI extends Input{
 			imageBombCapacity = ImageIO.read(new File("lemmings/bombCapacity.png"));
 			imageStopperCapacity  = ImageIO.read(new File("lemmings/stopperCapacity.png"));
 			imageMinerCapacity = ImageIO.read(new File("lemmings/minerCapacity.png"));
+			imageExcavaterCapacity = ImageIO.read(new File("lemmings/excavaterCapacity.png")); 			
 			
 			resetMapButtonDefault = ImageIO.read(new File("world/resetMapbutton.png"));
 			resetMapButtonHover = ImageIO.read(new File("world/resetMapbuttonHover.png"));
@@ -85,7 +88,8 @@ public class InputGameUI extends Input{
 		g.drawImage(lemmingsPanelImage,0,0,null);
 		
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(400,0,world.getWidth(),100);
+		//au lieu de mettre 450 mettre la taaille de  limage pour power
+		g.fillRect(420,0,world.getWidth(),100);
 		world.getStats().draw(g);
 		
 		g.drawImage(imageBombCapacity,posXcapacity2,posYcapacity,null);
@@ -93,6 +97,7 @@ public class InputGameUI extends Input{
 		g.drawImage(imageBuilderCapacity,posXcapacity3,posYcapacity,null);
 		g.drawImage(imageBasherCapacity,posXcapacity4,posYcapacity,null);
 		g.drawImage(imageMinerCapacity,posXcapacity5,posYcapacity,null);
+		g.drawImage(imageExcavaterCapacity,posXcapacity6,posYcapacity,null);
 		
 		g.setColor(Color.white);
 		g.drawString(""+world.getLemmingsLimit(world.STOPPER),posXcapacity1,posYcapacity+60);
@@ -100,6 +105,7 @@ public class InputGameUI extends Input{
 		g.drawString(""+world.getLemmingsLimit(world.BUILDER),posXcapacity3,posYcapacity+60);
 		g.drawString(""+world.getLemmingsLimit(world.BASHER),posXcapacity4,posYcapacity+60);
 		g.drawString(""+world.getLemmingsLimit(world.MINER),posXcapacity5,posYcapacity+60);
+		g.drawString(""+world.getLemmingsLimit(world.EXCAVATER),posXcapacity6,posYcapacity+60);
 		
 		g.drawImage(fastForwardButton,world.getWidth()-40,20,null);
 		
@@ -132,6 +138,10 @@ public class InputGameUI extends Input{
 		&& posYmouse > posYcapacity && posYmouse < posYcapacity+60){
 			drawCapacityBorder(g,REGULArBORDER, posXcapacity5-1, posYcapacity-1);
 		}
+		else if ( posXmouse > posXcapacity6 && posXmouse < posXcapacity6+60
+		&& posYmouse > posYcapacity && posYmouse < posYcapacity+60){
+			drawCapacityBorder(g,REGULArBORDER, posXcapacity6-1, posYcapacity-1);
+		}
 		
 	//=======partie select rouge======	
 		
@@ -139,14 +149,14 @@ public class InputGameUI extends Input{
         		drawCapacityBorder(g,SELECtBORDER, posXcapacity1-1, posYcapacity-1);
     		}else if (capacityClicSetter == 2){
         		drawCapacityBorder(g,SELECtBORDER, posXcapacity2-1, posYcapacity-1);
-    		
     		}else if (capacityClicSetter == 3){
         		drawCapacityBorder(g,SELECtBORDER, posXcapacity3-1, posYcapacity-1);
     		}else if (capacityClicSetter == 4){
         		drawCapacityBorder(g,SELECtBORDER, posXcapacity4-1, posYcapacity-1);
-    		}
-    		else if (capacityClicSetter == 5){
+    		}else if (capacityClicSetter == 5){
         		drawCapacityBorder(g,SELECtBORDER, posXcapacity5-1, posYcapacity-1);
+    		}else if (capacityClicSetter == 6){
+        		drawCapacityBorder(g,SELECtBORDER, posXcapacity6-1, posYcapacity-1);
     		}
 	}
 	
@@ -246,6 +256,11 @@ public class InputGameUI extends Input{
 		if ( posXclic > posXcapacity5 && posXclic < posXcapacity5+60
 		&& posYclic > posYcapacity && posYclic < posYcapacity+60){
 			capacityClicSetter = 5;
+			return;
+		}
+		if ( posXclic > posXcapacity6 && posXclic < posXcapacity6+60
+		&& posYclic > posYcapacity && posYclic < posYcapacity+60){
+			capacityClicSetter = 6;
 			return;
 		}
 	}
