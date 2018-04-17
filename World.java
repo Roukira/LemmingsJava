@@ -28,7 +28,7 @@ public class World implements Renderable{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 12;
+	public static final int settingsLines = 13;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -40,15 +40,17 @@ public class World implements Renderable{
 	private int bomberLimit;
 	private int builderLimit;
 	private int basherLimit;
+	private int minerLimit;
 	
 	private boolean finished = false;
 	private int victoryCondition;
 	
 	public static final int WALKER = 1;
-	public static final int STOPPER = 4;
+	public static final int STOPPER = 5;
 	public static final int BOMBER = 0;
-	public static final int BUILDER = 3;
+	public static final int BUILDER = 4;
 	public static final int BASHER = 2;
+	public static final int MINER = 3;
 	
 	Stats stats;
 	
@@ -109,6 +111,7 @@ public class World implements Renderable{
 			bomberLimit = settings[9];
 			builderLimit = settings[10];
 			basherLimit = settings[11];
+			minerLimit = settings[12];
 			
 			
 		}catch (IOException e){e.printStackTrace();}
@@ -289,6 +292,7 @@ public class World implements Renderable{
 		else if (state == BUILDER) return builderLimit;
 		else if (state == BASHER) return basherLimit;
 		else if (state == STOPPER) return stopperLimit;
+		else if (state == MINER) return minerLimit;
 		else return -20;
 	}
 	
@@ -367,6 +371,12 @@ public class World implements Renderable{
 			if(basherLimit>0){
 				basherLimit--;
 				newLemming = new Basher(l);
+			}
+		}
+		else if(state == MINER){ 
+			if(minerLimit>0){
+				minerLimit--;
+				newLemming = new Miner(l);
 			}
 		}
 		else{

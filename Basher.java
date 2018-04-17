@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Basher extends Digger implements Affecter{
+public class Basher extends Digger{
 	private BufferedImage basherImage0;
 	private BufferedImage basherImage1;
 	private BufferedImage basherImage2;

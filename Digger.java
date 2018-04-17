@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
-
-public class Digger extends Lemmings{
+public abstract class Digger extends Lemmings implements Affecter{
 
 	protected boolean affectMapBool = false;
 	
@@ -18,13 +22,8 @@ public class Digger extends Lemmings{
 		
 	}
 	
-
-//=================== METHODES ==========================
+	public abstract void affectMap();
 	
-	public void move(){}
-	
-	public void draw( Graphics2D g){
-		super.draw(g);
-	}
+	public void resetMap(){}
 
 }

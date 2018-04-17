@@ -75,6 +75,31 @@ public class InputGame extends Input{
         	changeMainMenueButton();
         }
         
+        public void mouseMoved(MouseEvent e){
+        	super.mouseMoved(e);
+        	World world = w.getCurrentWorld();
+        	Lemmings l;
+		if(world == null) return;
+        	for(int i=0;i<world.getLemmingsList().length;i++){
+			l = world.getLemmingsList()[i];
+        		if (lemmingsInRange(l)){
+        			if (l instanceof Miner){
+        				Miner m = (Miner)l;
+        				if (posXmouse >= m.getArrowPosX() &&
+        				posXmouse <= m.getArrowPosX()+m.getArrowWidth() &&
+        				posYmouse >= m.getArrowPosY() && 
+        				posYmouse <= m.getArrowPosY()+m.getArrowHeight()){
+        					
+        					m.setArrowHovered(true);
+        				}
+        				else{
+        					m.setArrowHovered(false);
+        				}
+        			}
+        		}
+        	}
+        }
+        
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
 		int posXclic = e.getX();
@@ -109,6 +134,16 @@ public class InputGame extends Input{
 			posYlem = l.getPosY();	
 			//ce if doit etre le meme que celui qui dit si le curseur est sur un lemmings
         		if (lemmingsInRange(l)){
+        			if (l instanceof Miner){
+        				Miner m = (Miner)l;
+        				if (posXclic >= m.getArrowPosX() && 
+        				posXclic <= m.getArrowPosX()+m.getArrowWidth() && 
+        				posYclic >= m.getArrowPosY() && 
+        				posYclic <= m.getArrowPosY()+m.getArrowHeight()){
+        					m.changeDirectionY();
+        				}
+        				
+        			}
         			if (World.STOPPER != l.getJob() && getCapacityClicSetter() == 1 && l.getInWorld() && e.getButton()==1){
         			//si la methode getButton retourne 1 c est le clic gauche 
         				world.changeJob(l,World.STOPPER);
@@ -135,6 +170,11 @@ public class InputGame extends Input{
 				else if (World.BASHER != l.getJob() && getCapacityClicSetter() == 4 && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.BASHER);
 					System.out.println("turn into BASHER");
+					return;
+				}
+				else if (World.MINER != l.getJob() && getCapacityClicSetter() == 5 && l.getInWorld() && e.getButton()==1){
+        				world.changeJob(l,World.MINER);
+					System.out.println("turn into MINER");
 					return;
 				}
         			

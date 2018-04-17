@@ -121,15 +121,15 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(action) return;
 		if (direction == 1){
 			if((Window.getTps()-iWalk)%10 > 5 && !inAir){		
-				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-height,null);
+				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-imageRightStep.getHeight(),null);
 			}
-			else g.drawImage(imageRight,posX-imageRight.getWidth()/2,posY-height,null);
+			else g.drawImage(imageRight,posX-imageRight.getWidth()/2,posY-imageRightStep.getHeight(),null);
 		}
 		else {
 			if((Window.getTps()-iWalk)%10 > 5 && !inAir){
-				g.drawImage(imageLeftStep,posX-imageLeftStep.getWidth()/2,posY-height,null);
+				g.drawImage(imageLeftStep,posX-imageLeftStep.getWidth()/2,posY-imageRightStep.getHeight(),null);
 			}
-			else g.drawImage(imageLeft,posX-imageLeft.getWidth()/2,posY-height,null);
+			else g.drawImage(imageLeft,posX-imageLeft.getWidth()/2,posY-imageRightStep.getHeight(),null);
 		}
 	}
 	
