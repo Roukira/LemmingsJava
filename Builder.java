@@ -56,7 +56,6 @@ public class Builder extends Lemmings implements Affecter{
 			
 		}catch(Exception e){e.printStackTrace();}
 		this.job = World.BUILDER;
-		this.action = true;
 		height = builderImage0.getHeight();
 		width = builderImage0.getWidth();
 	}
@@ -83,7 +82,6 @@ public class Builder extends Lemmings implements Affecter{
 			
 		}catch(Exception e){e.printStackTrace();}
 		this.job = 2;
-		this.action = true;
 		height = builderImage0.getHeight();
 		width = builderImage0.getWidth();
 		System.out.println("new builder...");
@@ -189,6 +187,18 @@ public class Builder extends Lemmings implements Affecter{
 		return true;
 	}
 	
+	public boolean fall(){
+		boolean res;
+		int tmpWidht = width;
+		int tmpHeight = height;
+		width = imageRight.getWidth();
+		height = imageRight.getHeight();
+		res = super.fall();
+		System.out.println("fall vaut "+res);
+		width = tmpWidht;
+		height = tmpHeight;
+		return res;
+	}
 	
 	public void move(){
 		if (!inWorld) return;
