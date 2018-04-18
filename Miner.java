@@ -62,8 +62,8 @@ public class Miner extends Digger{
 		
 		directionY = 1;
 		//nextDirection ?
-		iMine = MINE_MAX;
-		radiusX = width/2;
+		iMine = 0;
+		radiusX = width/2-1;
 		radiusY = height;
 		
 	}
@@ -94,7 +94,7 @@ public class Miner extends Digger{
 		
 		directionY = 1;
 		//nextDirection ?
-		iMine = MINE_MAX;
+		iMine = 0;
 		radiusX = width/4;
 		radiusY = height;
 	}
@@ -116,11 +116,6 @@ public class Miner extends Digger{
 				w.changeJob(this,World.WALKER);
 				return;
 			}
-			if (goAhead()){
-				System.out.println("turn into walker from goAhead");
-				w.changeJob(this,World.WALKER);
-				return;
-			}
 			if (iMine == 0){
 				affectMap();
 				iMine = MINE_MAX;
@@ -132,15 +127,26 @@ public class Miner extends Digger{
 				int newPosX = posX+direction*radiusX;
 				int newPosY = posY-directionY*stepHeight;
 				if (w.onBounds(newPosX,newPosY)){
-					posX += direction*(5*radiusX/4);
-					posY -= directionY*stepHeight;
+					//posX += direction*(5*radiusX/4);
+					//posY -= directionY*stepHeight;
 				}
 				else{
 					System.out.println("turn into walker from imine");
 					w.changeJob(this,World.WALKER);
 				}
+				posX += direction*(radiusX+width/4);
+				posY -= directionY*stepHeight;
+				System.out.println("Avancement");
 				return;
+			}/*if (iMine == MINE_MAX/2){
+				posX += direction*(radiusX+width/4)/2;
+				posY -= directionY*stepHeight/2;
 			}
+			/*if (super.goAhead()){
+				System.out.println("turn into walker from goAhead");
+				w.changeJob(this,World.WALKER);
+				return;
+			}*/
 			iMine--;
 			
 		}
@@ -150,17 +156,17 @@ public class Miner extends Digger{
 	
 	public boolean goAhead(){
 		boolean res = true;
-		int tmpWidht = width;
-		int tmpHeight = height;
-		width = imageRight.getWidth();
-		height = imageRight.getHeight();
+		//int tmpWidht = width;
+		//int tmpHeight = height;
+		//width = imageRight.getWidth();
+		//height = imageRight.getHeight();
 		if (!super.walk()){
 			if (!super.climbUp()){
 				res = super.climbDown();
 			}
 		}
-		width = tmpWidht;
-		height = tmpHeight;
+		//width = tmpWidht;
+		//height = tmpHeight;
 		return res;
 	}
 	
@@ -229,7 +235,7 @@ public class Miner extends Digger{
 	public void affectMap(){
 		if (direction == 1){
 			if (directionY == 1){
-				for (int i = posX;i<=posX+radiusX;i++){
+				for (int i = posX;i<=posX+width/2+radiusX;i++){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
 						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
@@ -239,7 +245,7 @@ public class Miner extends Digger{
 				}
 			}
 			else{
-				for (int i = posX;i<=posX+radiusX;i++){
+				for (int i = posX;i<=posX+width/2+radiusX;i++){
 					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
 						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
@@ -251,7 +257,7 @@ public class Miner extends Digger{
 		}
 		else{
 			if (directionY == 1){
-				for (int i = posX;i>=posX-radiusX;i--){
+				for (int i = posX;i>=posX-width/2-radiusX;i--){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
 						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
@@ -261,7 +267,7 @@ public class Miner extends Digger{
 				}
 			}
 			else{
-				for (int i = posX;i>=posX-radiusX;i--){
+				for (int i = posX;i>=posX-width/2-radiusX;i--){
 					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
 						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
