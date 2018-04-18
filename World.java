@@ -299,6 +299,11 @@ public class World implements Renderable{
 		else return -20;
 	}
 	
+	public boolean onBounds(int posX, int posY){
+		if (posX<width && posX>=0 && posY<height && posY >=0) return true;
+		return false;
+	}
+	
 	//=========================PRIORITY==========================
 	
 	public void addLemmings(int i,Lemmings l){

@@ -26,12 +26,12 @@ public class Miner extends Digger{
 	private boolean arrowHovered = false;
 	
 	private int iMine;
-	private int MINE_MAX = 90; //plus tard 90 qd + d'animations
+	private int MINE_MAX = 30;
 	private int MineCounter = 40;
 	
 	private int radiusY;
 	private int radiusX;
-	private int stepHeight = 4;
+	private int stepHeight = 2;
 	
 	
 	//===================== CONSTRUCTEURS ==========================
@@ -64,7 +64,7 @@ public class Miner extends Digger{
 		//nextDirection ?
 		iMine = MINE_MAX;
 		radiusX = width/2;
-		radiusY = height/4;
+		radiusY = height;
 		
 	}
 	
@@ -95,7 +95,7 @@ public class Miner extends Digger{
 		directionY = 1;
 		//nextDirection ?
 		iMine = MINE_MAX;
-		radiusX = width/2;
+		radiusX = width/4;
 		radiusY = height;
 	}
 	
@@ -112,10 +112,12 @@ public class Miner extends Digger{
 			move();
 		}else{
 			if (fall()){
+				System.out.println("turn into walker from fall");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
 			if (goAhead()){
+				System.out.println("turn into walker from goAhead");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
@@ -123,14 +125,18 @@ public class Miner extends Digger{
 				affectMap();
 				iMine = MINE_MAX;
 				MineCounter--;
+				if (MineCounter == 0){
+					System.out.println("turn into walker from out of mine");
+					w.changeJob(this,World.WALKER);
+				}
 				int newPosX = posX+direction*radiusX;
 				int newPosY = posY-directionY*stepHeight;
-				int getPos = w.getPos(posX,posY);
-				if (getPos !=-1){
-					posX += direction*radiusX;
+				if (w.onBounds(newPosX,newPosY)){
+					posX += direction*(5*radiusX/4);
 					posY -= directionY*stepHeight;
 				}
 				else{
+					System.out.println("turn into walker from imine");
 					w.changeJob(this,World.WALKER);
 				}
 				return;
@@ -190,14 +196,33 @@ public class Miner extends Digger{
 	}
 	
 	public void drawArrow(Graphics2D g){
-		if (directionY == 1){
-			if(arrowHovered) g.drawImage(arrowDownHover,posX+direction*width/2,posY-height/2,null);
-			else g.drawImage(arrowDown,posX+direction*width/2,posY-height/2,null);
+		int x;
+		int y = posY-height/2;
+		if (direction == 1){
+			x = posX+width/2;
+			if (!w.onBounds(x,y)) x = posX-width/2-arrowDownHover.getWidth();
+			if (directionY == 1){
+				if(arrowHovered) g.drawImage(arrowDownHover,x,y,null);
+				else g.drawImage(arrowDown,x,y,null);
+		}
+			else{
+				if(arrowHovered) g.drawImage(arrowUpHover,x,y,null);
+				else g.drawImage(arrowUp,x,y,null);
+			}
 		}
 		else{
-			if(arrowHovered) g.drawImage(arrowUpHover,posX+direction*width/2,posY-height/2,null);
-			else g.drawImage(arrowUp,posX+direction*width/2,posY-height/2,null);
+			x = posX-width/2-arrowDownHover.getWidth();
+			if (!w.onBounds(x,y)) x = posX+width/2;
+			if (directionY == 1){
+				if(arrowHovered) g.drawImage(arrowDownHover,x,y,null);
+				else g.drawImage(arrowDown,x,y,null);
+			}
+			else{
+				if(arrowHovered) g.drawImage(arrowUpHover,x,y,null);
+				else g.drawImage(arrowUp,x,y,null);
+			}
 		}
+		
 	}
 	
 	
@@ -206,7 +231,7 @@ public class Miner extends Digger{
 			if (directionY == 1){
 				for (int i = posX;i<=posX+radiusX;i++){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
-						if (w.getPos(i,j) != -1){
+						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -215,8 +240,8 @@ public class Miner extends Digger{
 			}
 			else{
 				for (int i = posX;i<=posX+radiusX;i++){
-					for (int j = posY+stepHeight;j<=posY+stepHeight+radiusY;j++){
-						if (w.getPos(i,j) != -1){
+					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
+						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -228,7 +253,7 @@ public class Miner extends Digger{
 			if (directionY == 1){
 				for (int i = posX;i>=posX-radiusX;i--){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
-						if (w.getPos(i,j) != -1){
+						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -237,8 +262,8 @@ public class Miner extends Digger{
 			}
 			else{
 				for (int i = posX;i>=posX-radiusX;i--){
-					for (int j = posY+stepHeight;j<=posY+stepHeight+radiusY;j++){
-						if (w.getPos(i,j) != -1){
+					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
+						if (w.onBounds(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -257,7 +282,8 @@ public class Miner extends Digger{
 	}
 	
 	public int getArrowPosX(){
-		return posX+direction*width/2;
+		if (direction == 1) return posX+width/2;
+		else return posX-width/2-arrowDownHover.getWidth();
 	}
 	
 	public int getArrowPosY(){

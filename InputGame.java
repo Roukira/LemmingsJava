@@ -30,10 +30,10 @@ public class InputGame extends Input{
 			
 		}catch(Exception e){e.printStackTrace();}
 		
-		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point( 10, 10 ), "Pointeur" );
-		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point( 10, 10 ), "Pointeur" );
-		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point( 10, 10 ), "Pointeur" );
-		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point( 10, 10 ), "Pointeur" );
+		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
+		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
+		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
+		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
 		w.getCanvas().setCursor(CurseurInit); //test getCanvas
 		w.getCanvas().addMouseListener(this);
 		w.getCanvas().addMouseMotionListener(this);
@@ -77,6 +77,8 @@ public class InputGame extends Input{
         
         public void mouseMoved(MouseEvent e){
         	super.mouseMoved(e);
+        	//System.out.println("posX : "+posXmouse);
+        	//System.out.println("posY : "+posYmouse);
         	World world = w.getCurrentWorld();
         	Lemmings l;
 		if(world == null) return;
