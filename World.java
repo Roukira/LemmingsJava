@@ -308,11 +308,12 @@ public class World implements Renderable{
 	
 	public void addLemmings(int i,Lemmings l){
 		list[i] = l;
-		sortLemmings(i);
+		sortLemmings();
 	}
 	
-	public void sortLemmings(int index){
+	public void sortLemmings(){
 		if (list[list.length-1] == null) return;
+		int index = 0;
 		for (int i=0;i<list.length;i++){
 			Lemmings l = list[i];
 			if (list[index].getJob()>l.getJob()){
@@ -350,6 +351,7 @@ public class World implements Renderable{
 	
 	public void changeJob(Lemmings l,int state){
 		if(l instanceof Affecter){
+			System.out.println(l.toString()+" | reset la map");
 			((Affecter)l).resetMap();
 		}
 		Lemmings newLemming = null;

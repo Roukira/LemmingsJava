@@ -33,19 +33,26 @@ public class Outside extends Item{
 	}
 	
 	public void update(){
+		//printList();
+		int size = list.size();
 		if(list.isEmpty()){
 			w.setFinished(true);
 		}
-		for(int i = 0;i<list.size();i++){
-			Lemmings l = list.get(i);
+		for(int i = 0;i<size;i++){
+			if (i<list.size()){
+				Lemmings l = list.get(i);
 			
-			if(l.getInWorld() && l.getPosX()==posX && l.getPosY()==posY){
-				l.win();
-				list.remove(i);
+				//System.out.println(l.toString()+" | "+l.getJob());
+				if(l.getInWorld() && l.getPosX()==posX && l.getPosY()==posY){
+					//System.out.println(l.toString()+" | "+l.getJob());
+					l.win();
+					list.remove(i);
+				}
+				else if(!l.getAlive()){
+					list.remove(i);
+				}
 			}
-			else if(!l.getAlive()){
-				list.remove(i);
-			}
+			
 		}
 		
 	}

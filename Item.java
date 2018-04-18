@@ -27,5 +27,12 @@ public abstract class Item extends Thing{
 			this.list.add(l);
 		}
 	}
+	
+	public void printList(){
+		for (Lemmings l:list){
+			System.out.println(l.toString()+" | "+ l.getJob());
+		}
+		System.out.println("");
+	}
 
 }
