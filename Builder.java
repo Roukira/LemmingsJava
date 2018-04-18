@@ -135,7 +135,7 @@ public class Builder extends Lemmings implements Affecter{
 		
 	}
 	
-	public void affectMap(){
+public void affectMap(){
 		if (iBuild>0) {
 			return;
 		}
@@ -143,7 +143,10 @@ public class Builder extends Lemmings implements Affecter{
 		if (direction==1) type_CST = w.WALL_LEFT_CST;
 		else type_CST = w.WALL_RIGHT_CST;
 		
-		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= 0) type_CST = w.GROUND_CST;
+		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= 0
+			&& w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= type_CST){
+			type_CST = w.GROUND_CST;
+		}
 		int startX;
 		if (direction == 1) startX = posX+buildStep.getWidth()/2;
 		else startX = posX-3*buildStep.getWidth()/2;
