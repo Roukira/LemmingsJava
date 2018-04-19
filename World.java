@@ -355,11 +355,16 @@ public class World implements Renderable{
 			((Affecter)l).resetMap();
 		}
 		Lemmings newLemming = null;
-		if(state == WALKER) newLemming = new Walker(l);
+		if(state == WALKER){
+			newLemming = new Walker(l);
+			System.out.println("changeJob to WALKER");
+		}
+		
 		else if(state == STOPPER){
 			if(stopperLimit>0){
 				stopperLimit--;
 				newLemming = new Stopper(l);
+				System.out.println("changeJob to STOPPER");
 			}
 			
 		}
@@ -375,24 +380,28 @@ public class World implements Renderable{
 			if(builderLimit>0){
 				builderLimit--;
 				newLemming = new Builder(l);
+				System.out.println("changeJob to BUILDER");
 			}
 		}
 		else if(state == BASHER){ 
 			if(basherLimit>0){
 				basherLimit--;
 				newLemming = new Basher(l);
+				System.out.println("changeJob to BASHER");
 			}
 		}
 		else if(state == MINER){ 
 			if(minerLimit>0){
 				minerLimit--;
 				newLemming = new Miner(l);
+				System.out.println("changeJob to MINER");
 			}
 		}
 		else if(state == EXCAVATER){ 
 			if(excavaterLimit>0){
 				excavaterLimit--;
 				newLemming = new Excavater(l);
+				System.out.println("changeJob to EXCAVATER");
 			}
 		}
 		else{
@@ -416,7 +425,6 @@ public class World implements Renderable{
 		spawn.addLemmings(tab);
 		end.removeLemmingFromList(l.getId());
 		end.addLemmings(tab);
-
 	}
 	
 }	

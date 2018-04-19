@@ -55,15 +55,12 @@ public class Miner extends Digger{
 			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		//this.job = 2;
-		//this.action = true;
 		height = minerImage1.getHeight();
 		width = minerImage1.getWidth();
 		
 		directionY = 1;
-		//nextDirection ?
-		iMine = 0;
-		radiusX = width/2-1;
+		iMine = MINE_MAX;
+		radiusX = width/4;
 		radiusY = height;
 		
 	}
@@ -87,14 +84,11 @@ public class Miner extends Digger{
 			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		//this.job = 2;
-		//this.action = true;
 		height = minerImage1.getHeight();
 		width = minerImage1.getWidth();
 		
 		directionY = 1;
-		//nextDirection ?
-		iMine = 0;
+		iMine = MINE_MAX;
 		radiusX = width/4;
 		radiusY = height;
 	}
@@ -124,13 +118,9 @@ public class Miner extends Digger{
 					System.out.println("turn into walker from out of mine");
 					w.changeJob(this,World.WALKER);
 				}
-				int newPosX = posX+direction*radiusX;
+				int newPosX = posX+direction*(radiusX+width/4);
 				int newPosY = posY-directionY*stepHeight;
-				if (w.onBounds(newPosX,newPosY)){
-					//posX += direction*(5*radiusX/4);
-					//posY -= directionY*stepHeight;
-				}
-				else{
+				if (!w.onBounds(newPosX,newPosY)){
 					System.out.println("turn into walker from imine");
 					w.changeJob(this,World.WALKER);
 				}
@@ -138,15 +128,7 @@ public class Miner extends Digger{
 				posY -= directionY*stepHeight;
 				System.out.println("Avancement");
 				return;
-			}/*if (iMine == MINE_MAX/2){
-				posX += direction*(radiusX+width/4)/2;
-				posY -= directionY*stepHeight/2;
 			}
-			/*if (super.goAhead()){
-				System.out.println("turn into walker from goAhead");
-				w.changeJob(this,World.WALKER);
-				return;
-			}*/
 			iMine--;
 			
 		}
@@ -156,17 +138,11 @@ public class Miner extends Digger{
 	
 	public boolean goAhead(){
 		boolean res = true;
-		//int tmpWidht = width;
-		//int tmpHeight = height;
-		//width = imageRight.getWidth();
-		//height = imageRight.getHeight();
 		if (!super.walk()){
 			if (!super.climbUp()){
 				res = super.climbDown();
 			}
 		}
-		//width = tmpWidht;
-		//height = tmpHeight;
 		return res;
 	}
 	
