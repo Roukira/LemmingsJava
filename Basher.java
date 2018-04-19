@@ -71,7 +71,7 @@ public class Basher extends Digger{
 				return;
 			}
 			if (goAhead()){
-				System.out.println("goAhead transforming Basher into Walker at stopper wall");
+				System.out.println("goAhead transforming Basher into Walker at stopper wall.");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
