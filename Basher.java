@@ -71,6 +71,7 @@ public class Basher extends Digger{
 				return;
 			}
 			if (goAhead()){
+				System.out.println("lol...");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
@@ -92,17 +93,11 @@ public class Basher extends Digger{
 	
 	public boolean goAhead(){
 		boolean res = true;
-		int tmpWidht = width;
-		int tmpHeight = height;
-		width = imageRight.getWidth();
-		height = imageRight.getHeight();
 		if (!super.walk()){
 			if (!super.climbUp()){
 				res = super.climbDown();
 			}
 		}
-		width = tmpWidht;
-		height = tmpHeight;
 		return res;
 	}
 	
