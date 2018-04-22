@@ -47,7 +47,9 @@ public class InputGameUI extends Input{
 	
 	private int capacityClicSetter = 0;
 	
-	public InputGameUI(Window w){
+	private GameScene gs;
+	
+	public InputGameUI(Window w, GameScene gs){
 		super(w);
 		try{
 			whiteBorder = ImageIO.read(new File("world/capacityBorder.png"));
@@ -75,9 +77,9 @@ public class InputGameUI extends Input{
 		resetMapButton = resetMapButtonDefault;
 		fastForwardButton = fastForwardButtonDefault;
 		
-		w.getCanvasCapacity().addMouseListener(this);
-		w.getCanvasCapacity().addMouseMotionListener(this);
-		w.getCanvasCapacity().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		gs.getCanvasCapacity().addMouseListener(this);
+		gs.getCanvasCapacity().addMouseMotionListener(this);
+		gs.getCanvasCapacity().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 	
 	public void update(){}
@@ -172,8 +174,8 @@ public class InputGameUI extends Input{
 	
 	public boolean fastForwardPressed(World world, int posXclic, int posYclic){
 		if (posXclic >=world.getWidth()-40 && posXclic <=world.getWidth()-10 && posYclic>=20 && posYclic<=50){
-			if (w.FPS == 60) w.changeGameSpeed(2);
-			else if(w.FPS == 120) w.changeGameSpeed(1);
+			if (gs.FPS == 60) w.changeGameSpeed(2);
+			else if(gs.FPS == 120) w.changeGameSpeed(1);
 			return true;
 		}
 		return false;

@@ -42,6 +42,7 @@ public class Score extends Screen{
 		}catch(Exception e){e.printStackTrace();}
 		buttonMainMenu = mainMenu;
 		resetMapButton = resetMapButtonDefault;
+		input = new InputScore(gw,this);
 	}
 	
 	public Score(Window gw, int victoryCondition){
@@ -68,7 +69,6 @@ public class Score extends Screen{
 	}
 	
 	public void draw(Graphics2D g){
-		super.draw(g);
 		g.drawImage(scoreBG,0,0,null);
 		g.drawImage(scoreFG,0,0,null);
 		g.drawImage(buttonMainMenu,450,300,null);

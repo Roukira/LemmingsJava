@@ -11,16 +11,6 @@ import java.awt.Graphics2D;
 public class Window implements Updatable{
 
 	private JFrame frame;
-	private Canvas canvas;
-	private Canvas canvasCapacity;
-	private BufferStrategy bs;
-	private BufferStrategy bs2;
-	
-	private InputGame canvasInput;
-	private InputGameUI canvasCapacityInput;
-	
-	public static double FPS = 60.0;
-	public static double ns = 1000000000/FPS;
 	
 	private static int tps = 0;			//compteur de temps
 	
@@ -28,6 +18,11 @@ public class Window implements Updatable{
 	
 	private MainMenu mainMenu;
 	private Score score;
+	private GameScene gameScene;
+	
+	private Screen currentScreen;
+	
+	private Renderer renderer;
 	
 	private String title;
 	private int width, height;
@@ -42,66 +37,52 @@ public class Window implements Updatable{
 	
 	private void createWindow(){
 		frame = new JFrame(title);
-		frame.setSize(width, height);
+		resizeFrame(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setLayout(new BorderLayout());
 		
-		canvas = new Canvas();
-		canvas.setPreferredSize(new Dimension(width, height));
-		canvas.setMaximumSize(new Dimension(width, height));
-		canvas.setMinimumSize(new Dimension(width, height));
-		canvas.setFocusable(false);
-		
-		canvasCapacity = new Canvas();
-		//canvas.setPreferredSize(new Dimension(width, 100));
-		
-		frame.add(canvas, BorderLayout.CENTER);
-		frame.add(canvasCapacity, BorderLayout.SOUTH);
+		//frame.add(canvas, BorderLayout.CENTER);
+		//frame.add(canvasCapacity, BorderLayout.SOUTH);
 		frame.setVisible(true);
-		canvas.createBufferStrategy(3);				//fenetre de dessin des pixels
-		bs = canvas.getBufferStrategy();				//assigne a bs la fenetre de dessin
-		canvasCapacity.createBufferStrategy(3);				//fenetre de dessin des pixels
-		bs2 = canvasCapacity.getBufferStrategy();				//assigne a bs la fenetre de dessin
 		
-		canvasInput = new InputGame(this);
-		canvasCapacityInput = new InputGameUI(this);
-		frame.pack();
+		renderer = new Renderer(this); //ajouter methode resize frame pour rafraichir renderer size et modifier tous les draws
 		
 		mainMenu = new MainMenu(this);
-		mainMenu.setOnScreen(true);
 		score = new Score(this);
-		score.setOnScreen(false);
+		gameScene = new GameScene(this);
+		
+		setCurrentScreen(mainMenu);
 		
 	}
 
-	public Canvas getCanvas(){
-		return canvas;
-	}
-	
-	public Canvas getCanvasCapacity(){
-		return canvasCapacity;
-	}
-	
-	public InputGame getCanvasInput(){
-		return canvasInput;
-	}
-	
-	public InputGameUI getCanvasCapacityInput(){
-		return canvasCapacityInput;
+	public void setCurrentScreen(Screen screen){
+		currentScreen = screen;
+		frame.getContentPane().removeAll();
+		if (currentScreen != gameScene){
+			frame.add(currentScreen.getCanvas(),BorderLayout.CENTER);
+		}
+		else{
+			frame.add(gameScene.getCanvas(),BorderLayout.CENTER);
+			frame.add(gameScene.getCanvasCapacity(),BorderLayout.SOUTH);
+		}
+		frame.validate();
+		//frame.pack();
 	}
 	
 	public JFrame getFrame(){
 		return frame;
 	}
 	
-	public Score getScore(){
-		return score;
+	public void resizeFrame(int newWidth, int newHeight){
+		frame.setSize(newWidth,newHeight);
+		renderer.setWidth(newWidth);
+		renderer.setHeight(newHeight);
 	}
 	
-	public MainMenu getMainMenu(){
-		return mainMenu;
+	public Screen getCurrentScreen(){
+		return currentScreen;
 	}
 	
 	//===================== METHODES =========================
@@ -118,7 +99,7 @@ public class Window implements Updatable{
 	public void setWorld(World w){
 	//Modifie le monde actuel
 		
-		canvasCapacityInput.setCapacityClicSetter(0);
+		gameScene.getCapacityInput().setCapacityClicSetter(0);
 		this.world = w;	
 	}
 	
@@ -127,15 +108,14 @@ public class Window implements Updatable{
 	}
 	
 	public void changeGameSpeed(int speed){
-		FPS = 60*speed;
-		ns = 1000000000/FPS;
-		System.out.println("Changed speed to " + FPS);
+		if (speed == 0) return;
+		currentScreen.FPS = 60*speed;
+		currentScreen.ns = 1000000000/currentScreen.FPS;
+		System.out.println("Changed speed to " + currentScreen.FPS);
 	}
 	
 	public void update(){
 	//met a jour le monde
-		if(score.getOnScreen()) return;
-		if(mainMenu.getOnScreen()) return;
 		if(world == null) return;
 		if(world.getFinished()) return;
 		
@@ -152,8 +132,8 @@ public class Window implements Updatable{
         		
         	}
         	
-        	canvasInput.update();
-        	canvasCapacityInput.update();
+        	currentScreen.getInput().update();
+        	if (currentScreen == gameScene) gameScene.getCapacityInput().update();
         	
         	world.getOutside().update();
         	
@@ -161,7 +141,7 @@ public class Window implements Updatable{
         	
         	if(allDead){
         		world.setFinished(true);
-        		canvasCapacity.setSize(0,0);
+        		//canvasCapacity.setSize(0,0);
         		
         	}
 	}
@@ -169,48 +149,21 @@ public class Window implements Updatable{
 	public void draw(){
 	//dessine toute la fenetre
 		Graphics2D g = null; //pointeur de l'outil de dessin
-		Graphics2D g2 = null;
+		BufferStrategy bs = currentScreen.getBufferStrategy();
+		if (bs == null){
+			currentScreen.createBufferStrategy();
+			bs = currentScreen.getBufferStrategy();
+		}
 		do{
    			try{
    				g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-   				if(score.getOnScreen()) score.draw(g);
-   				else if(mainMenu.getOnScreen()) mainMenu.draw(g);
-        			else{
-					if(world!=null){
-						world.draw(g); //dessine le monde
-						world.getSpawner().draw(g);
-						world.getOutside().draw(g);
-						for(int i=0;i<world.getLemmingsList().length;i++){
-							world.getLemmingsList()[i].draw(g); //dessine les lemmings
-						}
-					
-						if(world.getFinished()){
-							moveToScoreScreen();	
-							canvasCapacity.setSize(0,0);
-						}
-					}
-					
-				}
+   				currentScreen.draw(g);
     			}
     			finally{
            			g.dispose(); //termine l'utilisation de l'outil de dessin
     			}
     			bs.show(); //actualise la fenetre de dessin avec la nouvelle
 		} while (bs.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
-		
-		if(world != null && !world.getFinished()){
-			do{
-	   			try{
-	   				g2 = (Graphics2D)bs2.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
-					world.getStats().draw(g2);
-					canvasCapacityInput.draw(g2);
-	    			}
-	    			finally{
-	    				g2.dispose();
-	    			}
-	    			bs2.show();
-			} while (bs2.contentsLost()); //tant que l'actualisation de la fenetre nest pas complete, recommencer
-		}
 		Toolkit.getDefaultToolkit().sync(); //force la fenetre a update meme qd souris en dehors
 	}
 	
@@ -218,34 +171,31 @@ public class Window implements Updatable{
 		World w = new World(worldID);
 		setWorld(w);
 		w.spawnLemmings();
-		frame.setSize(w.getWidth(),w.getHeight()+100);
-		canvas.setSize(w.getWidth(),w.getHeight());
-		canvasCapacity.setSize(w.getWidth(),100);
-		frame.setLocationRelativeTo(null);
+		setCurrentScreen(gameScene);
+		resizeFrame(w.getWidth(),w.getHeight()+100);
+		currentScreen.getCanvas().setSize(w.getWidth(),w.getHeight());
+		gameScene.getCanvasCapacity().setSize(w.getWidth(),100);
+		frame.setLocationRelativeTo(null); //ne pas bouger si meme taille ?
 	}
 	
 	public void moveToMainMenu(){
-		score.setOnScreen(false);
-		mainMenu.setOnScreen(true);
-		frame.setSize(600,400);
-		canvas.setSize(600,400);
+		setCurrentScreen(mainMenu);
+		resizeFrame(600,400);
+		currentScreen.getCanvas().setSize(600,400);
 		frame.setLocationRelativeTo(null);
 	}
 	
 	public void moveToScoreScreen(){
 		score = new Score(this,world.getVictoryCondition());
 		changeGameSpeed(1);
-		score.setOnScreen(true);
-		mainMenu.setOnScreen(false);
-		frame.setSize(600,400);
-		canvas.setSize(600,400);
-		canvasCapacity.setSize(0,0);
+		setCurrentScreen(score);
+		resizeFrame(600,400);
+		currentScreen.getCanvas().setSize(600,400);
 		frame.setLocationRelativeTo(null);
 	}
 	
 	public void resetMap(){
-		mainMenu.setOnScreen(false);
-		score.setOnScreen(false);
+		currentScreen = gameScene;
 		int newID = world.getID();
 		world = null;
 		newCurrentWorld(newID);

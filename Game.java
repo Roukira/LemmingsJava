@@ -7,6 +7,7 @@ public class Game{
 	public static void main(String[] args){
 		
 		Window UI = new Window("Lemmings v0",600,400);	//Creation de la fenetre Interface Utilisateur
+		Screen currentScreen = UI.getCurrentScreen();
 		long lastTime = System.nanoTime();
 		double delta = 0;
 		int updates = 0;
@@ -14,7 +15,7 @@ public class Game{
 		long timer = System.currentTimeMillis();
 		while(true){
 			long now = System.nanoTime();
-			delta += (now - lastTime)/UI.ns;
+			delta += (now - lastTime)/currentScreen.ns;
 			lastTime = now;
 			if(delta>=1){
 				UI.update(); // 60 updates/second

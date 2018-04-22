@@ -20,7 +20,9 @@ public class InputGame extends Input{
 	private Cursor CurseurInitRed;
 	private Cursor CurseurSelectRed;
 	
-	public InputGame(Window w){
+	private GameScene gs;
+	
+	public InputGame(Window w, GameScene gs){
 		super(w);
 		try{
 			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
@@ -30,13 +32,15 @@ public class InputGame extends Input{
 			
 		}catch(Exception e){e.printStackTrace();}
 		
+		this.gs = gs;
+		
 		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
 		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
 		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
 		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
-		w.getCanvas().setCursor(CurseurInit); //test getCanvas
-		w.getCanvas().addMouseListener(this);
-		w.getCanvas().addMouseMotionListener(this);
+		gs.getCanvas().setCursor(CurseurInit); //test getCanvas
+		gs.getCanvas().addMouseListener(this);
+		gs.getCanvas().addMouseMotionListener(this);
 	}
 	
 	public boolean lemmingsInRange(Lemmings l){
@@ -53,32 +57,27 @@ public class InputGame extends Input{
 			}
 		}
 		if (cursorOnLemmings){
-        		if (getCapacityClicSetter()==0) w.getCanvas().setCursor( CurseurSelect );
-        		else w.getCanvas().setCursor( CurseurSelectRed );
+        		if (getCapacityClicSetter()==0) gs.getCanvas().setCursor( CurseurSelect );
+        		else gs.getCanvas().setCursor( CurseurSelectRed );
         	}
         	else{
         		if (getCapacityClicSetter()==0) w.getFrame().setCursor( CurseurInit );
-        		else w.getCanvas().setCursor( CurseurInitRed );
+        		else gs.getCanvas().setCursor( CurseurInitRed );
         	}
 	}
 	
 	public void draw(Graphics2D g){}
 	
 	public int getCapacityClicSetter(){
-		return w.getCanvasCapacityInput().getCapacityClicSetter();
+		return gs.getCapacityInput().getCapacityClicSetter();
 	}
 	
 	//===================MOUSE EVENT========================================================
         
-        public void updateButtons(){
-        	changeWorldButton();
-        	changeMainMenueButton();
-        }
+        public void updateButtons(){}
         
         public void mouseMoved(MouseEvent e){
         	super.mouseMoved(e);
-        	//System.out.println("posX : "+posXmouse);
-        	//System.out.println("posY : "+posYmouse);
         	World world = w.getCurrentWorld();
         	Lemmings l;
 		if(world == null) return;
@@ -107,22 +106,8 @@ public class InputGame extends Input{
 		int posXclic = e.getX();
 		int posYclic = e.getY();
 		
-		//System.out.println(""+posXclic+","+posYclic);
-		
 		World world = w.getCurrentWorld();
-		Score score = w.getScore();
-		MainMenu mainMenu = w.getMainMenu();
 		
-		if (score.getOnScreen()){
-			if (posXclic >=560 && posXclic <=590 && posYclic>=360 && posYclic<=390) w.resetMap();
-			else if(posXclic >= 450 && posXclic <=570 && posYclic>=300 && posYclic <=350){
-				w.moveToMainMenu();
-			}
-			return;
-		}
-		
-		
-		if(worldSelection()) return;
 		if(world == null) return;
 		
 		if (resetMapPressed(world, posXclic, posYclic)) return;
@@ -187,65 +172,4 @@ public class InputGame extends Input{
         		}
         	}
 	}
-	
-	public void changeMainMenueButton(){
-		Score score = w.getScore();
-    		if(posXmouse >= 450 && posXmouse <=570 && posYmouse>=300 && posYmouse <=350){
-        		score.showSelectButton();
-        	}
-        	else{
-            		score.showDefaultButton();
-        	}
-        	if(posXmouse >= 560 && posXmouse <=590 && posYmouse>=360 && posYmouse <=390){
-        		score.showResetMapSelectButton();
-        	}
-        	else{
-            		score.showResetMapDefaultButton();
-        	}
-    	}
-    	
-	public void changeWorldButton(){
-		MainMenu mainMenu = w.getMainMenu();
-		
-        	if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
-        		mainMenu.showSelectButton(1);
-        	}
-        	else{
-            		mainMenu.showDefaultButton(1);
-        	}
-		if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
-            		mainMenu.showSelectButton(2);
-        	}
-        	else{
-            		mainMenu.showDefaultButton(2);
-        	}
-        	if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
-            		mainMenu.showSelectButton(3);
-       		} 
-       		else{
-            		mainMenu.showDefaultButton(3);
-        	}
-        }
-
-	public boolean worldSelection(){
-		MainMenu mainMenu = w.getMainMenu();
-       		if (mainMenu.getOnScreen()){
-            		if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
-            			w.newCurrentWorld(1);
-			}
-			else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
-				w.newCurrentWorld(2);
-			}
-			else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
-				w.newCurrentWorld(3);
-			}
-			else{
-				return false;
-			}
-			mainMenu.setOnScreen(false);
-			return true;
-		}
-        	return false;
-        }
-
 }

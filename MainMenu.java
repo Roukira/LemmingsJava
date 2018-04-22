@@ -37,10 +37,11 @@ public class MainMenu extends Screen{
 		world1Button = world1;
 		world2Button = world2;
 		world3Button = world3;
+		
+		input = new InputMainMenu(gw,this);
 	}
 	
 	public void draw(Graphics2D g){
-		super.draw(g);
 		g.drawImage(mainMenuBG,0,0,null);
 		g.drawImage(world1Button,250,100,null);
 		g.drawImage(world2Button,250,160,null);
