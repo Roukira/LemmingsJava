@@ -22,8 +22,6 @@ public class Window implements Updatable{
 	
 	private Screen currentScreen;
 	
-	private Renderer renderer;
-	
 	private String title;
 	private int width, height;
 	
@@ -46,8 +44,6 @@ public class Window implements Updatable{
 		//frame.add(canvas, BorderLayout.CENTER);
 		//frame.add(canvasCapacity, BorderLayout.SOUTH);
 		frame.setVisible(true);
-		
-		renderer = new Renderer(this); //ajouter methode resize frame pour rafraichir renderer size et modifier tous les draws
 		
 		mainMenu = new MainMenu(this);
 		score = new Score(this);
@@ -77,8 +73,6 @@ public class Window implements Updatable{
 	
 	public void resizeFrame(int newWidth, int newHeight){
 		frame.setSize(newWidth,newHeight);
-		renderer.setWidth(newWidth);
-		renderer.setHeight(newHeight);
 	}
 	
 	public Screen getCurrentScreen(){
