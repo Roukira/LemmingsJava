@@ -189,7 +189,6 @@ public class Window implements Updatable{
 	}
 	
 	public void resetMap(){
-		currentScreen = gameScene;
 		int newID = world.getID();
 		world = null;
 		newCurrentWorld(newID);
