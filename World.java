@@ -150,7 +150,7 @@ public class World implements Renderable{
 	public void initAirCst(){
 	//initialise les constantes d'air pour avoir plus de choix (background et tout)
 		AIR_LIST.add(new Color(97,172,191));
-		AIR_LIST.add(new Color(1,1,1));
+		AIR_LIST.add(new Color(0,0,0));
 	}
 	
 	public int getWidth(){

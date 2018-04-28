@@ -33,7 +33,7 @@ public class Outside extends Item{
 	}
 	
 	public void update(){
-		//printList();
+		printList();
 		int size = list.size();
 		if(list.isEmpty()){
 			w.setFinished(true);
