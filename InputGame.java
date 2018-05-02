@@ -302,11 +302,8 @@ public class InputGame extends Input{
 		World world = w.getCurrentWorld();
 		
 		if(world == null) return;
-		
 		if (resetMapPressed(world, posXclic, posYclic)) return;
-		
 		if (fastForwardPressed(world, posXclic, posYclic)) return;
-		
 		if ( posXclic > posXcapacity1 && posXclic < posXcapacity1+60
 		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
 		//remplacer 60 par un truc propre			

@@ -56,6 +56,10 @@ public class Window implements Updatable{
 	}
 
 	public void setCurrentScreen(Screen screen){
+		if(currentScreen !=null){
+			canvas.removeMouseListener(currentScreen.getInput());
+			canvas.removeMouseMotionListener(currentScreen.getInput());
+		}
 		currentScreen = screen;
 		canvas.addMouseListener(currentScreen.getInput());
 		canvas.addMouseMotionListener(currentScreen.getInput());

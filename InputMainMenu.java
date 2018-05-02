@@ -37,9 +37,8 @@ public class InputMainMenu extends Input{
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
-		int posXclic = e.getX();
-		int posYclic = e.getY();
-		
+		int posXclic = (int)(e.getX()*((1.0*m.getWidth())/(1.0*w.getFrame().getContentPane().getWidth())));
+		int posYclic = (int)(e.getY()*((1.0*m.getHeight())/(1.0*w.getFrame().getContentPane().getHeight())));
 		worldSelection();
 	}
     	
