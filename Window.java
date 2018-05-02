@@ -11,6 +11,8 @@ import java.awt.Graphics2D;
 public class Window implements Updatable{
 
 	private JFrame frame;
+	private Canvas canvas;
+	private BufferStrategy bs;
 	
 	private static int tps = 0;			//compteur de temps
 	
@@ -35,19 +37,19 @@ public class Window implements Updatable{
 	
 	private void createWindow(){
 		frame = new JFrame(title);
+		canvas = new Canvas();
 		resizeFrame(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
-		frame.setLayout(new BorderLayout());
 		
-		//frame.add(canvas, BorderLayout.CENTER);
-		//frame.add(canvasCapacity, BorderLayout.SOUTH);
 		frame.setVisible(true);
+		frame.add(canvas);
 		
-		mainMenu = new MainMenu(this);
-		score = new Score(this);
-		gameScene = new GameScene(this);
+		canvas.createBufferStrategy(3);
+		bs = canvas.getBufferStrategy();
+		
+		mainMenu = new MainMenu(this,600,400);
 		
 		setCurrentScreen(mainMenu);
 		
@@ -55,20 +57,17 @@ public class Window implements Updatable{
 
 	public void setCurrentScreen(Screen screen){
 		currentScreen = screen;
-		frame.getContentPane().removeAll();
-		if (currentScreen != gameScene){
-			frame.add(currentScreen.getCanvas(),BorderLayout.CENTER);
-		}
-		else{
-			frame.add(gameScene.getCanvas(),BorderLayout.CENTER);
-			frame.add(gameScene.getCanvasCapacity(),BorderLayout.SOUTH);
-		}
-		frame.validate();
-		//frame.pack();
+		canvas.addMouseListener(currentScreen.getInput());
+		canvas.addMouseMotionListener(currentScreen.getInput());
+		canvas.setCursor(currentScreen.getInput().getCursor());
 	}
 	
 	public JFrame getFrame(){
 		return frame;
+	}
+	
+	public Canvas getCanvas(){
+		return canvas;
 	}
 	
 	public void resizeFrame(int newWidth, int newHeight){
@@ -93,7 +92,7 @@ public class Window implements Updatable{
 	public void setWorld(World w){
 	//Modifie le monde actuel
 		
-		gameScene.getCapacityInput().setCapacityClicSetter(0);
+		//gameScene.getCapacityInput().setCapacityClicSetter(0);
 		this.world = w;	
 	}
 	
@@ -127,7 +126,6 @@ public class Window implements Updatable{
         	}
         	
         	currentScreen.getInput().update();
-        	if (currentScreen == gameScene) gameScene.getCapacityInput().update();
         	
         	world.getOutside().update();
         	
@@ -141,16 +139,10 @@ public class Window implements Updatable{
 	}
 	
 	public void draw(){
-	//dessine toute la fenetre
-		Graphics2D g = null; //pointeur de l'outil de dessin
-		BufferStrategy bs = currentScreen.getBufferStrategy();
-		if (bs == null){
-			currentScreen.createBufferStrategy();
-			bs = currentScreen.getBufferStrategy();
-		}
+		Graphics2D g = null;
 		do{
    			try{
-   				g = (Graphics2D)bs.getDrawGraphics(); //recupere l'outil de dessin de la fenetre de dessin
+   				g = (Graphics2D)bs.getDrawGraphics();
    				currentScreen.draw(g);
     			}
     			finally{
@@ -165,26 +157,25 @@ public class Window implements Updatable{
 		World w = new World(worldID);
 		setWorld(w);
 		w.spawnLemmings();
+		gameScene = new GameScene(this,w.getWidth(),w.getHeight());
 		setCurrentScreen(gameScene);
 		resizeFrame(w.getWidth(),w.getHeight()+100);
-		currentScreen.getCanvas().setSize(w.getWidth(),w.getHeight());
-		gameScene.getCanvasCapacity().setSize(w.getWidth(),100);
+		//currentScreen.getCanvas().setSize(w.getWidth(),w.getHeight());
+		//gameScene.getCanvasCapacity().setSize(w.getWidth(),100);
 		frame.setLocationRelativeTo(null); //ne pas bouger si meme taille ?
 	}
 	
 	public void moveToMainMenu(){
 		setCurrentScreen(mainMenu);
 		resizeFrame(600,400);
-		currentScreen.getCanvas().setSize(600,400);
 		frame.setLocationRelativeTo(null);
 	}
 	
 	public void moveToScoreScreen(){
-		score = new Score(this,world.getVictoryCondition());
+		score = new Score(this,world.getVictoryCondition(),600,400);
 		changeGameSpeed(1);
 		setCurrentScreen(score);
 		resizeFrame(600,400);
-		currentScreen.getCanvas().setSize(600,400);
 		frame.setLocationRelativeTo(null);
 	}
 	

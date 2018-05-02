@@ -11,42 +11,44 @@ public abstract class Screen implements Renderable{
 
 	protected Window gw;
 	
-	protected Canvas canvas;
-	protected BufferStrategy bs;
+	protected BufferedImage screenImage;
+	protected Graphics2D screenGraphics;
 	protected Input input;
+	
+	protected int width;
+	protected int height;
+	
+	protected int fillColor = Color.BLACK.getRGB();
 	
 	public static double FPS = 60.0;
 	public static double ns = 1000000000/FPS;
 	
-	public Screen(Window gw){
+	public Screen(Window gw, int width, int height){ /*, int canvasWidth, int canvasHeight*/
 		this.gw = gw;
-		canvas = new Canvas();
-		//canvas.createBufferStrategy(3);				//fenetre de dessin des pixels
-		bs = canvas.getBufferStrategy();				//assigne a bs la fenetre de dessin
-		/*canvas.setPreferredSize(new Dimension(width, height));
-		canvas.setMaximumSize(new Dimension(width, height));
-		canvas.setMinimumSize(new Dimension(width, height));
-		canvas.setFocusable(false);*/
+		this.width = width;
+		this.height = height;
+		screenImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+		screenGraphics = screenImage.createGraphics();
 	}
-	
-	public abstract void draw(Graphics2D g);
 	
 	public Input getInput(){
 		return input;
 	}
 	
-	public Canvas getCanvas(){
-		return canvas;
+	public int getWidth(){
+		return width;
 	}
 	
-	public BufferStrategy getBufferStrategy(){
-		return bs;
+	public int getHeight(){
+		return height;
 	}
 	
-	public void createBufferStrategy(){
-		canvas.createBufferStrategy(3);
-		bs = canvas.getBufferStrategy();
+	public abstract void render();
+	
+	public void draw(Graphics2D g){
+		//refreshImage();
+		render();
+		JFrame frame = gw.getFrame();
+		g.drawImage(screenImage,0,0,frame.getContentPane().getWidth(),frame.getContentPane().getHeight(),0,0,width,height,null);
 	}
-
-
 }

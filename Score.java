@@ -28,8 +28,8 @@ public class Score extends Screen{
 	private String completion;
 	private int victoryCondition;
 	
-	public Score(Window gw){
-		super(gw);
+	public Score(Window gw, int width, int height){
+		super(gw,width,height);
 		try{
 			scoreBG = ImageIO.read(new File("score/Home.png"));
 			mainMenu = ImageIO.read(new File("score/ButtonMainMenu.png"));
@@ -45,8 +45,8 @@ public class Score extends Screen{
 		input = new InputScore(gw,this);
 	}
 	
-	public Score(Window gw, int victoryCondition){
-		this(gw);
+	public Score(Window gw, int victoryCondition, int width, int height){
+		this(gw, width,height);
 		this.victoryCondition = victoryCondition;
 		calculateScore();
 	}
@@ -68,16 +68,16 @@ public class Score extends Screen{
 		completion = String.format("%.1f",completionCount);
 	}
 	
-	public void draw(Graphics2D g){
-		g.drawImage(scoreBG,0,0,null);
-		g.drawImage(scoreFG,0,0,null);
-		g.drawImage(buttonMainMenu,450,300,null);
-		g.setColor(Color.white);
-		g.setFont(new Font("default", Font.BOLD, 12));
-		g.drawString("Number of Lemmings : "+nbLemmings,50,300);
-		g.drawString("Deaths : "+nbLemmingsDead,50,330);
-		g.drawString("Completion : "+completion+"%",50,360);
-		g.drawImage(resetMapButton,560,360,null);
+	public void render(){
+		screenGraphics.drawImage(scoreBG,0,0,null);
+		screenGraphics.drawImage(scoreFG,0,0,null);
+		screenGraphics.drawImage(buttonMainMenu,450,300,null);
+		screenGraphics.setColor(Color.white);
+		screenGraphics.setFont(new Font("default", Font.BOLD, 12));
+		screenGraphics.drawString("Number of Lemmings : "+nbLemmings,50,300);
+		screenGraphics.drawString("Deaths : "+nbLemmingsDead,50,330);
+		screenGraphics.drawString("Completion : "+completion+"%",50,360);
+		screenGraphics.drawImage(resetMapButton,560,360,null);
 	}
 	
 	public void showSelectButton(){

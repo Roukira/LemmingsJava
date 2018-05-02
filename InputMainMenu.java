@@ -9,15 +9,14 @@ import java.awt.Graphics2D;
 
 public class InputMainMenu extends Input{
 
-	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private MainMenu m;
 	
 	public InputMainMenu(Window w, MainMenu m){
 		super(w);
 		this.m = m; 
-		m.getCanvas().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		/*m.getCanvas().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		m.getCanvas().addMouseListener(this);
-		m.getCanvas().addMouseMotionListener(this);
+		m.getCanvas().addMouseMotionListener(this);*/
 	}
 	
 	public void update(){}
@@ -28,6 +27,12 @@ public class InputMainMenu extends Input{
         
         public void updateButtons(){
         	changeWorldButton();
+        }
+        
+        public void mouseMoved(MouseEvent e){
+        	posXmouse = (int)(e.getX()*((1.0*m.getWidth())/(1.0*w.getFrame().getContentPane().getWidth())));
+        	posYmouse = (int)(e.getY()*((1.0*m.getHeight())/(1.0*w.getFrame().getContentPane().getHeight())));
+        	updateButtons();
         }
         
         public void mouseClicked(MouseEvent e) {

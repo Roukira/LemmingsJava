@@ -15,8 +15,15 @@ public abstract class Input implements MouseListener,MouseMotionListener,Updatab
 	protected double mouseRangeX = 2.0;
 	protected double mouseRangeY = 1.5;
 	
+	protected Cursor cursor;
+	
 	public Input(Window w){
 		this.w = w;
+		cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+	}
+	
+	public Cursor getCursor(){
+		return cursor;
 	}
 	
 	public abstract void update();
@@ -26,7 +33,7 @@ public abstract class Input implements MouseListener,MouseMotionListener,Updatab
 	public abstract void mouseClicked(MouseEvent e); 
 	
 	public boolean resetMapPressed(World world, int posXclic, int posYclic){
-		if (posXclic >=world.getWidth()-40 && posXclic <=world.getWidth()-10 && posYclic>=60 && posYclic<=90){
+		if (posXclic >=world.getWidth()-40 && posXclic <=world.getWidth()-10 && posYclic>=world.getHeight()+60 && posYclic<=world.getHeight()+90){
 			w.resetMap();
 			return true;
 		}

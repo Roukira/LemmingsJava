@@ -7,8 +7,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-public class MainMenu extends Screen{
-
+public class MainMenu extends Screen{	
+	
 	private BufferedImage mainMenuBG;
 	private BufferedImage world1;
 	private BufferedImage world2;
@@ -23,8 +23,8 @@ public class MainMenu extends Screen{
 	private boolean w2default = true;
 	private boolean w3default = true;
 	
-	public MainMenu(Window gw){
-		super(gw);
+	public MainMenu(Window gw,int width,int height){
+		super(gw,width,height);
 		try{
 			mainMenuBG = ImageIO.read(new File("mainmenu/Home.png"));
 			world1 = ImageIO.read(new File("mainmenu/ButtonWorld1.png"));
@@ -41,11 +41,11 @@ public class MainMenu extends Screen{
 		input = new InputMainMenu(gw,this);
 	}
 	
-	public void draw(Graphics2D g){
-		g.drawImage(mainMenuBG,0,0,null);
-		g.drawImage(world1Button,250,100,null);
-		g.drawImage(world2Button,250,160,null);
-		g.drawImage(world3Button,250,220,null);
+	public void render(){
+		screenGraphics.drawImage(mainMenuBG,0,0,null);
+		screenGraphics.drawImage(world1Button,250,100,null);
+		screenGraphics.drawImage(world2Button,250,160,null);
+		screenGraphics.drawImage(world3Button,250,220,null);
 	}
 	
 	public void showSelectButton( int worldNumber){

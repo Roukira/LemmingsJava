@@ -9,15 +9,14 @@ import java.awt.Graphics2D;
 
 public class InputScore extends Input{
 
-	private Toolkit tk = Toolkit.getDefaultToolkit();
 	private Score s;
 	
 	public InputScore(Window w, Score s){
 		super(w);
 		this.s = s; 
-		s.getCanvas().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		/*s.getCanvas().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		s.getCanvas().addMouseListener(this);
-		s.getCanvas().addMouseMotionListener(this);
+		s.getCanvas().addMouseMotionListener(this);*/
 	}
 	
 	public void update(){}
@@ -28,6 +27,12 @@ public class InputScore extends Input{
         
         public void updateButtons(){
         	changeMainMenueButton();
+        }
+        
+        public void mouseMoved(MouseEvent e){
+        	posXmouse = (int)(e.getX()*((1.0*s.getWidth())/(1.0*w.getFrame().getContentPane().getWidth())));
+        	posYmouse = (int)(e.getY()*((1.0*s.getHeight())/(1.0*w.getFrame().getContentPane().getHeight())));
+        	updateButtons();
         }
         
         public void mouseClicked(MouseEvent e) {

@@ -6,7 +6,7 @@ public class Game{
 	
 	public static void main(String[] args){
 		
-		Window UI = new Window("Lemmings v0",600,400);	//Creation de la fenetre Interface Utilisateur
+		Window UI = new Window("Lemmings v1.0",600,400);	//Creation de la fenetre Interface Utilisateur
 		Screen currentScreen = UI.getCurrentScreen();
 		long lastTime = System.nanoTime();
 		double delta = 0;
@@ -22,12 +22,14 @@ public class Game{
 				updates++;
 				UI.iterateTps();
 				delta--;
-				UI.draw(); //fix 60FPS - mettre en dehors du if pour + de FPS
+				UI.draw(); //fix 60FPS - mettre en dehors du if pour + d'image par seconde sans modifier la vitesse de jeu
 				frames++; //fix 60FPS - same
 			}
 			
+			
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
+				System.out.println("ticks : "+updates+" | FPS : "+frames);
 				updates = 0;
 				frames = 0;
 			}
