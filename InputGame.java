@@ -98,15 +98,27 @@ public class InputGame extends Input{
 		
 		this.gs = gs;
 		
+		frameWidth = w.getFrame().getContentPane().getWidth();
+		System.out.println("frameWidth init : "+frameWidth);
+		frameHeight = w.getFrame().getContentPane().getHeight();
+		System.out.println("frameHeight init : "+frameHeight);
+		resetMapButton = resetMapButtonDefault;
+		fastForwardButton = fastForwardButtonDefault;
+		
+		double ratioX = w.getFrame().getContentPane().getWidth()/(frameWidth*1.0);
+		double ratioY = w.getFrame().getContentPane().getHeight()/(frameHeight*1.0);
+		
+		imageCurseurInit = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
+		imageCurseurSelect = Window.resize(imageCurseurSelect, (int)(imageCurseurSelect.getWidth()*ratioX),(int)(imageCurseurSelect.getHeight()*ratioY));
+		imageCurseurInitRed = Window.resize(imageCurseurInitRed, (int)(imageCurseurInitRed.getWidth()*ratioX),(int)(imageCurseurInitRed.getHeight()*ratioY));
+		imageCurseurSelectRed = Window.resize(imageCurseurSelectRed, (int)(imageCurseurSelectRed.getWidth()*ratioX),(int)(imageCurseurSelectRed.getHeight()*ratioY));
 		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
 		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
 		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
 		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
+		mouseRangeX = (int)(mouseRangeX*ratioX);
+		mouseRangeY = (int)(mouseRangeY*ratioY);
 		cursorGame = CurseurInit;
-		frameWidth = w.getFrame().getContentPane().getWidth();
-		frameHeight = w.getFrame().getContentPane().getHeight();
-		resetMapButton = resetMapButtonDefault;
-		fastForwardButton = fastForwardButtonDefault;
 	}
 	
 	public void setCursor(Cursor cursor){
@@ -122,15 +134,28 @@ public class InputGame extends Input{
 		//System.out.println("taille screen X : "+frameWidth);
 		//System.out.println("taille content pane Y : "+w.getFrame().getContentPane().getHeight());
 		//System.out.println("taille screen Y : "+frameHeight);
+		//if (null)
 		if (w.getFrame().getContentPane().getWidth()!=frameWidth || w.getFrame().getContentPane().getHeight()!=frameHeight){
+			System.out.println("aaaa");
+			double ratioX = w.getFrame().getContentPane().getWidth()/(frameWidth*1.0);
+			double ratioY = w.getFrame().getContentPane().getHeight()/(frameHeight*1.0);
+			
 			frameWidth = w.getFrame().getContentPane().getWidth();
 			frameHeight = w.getFrame().getContentPane().getHeight();
+			System.out.println("frameWidth : "+frameWidth);
+			System.out.println("frameHeight : "+frameHeight);
 			//update les images en les ecrasant
 			
+			imageCurseurInit = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
+			imageCurseurSelect = Window.resize(imageCurseurSelect, (int)(imageCurseurSelect.getWidth()*ratioX),(int)(imageCurseurSelect.getHeight()*ratioY));
+			imageCurseurInitRed = Window.resize(imageCurseurInitRed, (int)(imageCurseurInitRed.getWidth()*ratioX),(int)(imageCurseurInitRed.getHeight()*ratioY));
+			imageCurseurSelectRed = Window.resize(imageCurseurSelectRed, (int)(imageCurseurSelectRed.getWidth()*ratioX),(int)(imageCurseurSelectRed.getHeight()*ratioY));
 			CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
 			CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
 			CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
 			CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
+			mouseRangeX = (int)(mouseRangeX*ratioX);
+			mouseRangeY = (int)(mouseRangeY*ratioY);
 			cursorGame = CurseurInit;
 		}
 	}
@@ -140,7 +165,6 @@ public class InputGame extends Input{
 	}
 	
 	public void update(){
-		//resizeCursor(); decommenter qd le crash du reset regle
 		boolean cursorOnLemmings = false;
 		Lemmings l;
 		for(int i=0;i<w.getCurrentWorld().getLemmingsList().length;i++){
@@ -161,7 +185,8 @@ public class InputGame extends Input{
 	
 	public void draw(Graphics2D g){
 		World world = w.getCurrentWorld();
-		
+		if (world == null) return;
+		resizeCursor(); //decommenter qd le crash du reset regle
 		g.drawImage(lemmingsPanelImage,0,0,null);
 		
 		g.setColor(Color.DARK_GRAY);

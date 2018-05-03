@@ -22,9 +22,9 @@ public class Game{
 				updates++;
 				UI.iterateTps();
 				delta--;
-				UI.draw(); //fix 60FPS - mettre en dehors du if pour + d'image par seconde sans modifier la vitesse de jeu
-				frames++; //fix 60FPS - same
 			}
+			UI.draw(); //fix 60FPS - mettre en dehors du if pour + d'image par seconde sans modifier la vitesse de jeu
+			frames++; //fix 60FPS - same
 			
 			
 			if(System.currentTimeMillis() - timer > 1000){

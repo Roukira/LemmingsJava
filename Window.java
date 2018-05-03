@@ -161,9 +161,14 @@ public class Window implements Updatable{
 		World w = new World(worldID);
 		setWorld(w);
 		w.spawnLemmings();
+		resizeFrame(w.getWidth()+2,w.getHeight()+100+40);
 		gameScene = new GameScene(this,w.getWidth(),w.getHeight());
 		setCurrentScreen(gameScene);
-		resizeFrame(w.getWidth(),w.getHeight()+100);
+		
+		System.out.println("size frame X : "+ frame.getWidth());
+		System.out.println("size frame Y : "+ frame.getHeight());
+		System.out.println("size canvas X : "+ canvas.getWidth());
+		System.out.println("size canvas Y : "+ canvas.getHeight());
 		//currentScreen.getCanvas().setSize(w.getWidth(),w.getHeight());
 		//gameScene.getCanvasCapacity().setSize(w.getWidth(),100);
 		frame.setLocationRelativeTo(null); //ne pas bouger si meme taille ?
@@ -171,7 +176,7 @@ public class Window implements Updatable{
 	
 	public void moveToMainMenu(){
 		setCurrentScreen(mainMenu);
-		resizeFrame(600,400);
+		resizeFrame(600+2,400+40);
 		frame.setLocationRelativeTo(null);
 	}
 	
@@ -179,7 +184,7 @@ public class Window implements Updatable{
 		score = new Score(this,world.getVictoryCondition(),600,400);
 		changeGameSpeed(1);
 		setCurrentScreen(score);
-		resizeFrame(600,400);
+		resizeFrame(600+2,400+40);
 		frame.setLocationRelativeTo(null);
 	}
 	
@@ -188,6 +193,17 @@ public class Window implements Updatable{
 		world = null;
 		newCurrentWorld(newID);
 	}
+	
+	public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
+   		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+    		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+    		Graphics2D g2d = dimg.createGraphics();
+    		g2d.drawImage(tmp, 0, 0, null);
+    		g2d.dispose();
+
+    		return dimg;
+}
 	
 	
 }
