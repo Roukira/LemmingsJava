@@ -211,10 +211,10 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	public boolean climbUp(){
 		int i,j;
-		for (i =(imageRight.getWidth()/2);i<imageRight.getHeight();i++){
+		for (i =(imageRight.getHeight()/2);i<imageRight.getHeight();i++){
 			if(w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)!=0 && w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)!=direction+3){
 			//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
-			
+				System.out.println("pbbbb");
 				return false;
 			}
 		}
