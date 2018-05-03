@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
@@ -67,6 +67,7 @@ public class Basher extends Digger{
 			move();
 		}else{
 			if (fall()){
+				System.out.println("can fall so changeJob");
 				w.changeJob(this,World.WALKER);
 				return;
 			}
@@ -102,7 +103,7 @@ public class Basher extends Digger{
 	}
 	
 	public void draw(Graphics2D g){
-	//Dessine le lemming
+	//Dessine le lemmingjordan
 		super.draw(g);
 		if (!alive) return;
 		if (!inWorld) return;
