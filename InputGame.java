@@ -98,26 +98,17 @@ public class InputGame extends Input{
 		
 		this.gs = gs;
 		
-		frameWidth = w.getFrame().getContentPane().getWidth();
+		frameWidth = w.getCanvas().getWidth();
 		System.out.println("frameWidth init : "+frameWidth);
-		frameHeight = w.getFrame().getContentPane().getHeight();
+		frameHeight = w.getCanvas().getHeight();
 		System.out.println("frameHeight init : "+frameHeight);
 		resetMapButton = resetMapButtonDefault;
 		fastForwardButton = fastForwardButtonDefault;
 		
-		double ratioX = w.getFrame().getContentPane().getWidth()/(frameWidth*1.0);
-		double ratioY = w.getFrame().getContentPane().getHeight()/(frameHeight*1.0);
-		
-		imageCurseurInit = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
-		imageCurseurSelect = Window.resize(imageCurseurSelect, (int)(imageCurseurSelect.getWidth()*ratioX),(int)(imageCurseurSelect.getHeight()*ratioY));
-		imageCurseurInitRed = Window.resize(imageCurseurInitRed, (int)(imageCurseurInitRed.getWidth()*ratioX),(int)(imageCurseurInitRed.getHeight()*ratioY));
-		imageCurseurSelectRed = Window.resize(imageCurseurSelectRed, (int)(imageCurseurSelectRed.getWidth()*ratioX),(int)(imageCurseurSelectRed.getHeight()*ratioY));
 		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
 		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
 		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
 		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
-		mouseRangeX = (int)(mouseRangeX*ratioX);
-		mouseRangeY = (int)(mouseRangeY*ratioY);
 		cursorGame = CurseurInit;
 	}
 	
@@ -129,39 +120,14 @@ public class InputGame extends Input{
 		return cursorGame;
 	}
 	
-	public void resizeCursor(){
-		//System.out.println("taille content pane X : "+w.getFrame().getContentPane().getWidth());
-		//System.out.println("taille screen X : "+frameWidth);
-		//System.out.println("taille content pane Y : "+w.getFrame().getContentPane().getHeight());
-		//System.out.println("taille screen Y : "+frameHeight);
-		//if (null)
-		if (w.getFrame().getContentPane().getWidth()!=frameWidth || w.getFrame().getContentPane().getHeight()!=frameHeight){
-			System.out.println("aaaa");
-			double ratioX = w.getFrame().getContentPane().getWidth()/(frameWidth*1.0);
-			double ratioY = w.getFrame().getContentPane().getHeight()/(frameHeight*1.0);
-			
-			frameWidth = w.getFrame().getContentPane().getWidth();
-			frameHeight = w.getFrame().getContentPane().getHeight();
-			System.out.println("frameWidth : "+frameWidth);
-			System.out.println("frameHeight : "+frameHeight);
-			//update les images en les ecrasant
-			
-			imageCurseurInit = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
-			imageCurseurSelect = Window.resize(imageCurseurSelect, (int)(imageCurseurSelect.getWidth()*ratioX),(int)(imageCurseurSelect.getHeight()*ratioY));
-			imageCurseurInitRed = Window.resize(imageCurseurInitRed, (int)(imageCurseurInitRed.getWidth()*ratioX),(int)(imageCurseurInitRed.getHeight()*ratioY));
-			imageCurseurSelectRed = Window.resize(imageCurseurSelectRed, (int)(imageCurseurSelectRed.getWidth()*ratioX),(int)(imageCurseurSelectRed.getHeight()*ratioY));
-			CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
-			CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
-			CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
-			CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
-			mouseRangeX = (int)(mouseRangeX*ratioX);
-			mouseRangeY = (int)(mouseRangeY*ratioY);
-			cursorGame = CurseurInit;
-		}
-	}
-	
 	public boolean lemmingsInRange(Lemmings l){
-		return (l.getInWorld() && l.getPosY()-mouseRangeY*l.getHeight()<posYmouse  && l.getPosY()+((mouseRangeY-1)*l.getHeight())>posYmouse && l.getPosX()-mouseRangeX*l.getWidth()<posXmouse  && l.getPosX()+mouseRangeX*l.getWidth()>posXmouse);
+		double ratioX = (frameWidth*1.0)/gs.getWidth();
+		double ratioY = (frameHeight*1.0)/(gs.getHeight()+100);
+		int lemmingsLimitYUpper = (int)(l.getPosY()-1.15*1.5*l.getHeight()*ratioY);
+		int lemmingsLimitYLower = (int)(l.getPosY()+1.15*0.5*l.getHeight()*ratioY);
+		int lemmingsLimitXUpper = (int)(l.getPosX()-1.15*l.getWidth()*ratioX);
+		int lemmingsLimitXLower = (int)(l.getPosX()+1.15*l.getWidth()*ratioX);
+		return (l.getInWorld() && lemmingsLimitYUpper<posYmouse  && lemmingsLimitYLower>posYmouse && lemmingsLimitXUpper<posXmouse  && lemmingsLimitXLower>posXmouse);
 	}
 	
 	public void update(){
@@ -186,7 +152,6 @@ public class InputGame extends Input{
 	public void draw(Graphics2D g){
 		World world = w.getCurrentWorld();
 		if (world == null) return;
-		resizeCursor(); //decommenter qd le crash du reset regle
 		g.drawImage(lemmingsPanelImage,0,0,null);
 		
 		g.setColor(Color.DARK_GRAY);
@@ -213,7 +178,49 @@ public class InputGame extends Input{
 		
 		g.drawImage(resetMapButton,world.getWidth()-40,60,null);
 		
+		//System.out.println("taille content pane X : "+w.getFrame().getContentPane().getWidth());
+		//System.out.println("taille screen X : "+frameWidth);
+		//System.out.println("taille content pane Y : "+w.getFrame().getContentPane().getHeight());
+		//System.out.println("taille screen Y : "+frameHeight);
+		//if (null)
+		if (w.getCanvas().getWidth()!=frameWidth || w.getCanvas().getHeight()!=frameHeight){
+			System.out.println("aaaa");
+			
+			frameWidth = w.getCanvas().getWidth();
+			frameHeight = w.getCanvas().getHeight();
+			
+			double ratioX = (frameWidth*1.0)/gs.getWidth();
+			double ratioY = (frameHeight*1.0)/(gs.getHeight()+100);
+			
+			System.out.println("ratioX : "+ratioX);
+			System.out.println("ratioY : "+ratioY);
+			System.out.println("frameWidth : "+frameWidth);
+			System.out.println("frameHeight : "+frameHeight);
+			//update les images en les ecrasant
+			
+			
+			if(gs.getWidth() != frameWidth || gs.getHeight()+100 != frameHeight){
+				BufferedImage imageCurseurInitTemp = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
+				BufferedImage imageCurseurSelectTemp = Window.resize(imageCurseurSelect, (int)(imageCurseurSelect.getWidth()*ratioX),(int)(imageCurseurSelect.getHeight()*ratioY));
+				BufferedImage imageCurseurInitRedTemp = Window.resize(imageCurseurInitRed, (int)(imageCurseurInitRed.getWidth()*ratioX),(int)(imageCurseurInitRed.getHeight()*ratioY));
+				BufferedImage imageCurseurSelectRedTemp = Window.resize(imageCurseurSelectRed, (int)(imageCurseurSelectRed.getWidth()*ratioX),(int)(imageCurseurSelectRed.getHeight()*ratioY));
+				CurseurInit = tk.createCustomCursor( imageCurseurInitTemp, new Point(imageCurseurInitTemp.getWidth()/2,imageCurseurInitTemp.getHeight()/2), "Pointeur" );
+				CurseurSelect = tk.createCustomCursor( imageCurseurSelectTemp, new Point(imageCurseurSelectTemp.getWidth()/2,imageCurseurSelectTemp.getHeight()/2), "Pointeur" );
+				CurseurInitRed = tk.createCustomCursor( imageCurseurInitRedTemp, new Point(imageCurseurInitRedTemp.getWidth()/2,imageCurseurInitRedTemp.getHeight()/2), "Pointeur" );
+				CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRedTemp, new Point(imageCurseurSelectRedTemp.getWidth()/2,imageCurseurSelectRedTemp.getHeight()/2), "Pointeur" );
+				}
+			else{
+				CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
+				CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
+				CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
+				CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
+				}
+			//mouseRangeX = (int)(mouseRangeX*ratioX);
+			//mouseRangeY = (int)(mouseRangeY*ratioY);
+			cursorGame = CurseurInit;
+		}
 		drawSelectZone(g);
+		
 	}
 	
 	public void drawSelectZone(Graphics2D g){
@@ -316,8 +323,10 @@ public class InputGame extends Input{
         }
         
         public void mouseMoved(MouseEvent e){
-        	posXmouse = (int)(e.getX()*((1.0*gs.getWidth())/(1.0*w.getFrame().getContentPane().getWidth())));
-        	posYmouse = (int)(e.getY()*((1.0*(gs.getHeight()+100))/(1.0*w.getFrame().getContentPane().getHeight())));
+        	double ratioX = ((1.0*gs.getWidth())/(1.0*w.getFrame().getContentPane().getWidth()));
+        	double ratioY = ((1.0*(gs.getHeight()+100))/(1.0*w.getFrame().getContentPane().getHeight()));
+        	posXmouse = (int)(e.getX()*ratioX);
+        	posYmouse = (int)(e.getY()*ratioY);
         	updateButtons();
         	World world = w.getCurrentWorld();
         	Lemmings l;

@@ -162,6 +162,7 @@ public class Window implements Updatable{
 		setWorld(w);
 		w.spawnLemmings();
 		resizeFrame(w.getWidth()+2,w.getHeight()+100+40);
+		canvas.setSize(w.getWidth(),w.getHeight()+100);
 		gameScene = new GameScene(this,w.getWidth(),w.getHeight());
 		setCurrentScreen(gameScene);
 		
