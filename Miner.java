@@ -208,12 +208,13 @@ public class Miner extends Digger{
 	}
 	
 	
+	
 	public void affectMap(){
 		if (direction == 1){
 			if (directionY == 1){
 				for (int i = posX;i<=posX+width/2+radiusX;i++){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
-						if (w.onBounds(i,j)){
+						if (w.canDestructPixel(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -223,7 +224,7 @@ public class Miner extends Digger{
 			else{
 				for (int i = posX;i<=posX+width/2+radiusX;i++){
 					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
-						if (w.onBounds(i,j)){
+						if (w.canDestructPixel(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -235,7 +236,7 @@ public class Miner extends Digger{
 			if (directionY == 1){
 				for (int i = posX;i>=posX-width/2-radiusX;i--){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
-						if (w.onBounds(i,j)){
+						if (w.canDestructPixel(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
@@ -245,7 +246,7 @@ public class Miner extends Digger{
 			else{
 				for (int i = posX;i>=posX-width/2-radiusX;i--){
 					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
-						if (w.onBounds(i,j)){
+						if (w.canDestructPixel(i,j)){
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}

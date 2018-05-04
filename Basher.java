@@ -143,9 +143,7 @@ public class Basher extends Digger{
 		}	
 		for (int i=-width/2;i<=diggX;i++){
 			for (int j = diggYstart; j<=diggYend;j++){
-				if (w.getPos(posX+direction*i,posY-j)==-1 
-					|| w.getPos(posX+direction*i,posY-j)==3
-					|| w.getPos(posX+direction*i,posY-j)==5){
+				if (!w.canDestructPixel(posX+direction*i,posY-j)){
 					w.changeJob(this,World.WALKER);
 					return;
 				}

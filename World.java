@@ -299,6 +299,12 @@ public class World implements Renderable{
 		else return -20;
 	}
 	
+	public boolean canDestructPixel(int posX, int posY){
+		if (!onBounds(posX,posY)) return false;
+		if (getPos(posX,posY)==-1 || getPos(posX,posY)==3 || getPos(posX,posY)==5) return false;
+		return true;
+	}
+	
 	public boolean onBounds(int posX, int posY){
 		if (posX<width && posX>=0 && posY<height && posY >=0) return true;
 		return false;
