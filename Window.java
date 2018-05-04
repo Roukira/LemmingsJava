@@ -163,7 +163,7 @@ public class Window implements Updatable{
 		w.spawnLemmings();
 		resizeFrame(w.getWidth()+2,w.getHeight()+100+40);
 		canvas.setSize(w.getWidth(),w.getHeight()+100);
-		gameScene = new GameScene(this,w.getWidth(),w.getHeight());
+		gameScene = new GameScene(this,w.getWidth(),w.getHeight()+100);
 		setCurrentScreen(gameScene);
 		
 		System.out.println("size frame X : "+ frame.getWidth());

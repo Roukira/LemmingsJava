@@ -9,13 +9,16 @@ import java.awt.Graphics2D;
 
 public class GameScene extends Screen{
 	
-	
+	private BufferedImage gameImage;
 	private BufferedImage UIimage;
+	private Graphics2D gamegraphics;
 	private Graphics2D UIgraphics;
 	
 	public GameScene(Window gw, int width, int height){
 		super(gw, width, height);
+		gameImage = new BufferedImage(width,height-100,BufferedImage.TYPE_INT_ARGB);
 		UIimage = new BufferedImage(width,100,BufferedImage.TYPE_INT_ARGB);
+		gamegraphics = gameImage.createGraphics();
 		UIgraphics = UIimage.createGraphics();
 		input = new InputGame(gw,this);
 	}
@@ -23,11 +26,11 @@ public class GameScene extends Screen{
 	public void render(){
 		World world = gw.getCurrentWorld();
    		if(world!=null){
-			world.draw(screenGraphics); //dessine le monde
-			world.getSpawner().draw(screenGraphics);
-			world.getOutside().draw(screenGraphics);
+			world.draw(gamegraphics); //dessine le monde
+			world.getSpawner().draw(gamegraphics);
+			world.getOutside().draw(gamegraphics);
 			for(int i=0;i<world.getLemmingsList().length;i++){
-				world.getLemmingsList()[i].draw(screenGraphics); //dessine les lemmings
+				world.getLemmingsList()[i].draw(gamegraphics); //dessine les lemmings
 			}
 		
 			if(world.getFinished()) gw.moveToScoreScreen();	
@@ -38,9 +41,9 @@ public class GameScene extends Screen{
 	public void draw(Graphics2D g){
 		render();
 		JFrame frame = gw.getFrame();
-		g.drawImage(screenImage,0,0,frame.getContentPane().getWidth(),frame.getContentPane().getHeight()-100,0,0,width,height,null);
-		//g.drawImage(UIimage,0,frame.getContentPane().getHeight()-100,frame.getContentPane().getWidth(),frame.getContentPane().getHeight(),0,frame.getContentPane().getHeight()-100,width,100,null);
-		g.drawImage(UIimage,0,frame.getContentPane().getHeight()-100,frame.getContentPane().getWidth(),frame.getContentPane().getHeight(),0,0,width,100,null);
+		screenGraphics.drawImage(gameImage,0,0,null);
+		screenGraphics.drawImage(UIimage,0,height-100,null);
+		g.drawImage(screenImage,0,0,frame.getContentPane().getWidth(),frame.getContentPane().getHeight(),0,0,width,height,null);
 	}
 	
 	

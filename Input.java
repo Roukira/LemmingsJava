@@ -12,8 +12,6 @@ public abstract class Input implements MouseListener,MouseMotionListener,Updatab
 	protected Window w;
 	protected int posXmouse = 0;
 	protected int posYmouse = 0;
-	protected double mouseRangeX = 2.0;
-	protected double mouseRangeY = 1.5;
 	
 	protected Cursor cursor;
 	

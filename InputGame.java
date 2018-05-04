@@ -64,6 +64,9 @@ public class InputGame extends Input{
 	
 	private int capacityClicSetter = 0;
 	
+	private double ratioX = 1.0;
+	private double ratioY = 1.0;
+	
 	private GameScene gs;
 	
 	public InputGame(Window w, GameScene gs){
@@ -121,12 +124,10 @@ public class InputGame extends Input{
 	}
 	
 	public boolean lemmingsInRange(Lemmings l){
-		double ratioX = (frameWidth*1.0)/gs.getWidth();
-		double ratioY = (frameHeight*1.0)/(gs.getHeight()+100);
-		int lemmingsLimitYUpper = (int)(l.getPosY()-1.15*1.5*l.getHeight()*ratioY);
-		int lemmingsLimitYLower = (int)(l.getPosY()+1.15*0.5*l.getHeight()*ratioY);
-		int lemmingsLimitXUpper = (int)(l.getPosX()-1.15*l.getWidth()*ratioX);
-		int lemmingsLimitXLower = (int)(l.getPosX()+1.15*l.getWidth()*ratioX);
+		int lemmingsLimitYUpper = (int)(l.getPosY()-1.15*1.5*l.getHeight());
+		int lemmingsLimitYLower = (int)(l.getPosY()+1.15*0.5*l.getHeight());
+		int lemmingsLimitXUpper = (int)(l.getPosX()-1.15*l.getWidth());
+		int lemmingsLimitXLower = (int)(l.getPosX()+1.15*l.getWidth());
 		return (l.getInWorld() && lemmingsLimitYUpper<posYmouse  && lemmingsLimitYLower>posYmouse && lemmingsLimitXUpper<posXmouse  && lemmingsLimitXLower>posXmouse);
 	}
 	
@@ -184,22 +185,17 @@ public class InputGame extends Input{
 		//System.out.println("taille screen Y : "+frameHeight);
 		//if (null)
 		if (w.getCanvas().getWidth()!=frameWidth || w.getCanvas().getHeight()!=frameHeight){
-			System.out.println("aaaa");
+			
 			
 			frameWidth = w.getCanvas().getWidth();
 			frameHeight = w.getCanvas().getHeight();
 			
-			double ratioX = (frameWidth*1.0)/gs.getWidth();
-			double ratioY = (frameHeight*1.0)/(gs.getHeight()+100);
-			
-			System.out.println("ratioX : "+ratioX);
-			System.out.println("ratioY : "+ratioY);
-			System.out.println("frameWidth : "+frameWidth);
-			System.out.println("frameHeight : "+frameHeight);
+			ratioX = (frameWidth*1.0)/gs.getWidth();
+			ratioY = (frameHeight*1.0)/gs.getHeight(); //pb61
 			//update les images en les ecrasant
 			
 			
-			if(gs.getWidth() != frameWidth || gs.getHeight()+100 != frameHeight){
+			if(gs.getWidth() != frameWidth || gs.getHeight() != frameHeight){
 				BufferedImage imageCurseurInitTemp = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
 				BufferedImage imageCurseurSelectTemp = Window.resize(imageCurseurSelect, (int)(imageCurseurSelect.getWidth()*ratioX),(int)(imageCurseurSelect.getHeight()*ratioY));
 				BufferedImage imageCurseurInitRedTemp = Window.resize(imageCurseurInitRed, (int)(imageCurseurInitRed.getWidth()*ratioX),(int)(imageCurseurInitRed.getHeight()*ratioY));
@@ -215,8 +211,6 @@ public class InputGame extends Input{
 				CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
 				CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
 				}
-			//mouseRangeX = (int)(mouseRangeX*ratioX);
-			//mouseRangeY = (int)(mouseRangeY*ratioY);
 			cursorGame = CurseurInit;
 		}
 		drawSelectZone(g);
@@ -323,10 +317,8 @@ public class InputGame extends Input{
         }
         
         public void mouseMoved(MouseEvent e){
-        	double ratioX = ((1.0*gs.getWidth())/(1.0*w.getFrame().getContentPane().getWidth()));
-        	double ratioY = ((1.0*(gs.getHeight()+100))/(1.0*w.getFrame().getContentPane().getHeight()));
-        	posXmouse = (int)(e.getX()*ratioX);
-        	posYmouse = (int)(e.getY()*ratioY);
+        	posXmouse = (int)(e.getX()/ratioX);
+        	posYmouse = (int)(e.getY()/ratioY);
         	updateButtons();
         	World world = w.getCurrentWorld();
         	Lemmings l;
@@ -353,8 +345,9 @@ public class InputGame extends Input{
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
-		int posXclic = (int)(e.getX()*((1.0*gs.getWidth())/(1.0*w.getFrame().getContentPane().getWidth())));
-		int posYclic = (int)(e.getY()*((1.0*(gs.getHeight()+100))/(1.0*w.getFrame().getContentPane().getHeight())));
+		System.out.println("aaaa");
+		int posXclic = (int)(e.getX()/ratioX);
+		int posYclic = (int)(e.getY()/ratioY);
 		
 		World world = w.getCurrentWorld();
 		
