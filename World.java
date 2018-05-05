@@ -356,10 +356,6 @@ public class World implements Renderable{
 	
 	
 	public void changeJob(Lemmings l,int state){
-		if(l instanceof Affecter){
-			System.out.println(l.toString()+" | reset la map");
-			((Affecter)l).resetMap();
-		}
 		Lemmings newLemming = null;
 		if(state == WALKER){
 			newLemming = new Walker(l);
@@ -412,6 +408,10 @@ public class World implements Renderable{
 		}
 		else{
 			System.out.println("Erreur : job non crée.");
+		}
+		if(l instanceof Affecter){
+			System.out.println(l.toString()+" | reset la map");
+			((Affecter)l).resetMap();
 		}
 		int index = -1;
 		for(int i=0;i<list.length;i++){

@@ -214,7 +214,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		for (i =(imageRight.getHeight()/2);i<imageRight.getHeight();i++){
 			if(w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)!=0 && w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)!=direction+3){
 			//On verifie que il n y a pas d obstacle trop haut sinon on retourne false
-				System.out.println("pbbbb");
 				return false;
 			}
 		}
@@ -253,6 +252,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 					}
 				}
 			}
+			if (this instanceof Affecter) ((Affecter)this).resetMap();
 			kill();
 			bombCountdown =-1;
 		}
