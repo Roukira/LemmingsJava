@@ -10,10 +10,10 @@ import java.awt.Graphics2D;
 public class InputGame extends Input{
 
 	private Toolkit tk = Toolkit.getDefaultToolkit();
-	private BufferedImage imageCurseurSelect;
-	private BufferedImage imageCurseurInit;
-	private BufferedImage imageCurseurSelectRed;
-	private BufferedImage imageCurseurInitRed;
+	private static BufferedImage imageCurseurSelect;
+	private static BufferedImage imageCurseurInit;
+	private static BufferedImage imageCurseurSelectRed;
+	private static BufferedImage imageCurseurInitRed;
 	
 	private int frameWidth;
 	private int frameHeight;
@@ -25,29 +25,29 @@ public class InputGame extends Input{
 	private Cursor CurseurInitRed;
 	private Cursor CurseurSelectRed;
 	
-	private BufferedImage border;
-	private BufferedImage whiteBorder;
-	private BufferedImage redBorder;
+	private static BufferedImage border;
+	private static BufferedImage whiteBorder;
+	private static BufferedImage redBorder;
 	
-	private BufferedImage lemmingsPanelImage;
+	private static BufferedImage lemmingsPanelImage;
 	
-	private BufferedImage fastForwardButton;
-	private BufferedImage fastForwardButtonDefault;
-	private BufferedImage fastForwardButtonHover;
+	private static BufferedImage fastForwardButton;
+	private static BufferedImage fastForwardButtonDefault;
+	private static BufferedImage fastForwardButtonHover;
 	
-	private BufferedImage resetMapButtonDefault;
-	private BufferedImage resetMapButtonHover;
-	private BufferedImage resetMapButton;
+	private static BufferedImage resetMapButtonDefault;
+	private static BufferedImage resetMapButtonHover;
+	private static BufferedImage resetMapButton;
 	
-	private BufferedImage imageCapacity;
-	private BufferedImage imageCapacityBorder;
-	private BufferedImage imageCapacitySelectBorder;
-	private BufferedImage imageBasherCapacity;
-	private BufferedImage imageBuilderCapacity;
-	private BufferedImage imageBombCapacity;
-	private BufferedImage imageStopperCapacity;
-	private BufferedImage imageMinerCapacity;
-	private BufferedImage imageExcavaterCapacity;
+	private static BufferedImage imageCapacity;
+	private static BufferedImage imageCapacityBorder;
+	private static BufferedImage imageCapacitySelectBorder;
+	private static BufferedImage imageBasherCapacity;
+	private static BufferedImage imageBuilderCapacity;
+	private static BufferedImage imageBombCapacity;
+	private static BufferedImage imageStopperCapacity;
+	private static BufferedImage imageMinerCapacity;
+	private static BufferedImage imageExcavaterCapacity;
 	
 	
 	public static final int posXcapacity1 = 0;
@@ -71,6 +71,24 @@ public class InputGame extends Input{
 	
 	public InputGame(Window w, GameScene gs){
 		super(w);
+		
+		this.gs = gs;
+		
+		frameWidth = w.getCanvas().getWidth();
+		System.out.println("frameWidth init : "+frameWidth);
+		frameHeight = w.getCanvas().getHeight();
+		System.out.println("frameHeight init : "+frameHeight);
+		resetMapButton = resetMapButtonDefault;
+		fastForwardButton = fastForwardButtonDefault;
+		
+		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
+		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
+		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
+		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
+		cursorGame = CurseurInit;
+	}
+	
+	public static void loadAssets(){
 		try{
 			imageCurseurSelect = ImageIO.read(new File("cursor/cursorSelect.png"));
 			imageCurseurInit = ImageIO.read(new File("cursor/cursorInit.png"));
@@ -98,21 +116,6 @@ public class InputGame extends Input{
 			fastForwardButtonHover = ImageIO.read(new File("world/fastforwardbuttonHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		
-		this.gs = gs;
-		
-		frameWidth = w.getCanvas().getWidth();
-		System.out.println("frameWidth init : "+frameWidth);
-		frameHeight = w.getCanvas().getHeight();
-		System.out.println("frameHeight init : "+frameHeight);
-		resetMapButton = resetMapButtonDefault;
-		fastForwardButton = fastForwardButtonDefault;
-		
-		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
-		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
-		CurseurInitRed = tk.createCustomCursor( imageCurseurInitRed, new Point(imageCurseurInitRed.getWidth()/2,imageCurseurInitRed.getHeight()/2), "Pointeur" );
-		CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
-		cursorGame = CurseurInit;
 	}
 	
 	public void setCursor(Cursor cursor){

@@ -10,6 +10,8 @@ public abstract class Thing implements Renderable,Updatable{
 		this.posY = posY;
 	}
 	
+	public static void loadAssets(){}
+	
 	public abstract void update();
 	
 	public abstract void draw(Graphics2D g);

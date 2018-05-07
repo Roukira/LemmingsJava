@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Excavater extends Digger{
-	private BufferedImage excavaterImage0;
-	private BufferedImage excavaterImage1;
-	private BufferedImage excavaterImage2;
-	private BufferedImage excavaterImage3;        
+	private static BufferedImage excavaterImage0;
+	private static BufferedImage excavaterImage1;
+	private static BufferedImage excavaterImage2;
+	private static BufferedImage excavaterImage3;        
 	private int iExca;
 	private static final int iExca_MAX = 40;
 	private static final int DIGG_DEEP = 2;
@@ -19,24 +19,21 @@ public class Excavater extends Digger{
 
 	public Excavater(int posX, int posY){
 		super(posX,posY);
+		height = excavaterImage0.getHeight();
+		width = excavaterImage0.getWidth();
+	}
+	
+	public static void loadAssets(){
 		try{
 			excavaterImage0 = ImageIO.read(new File("lemmings/excavater0.png"));
 			excavaterImage1 = ImageIO.read(new File("lemmings/excavater1.png"));
 			excavaterImage2 = ImageIO.read(new File("lemmings/excavater2.png"));
 			excavaterImage3 = ImageIO.read(new File("lemmings/excavater3.png"));
 		}catch(Exception e){e.printStackTrace();}
-		height = excavaterImage0.getHeight();
-		width = excavaterImage0.getWidth();
 	}
 	
 	public Excavater(Lemmings l){
 		super(l);
-		try{
-			excavaterImage0 = ImageIO.read(new File("lemmings/excavater0.png"));
-			excavaterImage1 = ImageIO.read(new File("lemmings/excavater1.png"));
-			excavaterImage2 = ImageIO.read(new File("lemmings/excavater2.png"));
-			excavaterImage3 = ImageIO.read(new File("lemmings/excavater3.png"));
-		}catch(Exception e){e.printStackTrace();} 
 		height = excavaterImage0.getHeight();
 		width = excavaterImage0.getWidth();
 	}

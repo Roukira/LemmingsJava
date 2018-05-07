@@ -7,11 +7,11 @@ import java.io.File;
 
 public class Spawner extends Item{
 
-	private BufferedImage imageFirst;
-	private BufferedImage imageSecond;
-	private BufferedImage imageThird;
-	private BufferedImage imageForth;
-	private BufferedImage imageFifth;
+	private static BufferedImage imageFirst;
+	private static BufferedImage imageSecond;
+	private static BufferedImage imageThird;
+	private static BufferedImage imageForth;
+	private static BufferedImage imageFifth;
 	private int iSpawn;
 	private boolean close = false;
 	private int iClose = 0;
@@ -19,6 +19,10 @@ public class Spawner extends Item{
 	public Spawner(int posX, int posY, int iSpawn){
 		super(posX,posY);
 		this.iSpawn = iSpawn;
+		
+	}
+	
+	public static void loadAssets(){
 		try{
 			imageFirst = ImageIO.read(new File("world/spawn1-1.png"));
 			imageSecond = ImageIO.read(new File("world/spawn1-2.png"));

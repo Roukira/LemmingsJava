@@ -38,6 +38,10 @@ public class GameScene extends Screen{
 		}
 	}
 	
+	public static void loadAssets(){
+	
+	}
+	
 	public void draw(Graphics2D g){
 		render();
 		JFrame frame = gw.getFrame();

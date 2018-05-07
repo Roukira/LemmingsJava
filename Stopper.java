@@ -11,10 +11,10 @@ public class Stopper extends Lemmings implements Affecter{
 
 //==================== ATTRIBUTS ========================
 
-	private BufferedImage image0;		//Image du Stopper avancant sur la droite
-	private BufferedImage image1;		//Image du Stopper avancant sur la droite en marchant
-	private BufferedImage image2;		//Image du Stopper avancant sur la gauche
-	private BufferedImage image3;		//Image du Stopper avancant sur la gauche en marchant
+	private static BufferedImage image0;		//Image du Stopper avancant sur la droite
+	private static BufferedImage image1;		//Image du Stopper avancant sur la droite en marchant
+	private static BufferedImage image2;		//Image du Stopper avancant sur la gauche
+	private static BufferedImage image3;		//Image du Stopper avancant sur la gauche en marchant
 	private boolean affectMapBool = false;
 	private int iStopBegin = 0;
 	private int iStop = 0;
@@ -24,19 +24,12 @@ public class Stopper extends Lemmings implements Affecter{
 
 	public Stopper(int posX, int posY){
 		super(posX,posY);
-		try{
-			image0 = ImageIO.read(new File("lemmings/stopper0.png"));
-			image1 = ImageIO.read(new File("lemmings/stopper1.png"));
-			image2 = ImageIO.read(new File("lemmings/stopper2.png"));
-			image3 = ImageIO.read(new File("lemmings/stopper3.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
+		
 		this.height = image0.getHeight();
 		this.width = image0.getWidth();
 	}
 	
-	public Stopper(Lemmings l){
-		super(l);
+	public static void loadAssets(){
 		try{
 			image0 = ImageIO.read(new File("lemmings/stopper0.png"));
 			image1 = ImageIO.read(new File("lemmings/stopper1.png"));
@@ -44,6 +37,11 @@ public class Stopper extends Lemmings implements Affecter{
 			image3 = ImageIO.read(new File("lemmings/stopper3.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public Stopper(Lemmings l){
+		super(l);
+		
 		this.height = image0.getHeight();
 		this.width = image0.getWidth();
 	}

@@ -27,18 +27,18 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected int iWalk = 0;				//iteration qui debute lanimation de bouger
 	protected int iFall = 0;
 	protected static int maxFall;		//hauteur max avant la mort
-	protected BufferedImage imageRight;		//Image du Walker avancant sur la droite
-	protected BufferedImage imageRightStep;		//Image du Walker avancant sur la droite en marchant
-	protected BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
-	protected BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
-	protected BufferedImage deathFirst;
-	protected BufferedImage deathSecond;	
+	protected static BufferedImage imageRight;		//Image du Walker avancant sur la droite
+	protected static BufferedImage imageRightStep;		//Image du Walker avancant sur la droite en marchant
+	protected static BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
+	protected static BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
+	protected static BufferedImage deathFirst;
+	protected static BufferedImage deathSecond;	
 	protected int bombCountdown=-1;
-	protected BufferedImage boom5;
-	protected BufferedImage boom4;
-	protected BufferedImage boom3;
-	protected BufferedImage boom2;
-	protected BufferedImage boom1;
+	protected static BufferedImage boom5;
+	protected static BufferedImage boom4;
+	protected static BufferedImage boom3;
+	protected static BufferedImage boom2;
+	protected static BufferedImage boom1;
 	public static final int bombRadius = 25;
 	
 
@@ -56,6 +56,14 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		action = false;				//classe Action
 		spawned = false;
 		job = World.WALKER;
+		
+		this.width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
+		this.height = imageRight.getHeight();
+		maxFall = 10*height;
+		
+	}	
+	
+	public static void loadAssets(){
 		try{
 			
 			imageRight = ImageIO.read(new File("lemmings/lemmings1.png"));				//recupere les images des Walker a differents etats
@@ -67,11 +75,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			
 			
 		}catch(Exception e){e.printStackTrace();}
-		this.width = imageRight.getWidth();							//recupere la largeur et hauteur du lemming
-		this.height = imageRight.getHeight();
-		maxFall = 10*height;
-		
-	}	
+	}
 	
 	public Lemmings(Lemmings l){
 		this(l.posX,l.posY);
@@ -89,7 +93,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 
 
 //===================== METHODES =========================
-
+	
 	public abstract void move();
 
 	public String toString(){

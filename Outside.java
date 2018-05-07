@@ -7,16 +7,19 @@ import java.io.File;
 
 public class Outside extends Item{
 
-	private BufferedImage imageFirst;
-	private BufferedImage imageSecond;
-	private BufferedImage imageThird;
-	private BufferedImage imageForth;
+	private static BufferedImage imageFirst;
+	private static BufferedImage imageSecond;
+	private static BufferedImage imageThird;
+	private static BufferedImage imageForth;
 	private World w;
 	
 	public Outside(int posX, int posY, Lemmings[] list, World w){
 		super(posX,posY);
 		this.w = w;
 		fillArray(list);
+	}
+	
+	public static void loadAssets(){
 		try{
 			imageFirst = ImageIO.read(new File("world/outside1-1.png"));
 			imageSecond = ImageIO.read(new File("world/outside1-2.png"));

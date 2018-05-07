@@ -6,12 +6,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Basher extends Digger{
-	private BufferedImage basherImage0;
-	private BufferedImage basherImage1;
-	private BufferedImage basherImage2;
-	private BufferedImage basherImage0reverse;
-	private BufferedImage basherImage1reverse;
-	private BufferedImage basherImage2reverse;
+	private static BufferedImage basherImage0;
+	private static BufferedImage basherImage1;
+	private static BufferedImage basherImage2;
+	private static BufferedImage basherImage0reverse;
+	private static BufferedImage basherImage1reverse;
+	private static BufferedImage basherImage2reverse;
 	private int iBash;
 	private static final int iBASH_MAX = 40;
 	
@@ -20,6 +20,11 @@ public class Basher extends Digger{
 
 	public Basher(int posX, int posY){
 		super(posX,posY);
+		height = basherImage0.getHeight();
+		width = basherImage0.getWidth();
+	}
+	
+	public static void loadAssets(){
 		try{
 			basherImage0 = ImageIO.read(new File("lemmings/basher0.png"));
 			basherImage1 = ImageIO.read(new File("lemmings/basher1.png"));
@@ -31,23 +36,11 @@ public class Basher extends Digger{
 		}catch(Exception e){e.printStackTrace();}
 		//this.job = 2;
 		//this.action = true;
-		height = basherImage0.getHeight();
-		width = basherImage0.getWidth();
+		
 	}
 	
 	public Basher(Lemmings l){
 		super(l);
-		try{
-			basherImage0 = ImageIO.read(new File("lemmings/basher0.png"));
-			basherImage1 = ImageIO.read(new File("lemmings/basher1.png"));
-			basherImage2 = ImageIO.read(new File("lemmings/basher2.png"));
-			basherImage0reverse = ImageIO.read(new File("lemmings/basher0reverse.png"));
-			basherImage1reverse = ImageIO.read(new File("lemmings/basher1reverse.png"));
-			basherImage2reverse = ImageIO.read(new File("lemmings/basher2reverse.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
-		//this.job = 3;
-		//this.action = true;
 		height = basherImage0.getHeight();
 		width = basherImage0.getWidth();
 		System.out.println("la direction de ce lemmings est "+direction);

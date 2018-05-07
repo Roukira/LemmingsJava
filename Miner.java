@@ -9,20 +9,20 @@ public class Miner extends Digger{
 	
 	private int directionY;
 	
-	private BufferedImage minerImage1;
-	private BufferedImage minerImage2;
-	private BufferedImage minerImageUp;
-	private BufferedImage minerImageDown;
+	private static BufferedImage minerImage1;
+	private static BufferedImage minerImage2;
+	private static BufferedImage minerImageUp;
+	private static BufferedImage minerImageDown;
 	
-	private BufferedImage minerReversedImage1;
-	private BufferedImage minerReversedImage2;
-	private BufferedImage minerReversedImageUp;
-	private BufferedImage minerReversedImageDown;
+	private static BufferedImage minerReversedImage1;
+	private static BufferedImage minerReversedImage2;
+	private static BufferedImage minerReversedImageUp;
+	private static BufferedImage minerReversedImageDown;
 	
-	private BufferedImage arrowUp;
-	private BufferedImage arrowDown;
-	private BufferedImage arrowUpHover;
-	private BufferedImage arrowDownHover;
+	private static BufferedImage arrowUp;
+	private static BufferedImage arrowDown;
+	private static BufferedImage arrowUpHover;
+	private static BufferedImage arrowDownHover;
 	private boolean arrowHovered = false;
 	
 	private int iMine;
@@ -38,23 +38,7 @@ public class Miner extends Digger{
 	
 	public Miner(int posX, int posY){
 		super(posX,posY);
-		try{
-			minerImage1 = ImageIO.read(new File("lemmings/miner1.png"));
-			minerImage2 = ImageIO.read(new File("lemmings/miner2.png"));
-			minerImageUp = ImageIO.read(new File("lemmings/minerUp.png"));
-			minerImageDown = ImageIO.read(new File("lemmings/minerDown.png"));
-			
-			minerReversedImage1 = ImageIO.read(new File("lemmings/minerReverse1.png"));
-			minerReversedImage2 = ImageIO.read(new File("lemmings/minerReverse2.png"));
-			minerReversedImageUp = ImageIO.read(new File("lemmings/minerReverseUp.png"));
-			minerReversedImageDown = ImageIO.read(new File("lemmings/minerReverseDown.png"));
-			
-			arrowUp = ImageIO.read(new File("lemmings/arrowUp.png"));
-			arrowUpHover = ImageIO.read(new File("lemmings/arrowUpHover.png"));
-			arrowDown = ImageIO.read(new File("lemmings/arrowDown.png"));
-			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
+		
 		height = minerImage1.getHeight();
 		width = minerImage1.getWidth();
 		
@@ -65,8 +49,7 @@ public class Miner extends Digger{
 		
 	}
 	
-	public Miner(Lemmings l){
-		super(l);
+	public static void loadAssets(){
 		try{
 			minerImage1 = ImageIO.read(new File("lemmings/miner1.png"));
 			minerImage2 = ImageIO.read(new File("lemmings/miner2.png"));
@@ -84,6 +67,11 @@ public class Miner extends Digger{
 			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public Miner(Lemmings l){
+		super(l);
+		
 		height = minerImage1.getHeight();
 		width = minerImage1.getWidth();
 		

@@ -9,16 +9,16 @@ import java.awt.Graphics2D;
 
 public class Score extends Screen{
 
-	private BufferedImage scoreVictory;
-	private BufferedImage scoreDefeat;
-	private BufferedImage scoreFG;
-	private BufferedImage scoreBG;
-	private BufferedImage mainMenu;
-	private BufferedImage mainMenuSelect;
-	private BufferedImage buttonMainMenu;
-	private BufferedImage resetMapButtonDefault;
-	private BufferedImage resetMapButtonHover;
-	private BufferedImage resetMapButton;
+	private static BufferedImage scoreVictory;
+	private static BufferedImage scoreDefeat;
+	private static BufferedImage scoreFG;
+	private static BufferedImage scoreBG;
+	private static BufferedImage mainMenu;
+	private static BufferedImage mainMenuSelect;
+	private static BufferedImage buttonMainMenu;
+	private static BufferedImage resetMapButtonDefault;
+	private static BufferedImage resetMapButtonHover;
+	private static BufferedImage resetMapButton;
 	private boolean resetMapDefault = true;
 	private boolean mainDefault = true;
 	private boolean victory;
@@ -30,6 +30,13 @@ public class Score extends Screen{
 	
 	public Score(Window gw, int width, int height){
 		super(gw,width,height);
+		loadAssets();
+		buttonMainMenu = mainMenu;
+		resetMapButton = resetMapButtonDefault;
+		input = new InputScore(gw,this);
+	}
+	
+	public static void loadAssets(){
 		try{
 			scoreBG = ImageIO.read(new File("score/Home.png"));
 			mainMenu = ImageIO.read(new File("score/ButtonMainMenu.png"));
@@ -40,9 +47,6 @@ public class Score extends Screen{
 			resetMapButtonHover = ImageIO.read(new File("world/resetMapbuttonHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		buttonMainMenu = mainMenu;
-		resetMapButton = resetMapButtonDefault;
-		input = new InputScore(gw,this);
 	}
 	
 	public Score(Window gw, int victoryCondition, int width, int height){

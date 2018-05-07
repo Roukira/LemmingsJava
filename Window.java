@@ -21,6 +21,7 @@ public class Window implements Updatable{
 	private MainMenu mainMenu;
 	private Score score;
 	private GameScene gameScene;
+	private LoadingScreen loading;
 	
 	private Screen currentScreen;
 	
@@ -158,12 +159,26 @@ public class Window implements Updatable{
 	}
 	
 	public void newCurrentWorld(int worldID){
+		moveToLoadingScreen();
 		World w = new World(worldID);
 		setWorld(w);
 		w.spawnLemmings();
-		resizeFrame(w.getWidth()+2,w.getHeight()+100+40);
-		canvas.setSize(w.getWidth(),w.getHeight()+100);
-		gameScene = new GameScene(this,w.getWidth(),w.getHeight()+100);
+
+		
+	}
+	
+	public void moveToLoadingScreen(){
+		loading = new LoadingScreen(this,600,400);
+		(new Thread(loading)).start();
+		setCurrentScreen(loading);
+		resizeFrame(600+2,400+40);
+		frame.setLocationRelativeTo(null);
+	}
+	
+	public void moveToGameScene(){
+		resizeFrame(world.getWidth()+2,world.getHeight()+100+40);
+		canvas.setSize(world.getWidth(),world.getHeight()+100);
+		gameScene = new GameScene(this,world.getWidth(),world.getHeight()+100);
 		setCurrentScreen(gameScene);
 		
 		System.out.println("size frame X : "+ frame.getWidth());
@@ -192,7 +207,11 @@ public class Window implements Updatable{
 	public void resetMap(){
 		int newID = world.getID();
 		world = null;
-		newCurrentWorld(newID);
+		World w = new World(newID);
+		setWorld(w);
+		
+		w.spawnLemmings();
+		moveToGameScene();
 	}
 	
 	public static BufferedImage resize(BufferedImage img, int newW, int newH) { 

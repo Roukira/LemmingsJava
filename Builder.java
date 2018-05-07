@@ -8,21 +8,21 @@ import java.io.File;
 
 public class Builder extends Lemmings implements Affecter{
 
-	private BufferedImage builderImage0;
-	private BufferedImage builderImage1;
-	private BufferedImage builderImage2;
-	private BufferedImage builderImage3;
-	private BufferedImage builderImageReverse0;
-	private BufferedImage builderImageReverse1;
-	private BufferedImage builderImageReverse2;
-	private BufferedImage builderImageReverse3;
+	private static BufferedImage builderImage0;
+	private static BufferedImage builderImage1;
+	private static BufferedImage builderImage2;
+	private static BufferedImage builderImage3;
+	private static BufferedImage builderImageReverse0;
+	private static BufferedImage builderImageReverse1;
+	private static BufferedImage builderImageReverse2;
+	private static BufferedImage builderImageReverse3;
 	
-	private BufferedImage builderWait0;
-	private BufferedImage builderWait1;
-	private BufferedImage builderWait2;
-	private BufferedImage builderWait3;
+	private static BufferedImage builderWait0;
+	private static BufferedImage builderWait1;
+	private static BufferedImage builderWait2;
+	private static BufferedImage builderWait3;
 	
-	private BufferedImage buildStep;
+	private static BufferedImage buildStep;
 	private boolean outOfBounds = false;
 	private boolean changeJobBool = false;
 	private int nbSteps = 20;
@@ -36,32 +36,12 @@ public class Builder extends Lemmings implements Affecter{
 
 	public Builder(int posX, int posY){
 		super(posX,posY);
-		try{
-			builderImage0 = ImageIO.read(new File("lemmings/builder0.png"));
-			builderImage1 = ImageIO.read(new File("lemmings/builder1.png"));
-			builderImage2 = ImageIO.read(new File("lemmings/builder2.png"));
-			builderImage3 = ImageIO.read(new File("lemmings/builder3.png"));
-			
-			builderImageReverse0 = ImageIO.read(new File("lemmings/builderReverse0.png"));
-			builderImageReverse1 = ImageIO.read(new File("lemmings/builderReverse1.png"));
-			builderImageReverse2 = ImageIO.read(new File("lemmings/builderReverse2.png"));
-			builderImageReverse3 = ImageIO.read(new File("lemmings/builderReverse3.png"));
-			
-			builderWait0 = ImageIO.read(new File("lemmings/builderWait0.png"));
-			builderWait1 = ImageIO.read(new File("lemmings/builderWait1.png"));
-			builderWait2 = ImageIO.read(new File("lemmings/builderWait2.png"));
-			builderWait3 = ImageIO.read(new File("lemmings/builderWait3.png"));
-			
-			buildStep = ImageIO.read(new File("lemmings/buildstep2.png"));
-			
-		}catch(Exception e){e.printStackTrace();}
 		this.job = World.BUILDER;
 		height = builderImage0.getHeight();
 		width = builderImage0.getWidth();
 	}
 	
-	public Builder(Lemmings l){
-		super(l);
+	public static void loadAssets(){
 		try{
 			builderImage0 = ImageIO.read(new File("lemmings/builder0.png"));
 			builderImage1 = ImageIO.read(new File("lemmings/builder1.png"));
@@ -81,7 +61,11 @@ public class Builder extends Lemmings implements Affecter{
 			buildStep = ImageIO.read(new File("lemmings/buildstep2.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
-		this.job = 2;
+	}
+	
+	public Builder(Lemmings l){
+		super(l);
+		this.job = World.BUILDER;
 		height = builderImage0.getHeight();
 		width = builderImage0.getWidth();
 		System.out.println("new builder...");

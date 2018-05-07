@@ -24,6 +24,8 @@ public abstract class Input implements MouseListener,MouseMotionListener,Updatab
 		return cursor;
 	}
 	
+	public static void loadAssets(){}
+	
 	public abstract void update();
 	
 	public abstract void draw(Graphics2D g); 

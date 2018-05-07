@@ -60,8 +60,12 @@ public class World implements Renderable{
 	
 	public World(int id){
 		this.id = id;
-		
-		
+		loadWorld();
+	}
+	
+//===================== METHODES =========================
+	
+	public void loadWorld(){
 		try{
 			mapImage = ImageIO.read(new File("world/world"+id+".png")); //lit l'image de la carte et la stocke en fonction de l'identifiant
 		}catch(Exception e){e.printStackTrace();}
@@ -85,8 +89,6 @@ public class World implements Renderable{
 		}
 		stats = new Stats(this);
 	}
-	
-//===================== METHODES =========================
 	
 	public void setSettings(){
 		BufferedReader br = null;
