@@ -125,13 +125,19 @@ public class Miner extends Digger{
 	}
 	
 	public boolean goAhead(){
-		boolean res = true;
 		if (!super.walk()){
 			if (!super.climbUp()){
-				res = super.climbDown();
+				if(!super.climbDown()){
+					if (super.checkForStopperWall()){
+						direction = -direction;
+					}
+					else{
+						return false;
+					}
+				}
 			}
 		}
-		return res;
+		return true;
 	}
 	
 	public void draw(Graphics2D g){
@@ -267,6 +273,19 @@ public class Miner extends Digger{
 	
 	public int getArrowWidth(){
 		return arrowUp.getWidth();
+	}
+	
+	public BufferedImage getImageRight(){
+		return imageRightYellow;
+	}
+	public BufferedImage getImageRightStep(){
+		return imageRightStepYellow;
+	}
+	public BufferedImage getImageLeft(){
+		return imageLeftYellow;
+	}
+	public BufferedImage getImageLeftStep(){
+		return imageLeftStepYellow;
 	}
 	
 }

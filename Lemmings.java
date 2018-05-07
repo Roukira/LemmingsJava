@@ -27,10 +27,23 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected int iWalk = 0;				//iteration qui debute lanimation de bouger
 	protected int iFall = 0;
 	protected static int maxFall;		//hauteur max avant la mort
+	
 	protected static BufferedImage imageRight;		//Image du Walker avancant sur la droite
 	protected static BufferedImage imageRightStep;		//Image du Walker avancant sur la droite en marchant
 	protected static BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
 	protected static BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
+	
+	protected static BufferedImage imageRightYellow;		//Image du Walker avancant sur la droite
+	protected static BufferedImage imageRightStepYellow;		//Image du Walker avancant sur la droite en marchant
+	protected static BufferedImage imageLeftYellow;		//Image du Walker avancant sur la gauche
+	protected static BufferedImage imageLeftStepYellow;		//Image du Walker avancant sur la gauche en marchant
+	
+	protected static BufferedImage imageRightRed;		//Image du Walker avancant sur la droite
+	protected static BufferedImage imageRightStepRed;		//Image du Walker avancant sur la droite en marchant
+	protected static BufferedImage imageLeftRed;		//Image du Walker avancant sur la gauche
+	protected static BufferedImage imageLeftStepRed;		//Image du Walker avancant sur la gauche en marchant
+	
+	
 	protected static BufferedImage deathFirst;
 	protected static BufferedImage deathSecond;	
 	protected int bombCountdown=-1;
@@ -70,6 +83,17 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			imageRightStep = ImageIO.read(new File("lemmings/lemmings1step.png"));
 			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
 			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
+			
+			imageRightRed = ImageIO.read(new File("lemmings/lemmings1Red.png"));				//recupere les images des Walker a differents etats
+			imageRightStepRed = ImageIO.read(new File("lemmings/lemmings1stepRed.png"));
+			imageLeftRed = ImageIO.read(new File("lemmings/lemmings2Red.png"));
+			imageLeftStepRed = ImageIO.read(new File("lemmings/lemmings2stepRed.png"));
+			
+			imageRightYellow = ImageIO.read(new File("lemmings/lemmings1Yellow.png"));				//recupere les images des Walker a differents etats
+			imageRightStepYellow = ImageIO.read(new File("lemmings/lemmings1stepYellow.png"));
+			imageLeftYellow = ImageIO.read(new File("lemmings/lemmings2Yellow.png"));
+			imageLeftStepYellow = ImageIO.read(new File("lemmings/lemmings2stepYellow.png"));
+			
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
 			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
 			
@@ -125,15 +149,15 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(action) return;
 		if (direction == 1){
 			if((Window.getTps()-iWalk)%10 > 5 && !inAir){		
-				g.drawImage(imageRightStep,posX-imageRightStep.getWidth()/2,posY-imageRightStep.getHeight(),null);
+				g.drawImage(getImageRightStep(),posX-imageRightStep.getWidth()/2,posY-imageRightStep.getHeight(),null);
 			}
-			else g.drawImage(imageRight,posX-imageRight.getWidth()/2,posY-imageRightStep.getHeight(),null);
+			else g.drawImage(getImageRight(),posX-imageRight.getWidth()/2,posY-imageRightStep.getHeight(),null);
 		}
 		else {
 			if((Window.getTps()-iWalk)%10 > 5 && !inAir){
-				g.drawImage(imageLeftStep,posX-imageLeftStep.getWidth()/2,posY-imageRightStep.getHeight(),null);
+				g.drawImage(getImageLeftStep(),posX-imageLeftStep.getWidth()/2,posY-imageRightStep.getHeight(),null);
 			}
-			else g.drawImage(imageLeft,posX-imageLeft.getWidth()/2,posY-imageRightStep.getHeight(),null);
+			else g.drawImage(getImageLeft(),posX-imageLeft.getWidth()/2,posY-imageRightStep.getHeight(),null);
 		}
 	}
 	
@@ -333,5 +357,11 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public long getBombCountdown(){
 		return bombCountdown;
 	}
+	
+	public abstract BufferedImage getImageRight();
+	public abstract BufferedImage getImageRightStep();
+	public abstract BufferedImage getImageLeft();
+	public abstract BufferedImage getImageLeftStep();
+	
 	
 }
