@@ -86,13 +86,19 @@ public class Basher extends Digger{
 	}
 	
 	public boolean goAhead(){
-		boolean res = true;
 		if (!super.walk()){
 			if (!super.climbUp()){
-				res = super.climbDown();
+				if(!super.climbDown()){
+					if (super.checkForStopperWall()){
+						direction = -direction;
+					}
+					else{
+						return false;
+					}
+				}
 			}
 		}
-		return res;
+		return true;
 	}
 	
 	public void draw(Graphics2D g){
@@ -147,5 +153,18 @@ public class Basher extends Digger{
 	}
 	
 	public void resetMap(){}
+	
+	public BufferedImage getImageRight(){
+		return imageRightRed;
+	}
+	public BufferedImage getImageRightStep(){
+		return imageRightStepRed;
+	}
+	public BufferedImage getImageLeft(){
+		return imageLeftRed;
+	}
+	public BufferedImage getImageLeftStep(){
+		return imageLeftStepRed;
+	}
 	
 }

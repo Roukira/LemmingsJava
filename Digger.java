@@ -22,6 +22,16 @@ public abstract class Digger extends Lemmings implements Affecter{
 		
 	}
 	
+	public boolean checkForStopperWall(){
+		for (int i =0;i<(height);i++){
+			if(w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)== w.STOPPER_WALL_LEFT_CST || w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)== w.STOPPER_WALL_RIGHT_CST){
+					return true;
+			}
+			
+		}
+		return false;
+	}
+	
 	public abstract void affectMap();
 	
 	public void resetMap(){}
