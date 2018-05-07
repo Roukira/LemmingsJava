@@ -44,6 +44,7 @@ public class World implements Renderable{
 	private int excavaterLimit;
 	
 	private boolean finished = false;
+	private boolean started = false;
 	private int victoryCondition;
 	
 	public static final int WALKER = 1;
@@ -278,6 +279,14 @@ public class World implements Renderable{
 	
 	public boolean getFinished(){
 		return finished;
+	}
+	
+	public boolean getStarted(){
+		return started;
+	}
+	
+	public void startWorld(){
+		started = true;
 	}
 	
 	public int getVictoryCondition(){

@@ -115,6 +115,7 @@ public class Window implements Updatable{
 	public void update(){
 	//met a jour le monde
 		if(world == null) return;
+		if(!world.getStarted()) return;
 		if(world.getFinished()) return;
 		
 		world.getSpawner().update();
@@ -160,6 +161,7 @@ public class Window implements Updatable{
 	
 	public void newCurrentWorld(int worldID){
 		moveToLoadingScreen();
+		world = null;
 		World w = new World(worldID);
 		setWorld(w);
 		w.spawnLemmings();
@@ -180,7 +182,7 @@ public class Window implements Updatable{
 		canvas.setSize(world.getWidth(),world.getHeight()+100);
 		gameScene = new GameScene(this,world.getWidth(),world.getHeight()+100);
 		setCurrentScreen(gameScene);
-		
+		world.startWorld();
 		System.out.println("size frame X : "+ frame.getWidth());
 		System.out.println("size frame Y : "+ frame.getHeight());
 		System.out.println("size canvas X : "+ canvas.getWidth());
