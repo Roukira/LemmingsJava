@@ -47,9 +47,9 @@ public class World implements Renderable{
 	private boolean started = false;
 	private int victoryCondition;
 	
-	public static final int WALKER = 1;
+	public static final int WALKER = 0;
 	public static final int STOPPER = 5;
-	public static final int BOMBER = 0;
+	public static final int BOMBER = 1;
 	public static final int BUILDER = 4;
 	public static final int BASHER = 2;
 	public static final int MINER = 3;
@@ -298,6 +298,16 @@ public class World implements Renderable{
 	
 	public Stats getStats(){
 		return stats;
+	}
+	
+	public String getLemmingsJob(int state){
+		if (state == BOMBER) return "Bomber";
+		else if (state == BUILDER) return "Builder";
+		else if (state == BASHER) return "Basher";
+		else if (state == STOPPER) return "Stopper";
+		else if (state == MINER) return "Miner";
+		else if (state == EXCAVATER) return "Excavater";
+		else return "Walker";
 	}
 	
 	public int getLemmingsLimit(int state){

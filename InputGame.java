@@ -205,38 +205,15 @@ public class InputGame extends Input{
 		if(world == null) return;
 		if (resetMapPressed(world, posXclic, posYclic)) return;
 		if (fastForwardPressed(world, posXclic, posYclic)) return;
-		if ( posXclic > gs.getSkillBar().getPosXCapacity(1) && posXclic < gs.getSkillBar().getPosXCapacity(1)+gs.getSkillBar().getCapacityWidth()
-		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-		//remplacer gs.getSkillBar().getCapacityWidth() par un truc propre			
-			setCapacityClicSetter(1);
-			return;
-		}
 		
-		if ( posXclic > gs.getSkillBar().getPosXCapacity(2) && posXclic < gs.getSkillBar().getPosXCapacity(2)+gs.getSkillBar().getCapacityWidth()
-		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-			setCapacityClicSetter(2);
-			return;
-		}
-		
-		if ( posXclic > gs.getSkillBar().getPosXCapacity(3) && posXclic < gs.getSkillBar().getPosXCapacity(3)+gs.getSkillBar().getCapacityWidth()
-		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-			setCapacityClicSetter(3);
-			return;
-		}
-		if ( posXclic > gs.getSkillBar().getPosXCapacity(4) && posXclic < gs.getSkillBar().getPosXCapacity(4)+gs.getSkillBar().getCapacityWidth()
-		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-			setCapacityClicSetter(4);
-			return;
-		}
-		if ( posXclic > gs.getSkillBar().getPosXCapacity(5) && posXclic < gs.getSkillBar().getPosXCapacity(5)+gs.getSkillBar().getCapacityWidth()
-		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-			setCapacityClicSetter(5);
-			return;
-		}
-		if ( posXclic > gs.getSkillBar().getPosXCapacity(6) && posXclic < gs.getSkillBar().getPosXCapacity(6)+gs.getSkillBar().getCapacityWidth()
-		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-			setCapacityClicSetter(6);
-			return;
+		for (int i=0;i<SkillBar.nbJobs;i++){
+			if (gs.getSkillBar().getPosXCapacity(i)>=0){
+				if (posXclic > gs.getSkillBar().getPosXCapacity(i) && posXclic < gs.getSkillBar().getPosXCapacity(i)+gs.getSkillBar().getCapacityWidth()
+				&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+					setCapacityClicSetter(i+1);
+					return;
+				}
+			}
 		}
 		
 		int posXlem;
@@ -258,39 +235,39 @@ public class InputGame extends Input{
         				}
         				
         			}
-        			if (World.STOPPER != l.getJob() && getCapacityClicSetter() == 1 && l.getInWorld() && e.getButton()==1){
-        			//si la methode getButton retourne 1 c est le clic gauche 
-        				world.changeJob(l,World.STOPPER);
-					System.out.println("turn into STOPPER");
-					return;
-        			}
-        			else if ( World.WALKER != l.getJob() && e.getButton()==3 && l.getInWorld()){ 
+        			if ( World.WALKER != l.getJob() && e.getButton()==3 && l.getInWorld()){ 
         			//si la methode getButton retourne 3 c est le clic gauche	
         				world.changeJob(l,World.WALKER);
 					System.out.println("turn into WALKER");
         				return;
         			}
-        			else if ( getCapacityClicSetter() == 2 && l.getBombCountdown()==-1 && l.getInWorld()){
+        			else if (World.STOPPER != l.getJob() && getCapacityClicSetter() == World.STOPPER && l.getInWorld() && e.getButton()==1){
+        			//si la methode getButton retourne 1 c est le clic gauche 
+        				world.changeJob(l,World.STOPPER);
+					System.out.println("turn into STOPPER");
+					return;
+        			}
+        			else if ( getCapacityClicSetter() == World.BOMBER && l.getBombCountdown()==-1 && l.getInWorld()){
         				System.out.println("turn into BOMBER");
         				world.changeJob(l,World.BOMBER);
         				return; 
         				
         			}
-        			else if (getCapacityClicSetter() == 3 && l.getInWorld() && e.getButton()==1){
+        			else if (getCapacityClicSetter() == World.BUILDER && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.BUILDER);
 					System.out.println("turn into Builder");
 					return;
 				}
-				else if (World.BASHER != l.getJob() && getCapacityClicSetter() == 4 && l.getInWorld() && e.getButton()==1){
+				else if (World.BASHER != l.getJob() && getCapacityClicSetter() == World.BASHER && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.BASHER);
 					System.out.println("turn into BASHER");
 					return;
 				}
-				else if (World.MINER != l.getJob() && getCapacityClicSetter() == 5 && l.getInWorld() && e.getButton()==1){
+				else if (World.MINER != l.getJob() && getCapacityClicSetter() == World.MINER && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.MINER);
 					System.out.println("turn into MINER");
 					return;
-				}else if (World.EXCAVATER != l.getJob() && getCapacityClicSetter() == 6 && l.getInWorld() && e.getButton()==1){
+				}else if (World.EXCAVATER != l.getJob() && getCapacityClicSetter() == World.EXCAVATER && l.getInWorld() && e.getButton()==1){
         				world.changeJob(l,World.EXCAVATER);
 					System.out.println("turn into EXCAVATER");
 					return;

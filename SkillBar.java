@@ -11,6 +11,8 @@ public class SkillBar implements Renderable{
 
 	private GameScene gs;
 	
+	
+	private static final int iAnimateMAX = 500;
 	private static BufferedImage lemmingsPanelImage;
 	
 	private static BufferedImage fastForwardButton;
@@ -26,7 +28,17 @@ public class SkillBar implements Renderable{
 	private static BufferedImage imageCapacitySelectBorder;
 	private static BufferedImage imageBasherCapacity;
 	private static BufferedImage imageBuilderCapacity;
+	
 	private static BufferedImage imageBombCapacity;
+	private static BufferedImage imageBombCapacity2;
+	private static BufferedImage imageBombCapacity3;
+	private static BufferedImage imageBombCapacity4;
+	private static BufferedImage imageBombCapacity5;
+	private static BufferedImage imageBombCapacity6;
+	private static BufferedImage imageBombCapacity7;
+	private static BufferedImage imageBombCapacity8;
+	private int iBomb = -1;
+	
 	private static BufferedImage imageStopperCapacity;
 	private static BufferedImage imageMinerCapacity;
 	private static BufferedImage imageExcavaterCapacity;
@@ -38,19 +50,15 @@ public class SkillBar implements Renderable{
 	public static final int REGULArBORDER = 0;
 	public static final int SELECtBORDER = 1;
 	
+	public static final int nbJobs = 6;
 	
-	private int posXcapacity1;
-	private int posXcapacity2;
-	private int posXcapacity3;
-	private int posXcapacity4;
-	private int posXcapacity5;
-	private int posXcapacity6;
+	private int[] posXcapacityTab;
 	private int posYcapacity = 20;
 	
-	private static final int spacing = 10; //8 plus tard
+	private static final int spacing = 8;
 	private static final int leftPadding = 5;
 	
-	private int capacityClicSetter = 0;
+	private int capacityClicSetter = -1;
 	
 	public SkillBar(GameScene gs){
 		this.gs = gs;
@@ -58,31 +66,36 @@ public class SkillBar implements Renderable{
 		resetMapButton = resetMapButtonDefault;
 		fastForwardButton = fastForwardButtonDefault;
 		
-		posXcapacity1 = leftPadding;
-		posXcapacity2 = leftPadding + getCapacityWidth()+spacing;
-		posXcapacity3 = leftPadding + (getCapacityWidth()+spacing)*2;
-		posXcapacity4 = leftPadding + (getCapacityWidth()+spacing)*3;
-		posXcapacity5 = leftPadding + (getCapacityWidth()+spacing)*4;
-		posXcapacity6 = leftPadding + (getCapacityWidth()+spacing)*5;
+		generatePosXTab();
 		
 		
 	}
 	
 	public static void loadAssets(){
 		try{	
-			whiteBorder = ImageIO.read(new File("world/capacityBorder.png"));
-			redBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
+			whiteBorder = ImageIO.read(new File("skillbar/capacityBorder.png"));
+			redBorder = ImageIO.read(new File("skillbar/capacitySelectBorder.png"));
 		
-			lemmingsPanelImage = ImageIO.read(new File("world/lemmingspanel.png"));
+			lemmingsPanelImage = ImageIO.read(new File("skillbar/lemmingspanel.png"));
 			
-			imageCapacityBorder = ImageIO.read(new File("world/capacityBorder.png"));
-			imageCapacitySelectBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
-			imageBasherCapacity = ImageIO.read(new File("lemmings/basherCapacity.png"));
-			imageBuilderCapacity = ImageIO.read(new File("lemmings/builderCapacity.png"));
-			imageBombCapacity = ImageIO.read(new File("lemmings/bombCapacity.png"));
-			imageStopperCapacity  = ImageIO.read(new File("lemmings/stopperCapacity.png"));
-			imageMinerCapacity = ImageIO.read(new File("lemmings/minerCapacity.png"));
-			imageExcavaterCapacity = ImageIO.read(new File("lemmings/excavaterCapacity.png")); 			
+			imageCapacityBorder = ImageIO.read(new File("skillbar/capacityBorder.png"));
+			imageCapacitySelectBorder = ImageIO.read(new File("skillbar/capacitySelectBorder.png"));
+			imageBasherCapacity = ImageIO.read(new File("skillbar/basherCapacity.png"));
+			imageBuilderCapacity = ImageIO.read(new File("skillbar/builderCapacity.png"));
+			
+			imageBombCapacity = ImageIO.read(new File("skillbar/bombCapacity.png"));
+			imageBombCapacity2 = ImageIO.read(new File("skillbar/bombCapacity2.png"));
+			imageBombCapacity3 = ImageIO.read(new File("skillbar/bombCapacity3.png"));
+			imageBombCapacity4 = ImageIO.read(new File("skillbar/bombCapacity4.png"));
+			imageBombCapacity5 = ImageIO.read(new File("skillbar/bombCapacity5.png"));
+			imageBombCapacity6 = ImageIO.read(new File("skillbar/bombCapacity6.png"));
+			imageBombCapacity7 = ImageIO.read(new File("skillbar/bombCapacity7.png"));
+			imageBombCapacity8 = ImageIO.read(new File("skillbar/bombCapacity8.png"));
+			
+			
+			imageStopperCapacity  = ImageIO.read(new File("skillbar/stopperCapacity.png"));
+			imageMinerCapacity = ImageIO.read(new File("skillbar/minerCapacity.png"));
+			imageExcavaterCapacity = ImageIO.read(new File("skillbar/excavaterCapacity.png")); 			
 			
 			resetMapButtonDefault = ImageIO.read(new File("world/resetMapbutton.png"));
 			resetMapButtonHover = ImageIO.read(new File("world/resetMapbuttonHover.png"));
@@ -91,6 +104,20 @@ public class SkillBar implements Renderable{
 			fastForwardButtonHover = ImageIO.read(new File("world/fastforwardbuttonHover.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void generatePosXTab(){
+		
+		posXcapacityTab = new int[nbJobs];		
+		World w = gs.getWindow().getCurrentWorld();
+		int newPosX = leftPadding;
+		for (int i = 0;i<nbJobs;i++){
+			if (w.getLemmingsLimit(i+1) >0){
+				posXcapacityTab[i] = newPosX;
+				newPosX += getCapacityWidth()+spacing;
+			}
+			else posXcapacityTab[i] = -1;
+		}
 	}
 	
 	public void draw(Graphics2D g){
@@ -103,20 +130,18 @@ public class SkillBar implements Renderable{
 		g.fillRect(420,0,world.getWidth(),100);
 		world.getStats().draw(g);
 		
-		g.drawImage(imageBombCapacity,posXcapacity2,posYcapacity,null);
-		g.drawImage(imageStopperCapacity,posXcapacity1,posYcapacity,null);
-		g.drawImage(imageBuilderCapacity,posXcapacity3,posYcapacity,null);
-		g.drawImage(imageBasherCapacity,posXcapacity4,posYcapacity,null);
-		g.drawImage(imageMinerCapacity,posXcapacity5,posYcapacity,null);
-		g.drawImage(imageExcavaterCapacity,posXcapacity6,posYcapacity,null);
+		for (int i = 0;i<nbJobs;i++){
+			if (getPosXCapacity(i)>=0) g.drawImage(getImageCapacity(i+1),getPosXCapacity(i),posYcapacity,null);
+		}
 		
 		g.setColor(Color.white);
-		g.drawString(""+world.getLemmingsLimit(world.STOPPER),posXcapacity1,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.BOMBER),posXcapacity2,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.BUILDER),posXcapacity3,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.BASHER),posXcapacity4,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.MINER),posXcapacity5,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.EXCAVATER),posXcapacity6,posYcapacity+60);
+		
+		for (int i = 0;i<nbJobs;i++){
+			if (getPosXCapacity(i)>=0){
+				g.drawString(""+world.getLemmingsJob(i+1),getPosXCapacity(i),posYcapacity+getCapacityWidth()+15);
+				g.drawString(world.getLemmingsLimit(i+1)+" left",getPosXCapacity(i),posYcapacity+getCapacityWidth()+30);
+			}
+		}
 		
 		g.drawImage(fastForwardButton,world.getWidth()-40,20,null);
 		
@@ -124,48 +149,25 @@ public class SkillBar implements Renderable{
 	}
 	
 			public void drawSelectZone(Graphics2D g, int posXmouse, int posYmouse){
-	//=======partie select blanche======
+	//=======partie select ======
 		World world = gs.getWindow().getCurrentWorld();
-		if ( posXmouse > posXcapacity1 && posXmouse < posXcapacity1+getCapacityWidth()
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
-		//remplacer getCapacityWidth() par un truc propre
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity1-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity2 && posXmouse < posXcapacity2+getCapacityWidth()
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity2-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity3 && posXmouse < posXcapacity3+getCapacityWidth()
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity3-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity4 && posXmouse < posXcapacity4+getCapacityWidth()
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity4-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity5 && posXmouse < posXcapacity5+getCapacityWidth()
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity5-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity6 && posXmouse < posXcapacity6+getCapacityWidth()
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity6-1, posYcapacity-1);
+		
+		for (int i = 0;i<nbJobs;i++){
+			if (getPosXCapacity(i)>=0){
+				if (posXmouse > getPosXCapacity(i) && posXmouse < getPosXCapacity(i)+getCapacityWidth()
+				&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+getCapacityWidth()){
+					drawCapacityBorder(g,REGULArBORDER, getPosXCapacity(i)-1,posYcapacity-1);
+				}
+			}
 		}
 		
-	//=======partie select rouge======	
-		if (capacityClicSetter == 1){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity1-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 2){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity2-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 3){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity3-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 4){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity4-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 5){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity5-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 6){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity6-1, posYcapacity-1);
-    		}
+		for (int i = 0; i<nbJobs;i++){
+			if (getPosXCapacity(i)>=0){
+				if (i+1 == capacityClicSetter){
+					drawCapacityBorder(g, SELECtBORDER, getPosXCapacity(i)-1,posYcapacity-1);
+				}
+			}
+		}
 	}
 	
 	public void drawCapacityBorder(Graphics2D g,int borderType, int posX, int posY){
@@ -178,7 +180,9 @@ public class SkillBar implements Renderable{
 	}
 	
 	public void setCapacityClicSetter(int clicNumber){
+		setAnimateCapacity(-1);
 		capacityClicSetter = clicNumber;
+		setAnimateCapacity(0);
 	}
 	
 	public int getCapacityClicSetter(){
@@ -195,13 +199,33 @@ public class SkillBar implements Renderable{
         else fastForwardButton = fastForwardButtonDefault;
   	}
   	
+  	public BufferedImage getImageCapacity(int i){
+  		if (i == World.BOMBER){
+  			if(iBomb>=0){
+  			
+  				if(iBomb == iAnimateMAX) iBomb = 0;
+  				else iBomb++;
+  				
+  				if (iBomb<=iAnimateMAX/(10*1.0)) return imageBombCapacity;
+  				else if (iBomb<=2*iAnimateMAX/(10*1.0)) return imageBombCapacity2;
+  				else if (iBomb<=3*iAnimateMAX/(10*1.0)) return imageBombCapacity3;
+  				else if (iBomb<=4*iAnimateMAX/(10*1.0)) return imageBombCapacity4;
+  				else if (iBomb<=5*iAnimateMAX/(10*1.0)) return imageBombCapacity5;
+  				else if (iBomb<=6*iAnimateMAX/(10*1.0)) return imageBombCapacity6;
+  				else if (iBomb<=7*iAnimateMAX/(10*1.0)) return imageBombCapacity7;
+  				else return imageBombCapacity8;
+  			}
+  			else return imageBombCapacity;
+  		}
+  		else if (i == World.STOPPER) return imageStopperCapacity;
+  		else if (i == World.MINER) return imageMinerCapacity;
+  		else if (i == World.EXCAVATER) return imageExcavaterCapacity;
+  		else if (i == World.BUILDER) return imageBuilderCapacity;
+  		else return imageBasherCapacity;
+  	}
+  	
   	public int getPosXCapacity(int i){
-  		if (i == 1) return posXcapacity1;
-  		else if (i == 2) return posXcapacity2;
-  		else if (i == 3) return posXcapacity3;
-  		else if (i == 4) return posXcapacity4;
-  		else if (i == 5) return posXcapacity5;
-  		else return posXcapacity6;
+  		return posXcapacityTab[i];
   	}
   	
   	public int getPosYCapacity(){
@@ -210,6 +234,10 @@ public class SkillBar implements Renderable{
   	
   	public int getCapacityWidth(){
   		return imageStopperCapacity.getWidth();
+  	}
+  	
+  	public void setAnimateCapacity(int value){
+  		if (capacityClicSetter == World.BOMBER) iBomb = value;
   	}
   	
   	
