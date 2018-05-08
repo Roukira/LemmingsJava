@@ -28,11 +28,13 @@ public class Window implements Updatable{
 	private String title;
 	private int width, height;
 	
+	private int verticalInsets;
+	private int horizontalInsets;
+	
 	public Window(String title, int width, int height){
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		
 		createWindow();
 	}
 	
@@ -53,6 +55,10 @@ public class Window implements Updatable{
 		mainMenu = new MainMenu(this,600,400);
 		
 		setCurrentScreen(mainMenu);
+		verticalInsets = frame.getInsets().top + frame.getInsets().bottom;
+		horizontalInsets = frame.getInsets().right + frame.getInsets().left;
+		System.out.println("Window top insets : "+verticalInsets);
+		System.out.println("Window side insets : "+horizontalInsets);
 		
 	}
 
@@ -173,14 +179,14 @@ public class Window implements Updatable{
 		loading = new LoadingScreen(this,600,400);
 		(new Thread(loading)).start();
 		setCurrentScreen(loading);
-		resizeFrame(600+2,400+40);
+		resizeFrame(600+horizontalInsets,400+verticalInsets);
 		frame.setLocationRelativeTo(null);
 	}
 	
 	public void moveToGameScene(){
-		resizeFrame(world.getWidth()+2,world.getHeight()+100+40);
-		canvas.setSize(world.getWidth(),world.getHeight()+100);
-		gameScene = new GameScene(this,world.getWidth(),world.getHeight()+100);
+		resizeFrame(world.getWidth()+horizontalInsets,world.getHeight()+GameScene.UIheight+verticalInsets);
+		canvas.setSize(world.getWidth(),world.getHeight()+GameScene.UIheight);
+		gameScene = new GameScene(this,world.getWidth(),world.getHeight()+GameScene.UIheight);
 		setCurrentScreen(gameScene);
 		world.startWorld();
 		System.out.println("size frame X : "+ frame.getWidth());
@@ -188,13 +194,13 @@ public class Window implements Updatable{
 		System.out.println("size canvas X : "+ canvas.getWidth());
 		System.out.println("size canvas Y : "+ canvas.getHeight());
 		//currentScreen.getCanvas().setSize(w.getWidth(),w.getHeight());
-		//gameScene.getCanvasCapacity().setSize(w.getWidth(),100);
+		//gameScene.getCanvasCapacity().setSize(w.getWidth(),GameScene.UIheight);
 		frame.setLocationRelativeTo(null); //ne pas bouger si meme taille ?
 	}
 	
 	public void moveToMainMenu(){
 		setCurrentScreen(mainMenu);
-		resizeFrame(600+2,400+40);
+		resizeFrame(600+horizontalInsets,400+verticalInsets);
 		frame.setLocationRelativeTo(null);
 	}
 	
@@ -202,7 +208,7 @@ public class Window implements Updatable{
 		score = new Score(this,world.getVictoryCondition(),600,400);
 		changeGameSpeed(1);
 		setCurrentScreen(score);
-		resizeFrame(600+2,400+40);
+		resizeFrame(600+horizontalInsets,400+verticalInsets);
 		frame.setLocationRelativeTo(null);
 	}
 	

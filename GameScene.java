@@ -14,10 +14,12 @@ public class GameScene extends Screen{
 	private Graphics2D gamegraphics;
 	private Graphics2D UIgraphics;
 	
+	public static final int UIheight = 100;
+	
 	public GameScene(Window gw, int width, int height){
 		super(gw, width, height);
-		gameImage = new BufferedImage(width,height-100,BufferedImage.TYPE_INT_ARGB);
-		UIimage = new BufferedImage(width,100,BufferedImage.TYPE_INT_ARGB);
+		gameImage = new BufferedImage(width,height-UIheight,BufferedImage.TYPE_INT_ARGB);
+		UIimage = new BufferedImage(width,UIheight,BufferedImage.TYPE_INT_ARGB);
 		gamegraphics = gameImage.createGraphics();
 		UIgraphics = UIimage.createGraphics();
 		input = new InputGame(gw,this);
@@ -46,7 +48,7 @@ public class GameScene extends Screen{
 		render();
 		JFrame frame = gw.getFrame();
 		screenGraphics.drawImage(gameImage,0,0,null);
-		screenGraphics.drawImage(UIimage,0,height-100,null);
+		screenGraphics.drawImage(UIimage,0,height-UIheight,null);
 		g.drawImage(screenImage,0,0,frame.getContentPane().getWidth(),frame.getContentPane().getHeight(),0,0,width,height,null);
 	}
 	
