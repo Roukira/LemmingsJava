@@ -12,6 +12,9 @@ public class LoadingScreen extends Screen implements Runnable{
 	private BufferedImage loadingImage;	
 	private String loadingText;
 	
+	public static final int RES_WIDTH = 600;
+	public static final int RES_HEIGHT = 400;
+	
 	public LoadingScreen(Window gw, int width, int height){
 		super(gw,width,height);
 		try{
@@ -24,13 +27,16 @@ public class LoadingScreen extends Screen implements Runnable{
 	public void loadAssets(){
 		loadingText = "Loading thing assets...";
 		Thing.loadAssets();
-		loadingText = "Loading lemmings assets...";
 		
+		loadingText = "Loading lemmings assets...";
 		loadLemmingsAssets();
+		
 		loadingText = "Loading items assets...";
 		loadItemsAssets();
+		
 		loadingText = "Loading input assets...";
 		loadInputsAssets();
+		
 		loadingText = "Loading game scene assets...";
 		GameScene.loadAssets();
 		

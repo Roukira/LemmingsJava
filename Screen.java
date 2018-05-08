@@ -20,8 +20,10 @@ public abstract class Screen implements Renderable{
 	
 	protected int fillColor = Color.BLACK.getRGB();
 	
-	public static double FPS = 60.0;
-	public static double ns = 1000000000/FPS;
+	public static final double defaultFPS = 60.0;
+	public static final int secondInNano = 1000000000;
+	public static double FPS = defaultFPS;
+	public static double ns = secondInNano/FPS;
 	
 	public Screen(Window gw, int width, int height){ /*, int canvasWidth, int canvasHeight*/
 		this.gw = gw;
@@ -41,6 +43,10 @@ public abstract class Screen implements Renderable{
 	
 	public int getHeight(){
 		return height;
+	}
+	
+	public Window getWindow(){
+		return gw;
 	}
 	
 	public abstract void render();

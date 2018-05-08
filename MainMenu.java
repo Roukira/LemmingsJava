@@ -23,6 +23,9 @@ public class MainMenu extends Screen{
 	private boolean w2default = true;
 	private boolean w3default = true;
 	
+	public static final int RES_WIDTH = 600;
+	public static final int RES_HEIGHT = 400;
+	
 	public MainMenu(Window gw,int width,int height){
 		super(gw,width,height);
 		loadAssets();

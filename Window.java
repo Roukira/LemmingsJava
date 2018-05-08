@@ -52,11 +52,11 @@ public class Window implements Updatable{
 		canvas.createBufferStrategy(3);
 		bs = canvas.getBufferStrategy();
 		
-		mainMenu = new MainMenu(this,600,400);
+		mainMenu = new MainMenu(this,MainMenu.RES_WIDTH,MainMenu.RES_HEIGHT);
 		
 		setCurrentScreen(mainMenu);
-		verticalInsets = frame.getInsets().top + frame.getInsets().bottom;
-		horizontalInsets = frame.getInsets().right + frame.getInsets().left;
+		verticalInsets = frame.getInsets().top + frame.getInsets().bottom; //bordure de la fenetre en haut et en bas qui depend de l'OS
+		horizontalInsets = frame.getInsets().right + frame.getInsets().left; //idem a gauche et a droite
 		System.out.println("Window top insets : "+verticalInsets);
 		System.out.println("Window side insets : "+horizontalInsets);
 		
@@ -113,8 +113,8 @@ public class Window implements Updatable{
 	
 	public void changeGameSpeed(int speed){
 		if (speed == 0) return;
-		currentScreen.FPS = 60*speed;
-		currentScreen.ns = 1000000000/currentScreen.FPS;
+		currentScreen.FPS = currentScreen.defaultFPS*speed;
+		currentScreen.ns = currentScreen.secondInNano/currentScreen.FPS;
 		System.out.println("Changed speed to " + currentScreen.FPS);
 	}
 	
@@ -176,10 +176,10 @@ public class Window implements Updatable{
 	}
 	
 	public void moveToLoadingScreen(){
-		loading = new LoadingScreen(this,600,400);
+		loading = new LoadingScreen(this,LoadingScreen.RES_WIDTH,LoadingScreen.RES_HEIGHT);
 		(new Thread(loading)).start();
 		setCurrentScreen(loading);
-		resizeFrame(600+horizontalInsets,400+verticalInsets);
+		resizeFrame(LoadingScreen.RES_WIDTH+horizontalInsets,LoadingScreen.RES_HEIGHT+verticalInsets);
 		frame.setLocationRelativeTo(null);
 	}
 	
@@ -200,15 +200,15 @@ public class Window implements Updatable{
 	
 	public void moveToMainMenu(){
 		setCurrentScreen(mainMenu);
-		resizeFrame(600+horizontalInsets,400+verticalInsets);
+		resizeFrame(MainMenu.RES_WIDTH+horizontalInsets,MainMenu.RES_HEIGHT+verticalInsets);
 		frame.setLocationRelativeTo(null);
 	}
 	
 	public void moveToScoreScreen(){
-		score = new Score(this,world.getVictoryCondition(),600,400);
+		score = new Score(this,world.getVictoryCondition(),Score.RES_WIDTH,Score.RES_HEIGHT);
 		changeGameSpeed(1);
 		setCurrentScreen(score);
-		resizeFrame(600+horizontalInsets,400+verticalInsets);
+		resizeFrame(Score.RES_WIDTH+horizontalInsets,Score.RES_HEIGHT+verticalInsets);
 		frame.setLocationRelativeTo(null);
 	}
 	

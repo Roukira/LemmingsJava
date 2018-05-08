@@ -25,45 +25,6 @@ public class InputGame extends Input{
 	private Cursor CurseurInitRed;
 	private Cursor CurseurSelectRed;
 	
-	private static BufferedImage border;
-	private static BufferedImage whiteBorder;
-	private static BufferedImage redBorder;
-	
-	private static BufferedImage lemmingsPanelImage;
-	
-	private static BufferedImage fastForwardButton;
-	private static BufferedImage fastForwardButtonDefault;
-	private static BufferedImage fastForwardButtonHover;
-	
-	private static BufferedImage resetMapButtonDefault;
-	private static BufferedImage resetMapButtonHover;
-	private static BufferedImage resetMapButton;
-	
-	private static BufferedImage imageCapacity;
-	private static BufferedImage imageCapacityBorder;
-	private static BufferedImage imageCapacitySelectBorder;
-	private static BufferedImage imageBasherCapacity;
-	private static BufferedImage imageBuilderCapacity;
-	private static BufferedImage imageBombCapacity;
-	private static BufferedImage imageStopperCapacity;
-	private static BufferedImage imageMinerCapacity;
-	private static BufferedImage imageExcavaterCapacity;
-	
-	
-	public static final int posXcapacity1 = 0;
-	public static final int posXcapacity2 = 70;
-	public static final int posXcapacity3 = 140;
-	public static final int posXcapacity4 = 210;
-	public static final int posXcapacity5 = 280;
-	public static final int posXcapacity6 = 350;
-	public static final int posYcapacity = 20;
-	
-	
-	public static final int REGULArBORDER = 0;
-	public static final int SELECtBORDER = 1;
-	
-	private int capacityClicSetter = 0;
-	
 	private double ratioX = 1.0;
 	private double ratioY = 1.0;
 	
@@ -78,8 +39,6 @@ public class InputGame extends Input{
 		System.out.println("frameWidth init : "+frameWidth);
 		frameHeight = w.getCanvas().getHeight();
 		System.out.println("frameHeight init : "+frameHeight);
-		resetMapButton = resetMapButtonDefault;
-		fastForwardButton = fastForwardButtonDefault;
 		
 		CurseurInit = tk.createCustomCursor( imageCurseurInit, new Point(imageCurseurInit.getWidth()/2,imageCurseurInit.getHeight()/2), "Pointeur" );
 		CurseurSelect = tk.createCustomCursor( imageCurseurSelect, new Point(imageCurseurSelect.getWidth()/2,imageCurseurSelect.getHeight()/2), "Pointeur" );
@@ -95,26 +54,6 @@ public class InputGame extends Input{
 			imageCurseurSelectRed = ImageIO.read(new File("cursor/cursorSelectRed.png"));
 			imageCurseurInitRed = ImageIO.read(new File("cursor/cursorInitRed.png"));
 			
-			whiteBorder = ImageIO.read(new File("world/capacityBorder.png"));
-			redBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
-			
-			lemmingsPanelImage = ImageIO.read(new File("world/lemmingspanel.png"));
-			
-			imageCapacityBorder = ImageIO.read(new File("world/capacityBorder.png"));
-			imageCapacitySelectBorder = ImageIO.read(new File("world/capacitySelectBorder.png"));
-			imageBasherCapacity = ImageIO.read(new File("lemmings/basherCapacity.png"));
-			imageBuilderCapacity = ImageIO.read(new File("lemmings/builderCapacity.png"));
-			imageBombCapacity = ImageIO.read(new File("lemmings/bombCapacity.png"));
-			imageStopperCapacity  = ImageIO.read(new File("lemmings/stopperCapacity.png"));
-			imageMinerCapacity = ImageIO.read(new File("lemmings/minerCapacity.png"));
-			imageExcavaterCapacity = ImageIO.read(new File("lemmings/excavaterCapacity.png")); 			
-			
-			resetMapButtonDefault = ImageIO.read(new File("world/resetMapbutton.png"));
-			resetMapButtonHover = ImageIO.read(new File("world/resetMapbuttonHover.png"));
-			
-			fastForwardButtonDefault = ImageIO.read(new File("world/fastforwardbutton.png"));
-			fastForwardButtonHover = ImageIO.read(new File("world/fastforwardbuttonHover.png"));
-			
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
@@ -126,11 +65,19 @@ public class InputGame extends Input{
 		return cursorGame;
 	}
 	
+	public int getCapacityClicSetter(){
+		return gs.getSkillBar().getCapacityClicSetter();
+	}
+	
+	public void setCapacityClicSetter(int capacity){
+		gs.getSkillBar().setCapacityClicSetter(capacity);
+	}
+	
 	public boolean lemmingsInRange(Lemmings l){
-		int lemmingsLimitYUpper = (int)(l.getPosY()-1.15*1.5*l.getHeight());
-		int lemmingsLimitYLower = (int)(l.getPosY()+1.15*0.5*l.getHeight());
-		int lemmingsLimitXUpper = (int)(l.getPosX()-1.15*l.getWidth());
-		int lemmingsLimitXLower = (int)(l.getPosX()+1.15*l.getWidth());
+		int lemmingsLimitYUpper = (int)(l.getPosY()-1.20*1.5*l.getHeight());
+		int lemmingsLimitYLower = (int)(l.getPosY()+1.20*0.5*l.getHeight());
+		int lemmingsLimitXUpper = (int)(l.getPosX()-1.20*l.getWidth());
+		int lemmingsLimitXLower = (int)(l.getPosX()+1.20*l.getWidth());
 		return (l.getInWorld() && lemmingsLimitYUpper<posYmouse  && lemmingsLimitYLower>posYmouse && lemmingsLimitXUpper<posXmouse  && lemmingsLimitXLower>posXmouse);
 	}
 	
@@ -144,49 +91,17 @@ public class InputGame extends Input{
 			}
 		}
 		if (cursorOnLemmings){
-        		if (capacityClicSetter==0) setCursor( CurseurSelect );
+        		if (getCapacityClicSetter()==0) setCursor( CurseurSelect );
         		else setCursor( CurseurSelectRed );
         	}
         	else{
-        		if (capacityClicSetter==0) setCursor( CurseurInit );
+        		if (getCapacityClicSetter()==0) setCursor( CurseurInit );
         		else setCursor( CurseurInitRed );
         	}
 	}
 	
 	public void draw(Graphics2D g){
-		World world = w.getCurrentWorld();
-		if (world == null) return;
-		g.drawImage(lemmingsPanelImage,0,0,null);
-		
-		g.setColor(Color.DARK_GRAY);
-		//au lieu de mettre 450 mettre la taaille de  limage pour power
-		g.fillRect(420,0,world.getWidth(),100);
-		world.getStats().draw(g);
-		
-		g.drawImage(imageBombCapacity,posXcapacity2,posYcapacity,null);
-		g.drawImage(imageStopperCapacity,posXcapacity1,posYcapacity,null);
-		g.drawImage(imageBuilderCapacity,posXcapacity3,posYcapacity,null);
-		g.drawImage(imageBasherCapacity,posXcapacity4,posYcapacity,null);
-		g.drawImage(imageMinerCapacity,posXcapacity5,posYcapacity,null);
-		g.drawImage(imageExcavaterCapacity,posXcapacity6,posYcapacity,null);
-		
-		g.setColor(Color.white);
-		g.drawString(""+world.getLemmingsLimit(world.STOPPER),posXcapacity1,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.BOMBER),posXcapacity2,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.BUILDER),posXcapacity3,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.BASHER),posXcapacity4,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.MINER),posXcapacity5,posYcapacity+60);
-		g.drawString(""+world.getLemmingsLimit(world.EXCAVATER),posXcapacity6,posYcapacity+60);
-		
-		g.drawImage(fastForwardButton,world.getWidth()-40,20,null);
-		
-		g.drawImage(resetMapButton,world.getWidth()-40,60,null);
-		
-		//System.out.println("taille content pane X : "+w.getFrame().getContentPane().getWidth());
-		//System.out.println("taille screen X : "+frameWidth);
-		//System.out.println("taille content pane Y : "+w.getFrame().getContentPane().getHeight());
-		//System.out.println("taille screen Y : "+frameHeight);
-		//if (null)
+		gs.getSkillBar().drawSelectZone(g,posXmouse,posYmouse);
 		if (w.getCanvas().getWidth()!=frameWidth || w.getCanvas().getHeight()!=frameHeight){
 			
 			
@@ -196,7 +111,6 @@ public class InputGame extends Input{
 			ratioX = (frameWidth*1.0)/gs.getWidth();
 			ratioY = (frameHeight*1.0)/gs.getHeight(); //pb61
 			//update les images en les ecrasant
-			
 			
 			if(gs.getWidth() != frameWidth || gs.getHeight() != frameHeight){
 				BufferedImage imageCurseurInitTemp = Window.resize(imageCurseurInit, (int)(imageCurseurInit.getWidth()*ratioX),(int)(imageCurseurInit.getHeight()*ratioY));
@@ -215,72 +129,7 @@ public class InputGame extends Input{
 				CurseurSelectRed = tk.createCustomCursor( imageCurseurSelectRed, new Point(imageCurseurSelectRed.getWidth()/2,imageCurseurSelectRed.getHeight()/2), "Pointeur" );
 				}
 			cursorGame = CurseurInit;
-		}
-		drawSelectZone(g);
-		
-	}
-	
-	public void drawSelectZone(Graphics2D g){
-	//=======partie select blanche======
-		World world = w.getCurrentWorld();
-		if ( posXmouse > posXcapacity1 && posXmouse < posXcapacity1+60
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+60){
-		//remplacer 60 par un truc propre
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity1-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity2 && posXmouse < posXcapacity2+60
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+60){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity2-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity3 && posXmouse < posXcapacity3+60
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+60){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity3-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity4 && posXmouse < posXcapacity4+60
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+60){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity4-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity5 && posXmouse < posXcapacity5+60
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+60){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity5-1, posYcapacity-1);
-		}
-		else if ( posXmouse > posXcapacity6 && posXmouse < posXcapacity6+60
-		&& posYmouse > world.getHeight()+posYcapacity && posYmouse < world.getHeight()+posYcapacity+60){
-			drawCapacityBorder(g,REGULArBORDER, posXcapacity6-1, posYcapacity-1);
-		}
-		
-	//=======partie select rouge======	
-		
-		if (capacityClicSetter == 1){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity1-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 2){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity2-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 3){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity3-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 4){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity4-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 5){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity5-1, posYcapacity-1);
-    		}else if (capacityClicSetter == 6){
-        		drawCapacityBorder(g,SELECtBORDER, posXcapacity6-1, posYcapacity-1);
-    		}
-	}
-	
-	public void drawCapacityBorder(Graphics2D g,int borderType, int posX, int posY){
-		if ( borderType == REGULArBORDER ){
-			border = whiteBorder;
-		}else{
-			border = redBorder;
-		}
-		g.drawImage(border,posX,posY,null);
-	}
-	
-	public void setCapacityClicSetter(int clicNumber){
-		capacityClicSetter = clicNumber;
-	}
-	
-	public int getCapacityClicSetter(){
-		return capacityClicSetter;
+		}	
 	}
 	
 	public boolean fastForwardPressed(World world, int posXclic, int posYclic){
@@ -301,21 +150,21 @@ public class InputGame extends Input{
         
         public void changeResetMapButton(){
         	World world = w.getCurrentWorld();
-        	if(posXmouse >= world.getWidth()-40 && posXmouse <=world.getWidth()-10 && posYmouse>=world.getHeight()+60 && posYmouse <=world.getHeight()+90){
-        		resetMapButton = resetMapButtonHover;
+        	if(posXmouse >= world.getWidth()-40 && posXmouse <=world.getWidth()-10 && posYmouse>=world.getHeight()+gs.getSkillBar().getCapacityWidth() && posYmouse <=world.getHeight()+90){
+        		gs.getSkillBar().setResetMapButtonHovered(true);
         	}
         	else{
-            		resetMapButton = resetMapButtonDefault;
+            		gs.getSkillBar().setResetMapButtonHovered(false);
         	}
         }
         
         public void changeFastForwardButton(){
         	World world = w.getCurrentWorld();
         	if(posXmouse >= world.getWidth()-40 && posXmouse <=world.getWidth()-10 && posYmouse>=world.getHeight()+20 && posYmouse <=world.getHeight()+50){
-        		fastForwardButton = fastForwardButtonHover;
+        		gs.getSkillBar().setFastForwardButtonHovered(true);
         	}
         	else{
-            		fastForwardButton = fastForwardButtonDefault;
+            		gs.getSkillBar().setFastForwardButtonHovered(false);
         	}
         }
         
@@ -348,7 +197,6 @@ public class InputGame extends Input{
         
         public void mouseClicked(MouseEvent e) {
 	//Invoked when the mouse has been clicked on a component.
-		System.out.println("aaaa");
 		int posXclic = (int)(e.getX()/ratioX);
 		int posYclic = (int)(e.getY()/ratioY);
 		
@@ -357,37 +205,37 @@ public class InputGame extends Input{
 		if(world == null) return;
 		if (resetMapPressed(world, posXclic, posYclic)) return;
 		if (fastForwardPressed(world, posXclic, posYclic)) return;
-		if ( posXclic > posXcapacity1 && posXclic < posXcapacity1+60
-		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
-		//remplacer 60 par un truc propre			
-			capacityClicSetter = 1;
+		if ( posXclic > gs.getSkillBar().getPosXCapacity(1) && posXclic < gs.getSkillBar().getPosXCapacity(1)+gs.getSkillBar().getCapacityWidth()
+		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+		//remplacer gs.getSkillBar().getCapacityWidth() par un truc propre			
+			setCapacityClicSetter(1);
 			return;
 		}
 		
-		if ( posXclic > posXcapacity2 && posXclic < posXcapacity2+60
-		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
-			capacityClicSetter = 2;
+		if ( posXclic > gs.getSkillBar().getPosXCapacity(2) && posXclic < gs.getSkillBar().getPosXCapacity(2)+gs.getSkillBar().getCapacityWidth()
+		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+			setCapacityClicSetter(2);
 			return;
 		}
 		
-		if ( posXclic > posXcapacity3 && posXclic < posXcapacity3+60
-		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
-			capacityClicSetter = 3;
+		if ( posXclic > gs.getSkillBar().getPosXCapacity(3) && posXclic < gs.getSkillBar().getPosXCapacity(3)+gs.getSkillBar().getCapacityWidth()
+		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+			setCapacityClicSetter(3);
 			return;
 		}
-		if ( posXclic > posXcapacity4 && posXclic < posXcapacity4+60
-		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
-			capacityClicSetter = 4;
+		if ( posXclic > gs.getSkillBar().getPosXCapacity(4) && posXclic < gs.getSkillBar().getPosXCapacity(4)+gs.getSkillBar().getCapacityWidth()
+		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+			setCapacityClicSetter(4);
 			return;
 		}
-		if ( posXclic > posXcapacity5 && posXclic < posXcapacity5+60
-		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
-			capacityClicSetter = 5;
+		if ( posXclic > gs.getSkillBar().getPosXCapacity(5) && posXclic < gs.getSkillBar().getPosXCapacity(5)+gs.getSkillBar().getCapacityWidth()
+		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+			setCapacityClicSetter(5);
 			return;
 		}
-		if ( posXclic > posXcapacity6 && posXclic < posXcapacity6+60
-		&& posYclic > world.getHeight()+posYcapacity && posYclic < world.getHeight()+posYcapacity+60){
-			capacityClicSetter = 6;
+		if ( posXclic > gs.getSkillBar().getPosXCapacity(6) && posXclic < gs.getSkillBar().getPosXCapacity(6)+gs.getSkillBar().getCapacityWidth()
+		&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
+			setCapacityClicSetter(6);
 			return;
 		}
 		

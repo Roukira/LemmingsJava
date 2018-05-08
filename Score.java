@@ -28,6 +28,9 @@ public class Score extends Screen{
 	private String completion;
 	private int victoryCondition;
 	
+	public static final int RES_WIDTH = 600;
+	public static final int RES_HEIGHT = 400;
+	
 	public Score(Window gw, int width, int height){
 		super(gw,width,height);
 		loadAssets();

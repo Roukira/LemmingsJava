@@ -14,6 +14,8 @@ public class GameScene extends Screen{
 	private Graphics2D gamegraphics;
 	private Graphics2D UIgraphics;
 	
+	private SkillBar skillbar;
+	
 	public static final int UIheight = 100;
 	
 	public GameScene(Window gw, int width, int height){
@@ -23,6 +25,7 @@ public class GameScene extends Screen{
 		gamegraphics = gameImage.createGraphics();
 		UIgraphics = UIimage.createGraphics();
 		input = new InputGame(gw,this);
+		skillbar = new SkillBar(this);
 	}
 	
 	public void render(){
@@ -41,7 +44,7 @@ public class GameScene extends Screen{
 	}
 	
 	public static void loadAssets(){
-	
+		SkillBar.loadAssets();
 	}
 	
 	public void draw(Graphics2D g){
@@ -55,7 +58,12 @@ public class GameScene extends Screen{
 	
 	public void renderUI(World world){
    		world.getStats().draw(UIgraphics);
+   		skillbar.draw(UIgraphics);
 		input.draw(UIgraphics);
+	}
+	
+	public SkillBar getSkillBar(){
+		return skillbar;
 	}
 
 }
