@@ -40,6 +40,13 @@ public class SkillBar implements Renderable{
 	private int iBomb = -1;
 	
 	private static BufferedImage imageStopperCapacity;
+	private static BufferedImage imageStopperCapacity1;
+	private static BufferedImage imageStopperCapacity2;
+	private static BufferedImage imageStopperCapacity3;
+	private static BufferedImage imageStopperCapacity4;
+	private int iStop = -1;
+	
+	
 	private static BufferedImage imageMinerCapacity;
 	private static BufferedImage imageExcavaterCapacity;
 	
@@ -94,6 +101,11 @@ public class SkillBar implements Renderable{
 			
 			
 			imageStopperCapacity  = ImageIO.read(new File("skillbar/stopperCapacity.png"));
+			imageStopperCapacity1 = imageStopperCapacity;
+			imageStopperCapacity2 = ImageIO.read(new File("skillbar/stopperCapacity2.png"));
+			imageStopperCapacity3 = ImageIO.read(new File("skillbar/stopperCapacity3.png"));
+			imageStopperCapacity4 = imageStopperCapacity2;
+			
 			imageMinerCapacity = ImageIO.read(new File("skillbar/minerCapacity.png"));
 			imageExcavaterCapacity = ImageIO.read(new File("skillbar/excavaterCapacity.png")); 			
 			
@@ -217,7 +229,19 @@ public class SkillBar implements Renderable{
   			}
   			else return imageBombCapacity;
   		}
-  		else if (i == World.STOPPER) return imageStopperCapacity;
+  		else if (i == World.STOPPER){
+  			if (iStop>=0){
+  				
+  				if (iStop == iAnimateMAX) iStop = 0;
+  				else iStop++;
+  				
+  				if (iStop<=2.5*iAnimateMAX/(10*1.0)) return imageStopperCapacity1;
+  				else if (iStop<=5*iAnimateMAX/(10*1.0)) return imageStopperCapacity2;
+  				else if (iStop<=7.5*iAnimateMAX/(10*1.0)) return imageStopperCapacity3;
+  				else return imageStopperCapacity4;
+  			}
+  			else return imageStopperCapacity;
+  		}
   		else if (i == World.MINER) return imageMinerCapacity;
   		else if (i == World.EXCAVATER) return imageExcavaterCapacity;
   		else if (i == World.BUILDER) return imageBuilderCapacity;
@@ -238,6 +262,7 @@ public class SkillBar implements Renderable{
   	
   	public void setAnimateCapacity(int value){
   		if (capacityClicSetter == World.BOMBER) iBomb = value;
+  		else if (capacityClicSetter == World.STOPPER) iStop = value;
   	}
   	
   	
