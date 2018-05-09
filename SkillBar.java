@@ -48,6 +48,16 @@ public class SkillBar implements Renderable{
 	
 	
 	private static BufferedImage imageMinerCapacity;
+	private static BufferedImage imageMinerCapacity1;
+	private static BufferedImage imageMinerCapacity2;
+	private static BufferedImage imageMinerCapacity3;
+	private static BufferedImage imageMinerCapacity4;
+	private static BufferedImage imageMinerCapacity5;
+	private static BufferedImage imageMinerCapacity6;
+	private static BufferedImage imageMinerCapacity7;
+	private static BufferedImage imageMinerCapacity8;
+	private int iMine = -1;
+	
 	private static BufferedImage imageExcavaterCapacity;
 	
 	private static BufferedImage border;
@@ -107,6 +117,15 @@ public class SkillBar implements Renderable{
 			imageStopperCapacity4 = imageStopperCapacity2;
 			
 			imageMinerCapacity = ImageIO.read(new File("skillbar/minerCapacity.png"));
+			imageMinerCapacity1 = imageMinerCapacity;
+			imageMinerCapacity2 = ImageIO.read(new File("skillbar/minerCapacity2.png"));
+			imageMinerCapacity3 = ImageIO.read(new File("skillbar/minerCapacity3.png"));
+			imageMinerCapacity4 = imageMinerCapacity2;
+			imageMinerCapacity5 = imageMinerCapacity1;
+			imageMinerCapacity6 = imageMinerCapacity2;
+			imageMinerCapacity7 = ImageIO.read(new File("skillbar/minerCapacity7.png"));
+			imageMinerCapacity8 = imageMinerCapacity2;
+			
 			imageExcavaterCapacity = ImageIO.read(new File("skillbar/excavaterCapacity.png")); 			
 			
 			resetMapButtonDefault = ImageIO.read(new File("world/resetMapbutton.png"));
@@ -242,7 +261,23 @@ public class SkillBar implements Renderable{
   			}
   			else return imageStopperCapacity;
   		}
-  		else if (i == World.MINER) return imageMinerCapacity;
+  		else if (i == World.MINER){
+  			if (iMine>=0){
+  				
+  				if (iMine == iAnimateMAX) iMine = 0;
+  				else iMine++;
+  				
+  				if (iMine<=iAnimateMAX/(8*1.0)) return imageMinerCapacity1;
+  				else if (iMine<=2*iAnimateMAX/(8*1.0)) return imageMinerCapacity2;
+  				else if (iMine<=3*iAnimateMAX/(8*1.0)) return imageMinerCapacity3;
+  				else if (iMine<=4*iAnimateMAX/(8*1.0)) return imageMinerCapacity4;
+  				else if (iMine<=5*iAnimateMAX/(8*1.0)) return imageMinerCapacity5;
+  				else if (iMine<=6*iAnimateMAX/(8*1.0)) return imageMinerCapacity6;
+  				else if (iMine<=7*iAnimateMAX/(8*1.0)) return imageMinerCapacity7;
+  				else return imageMinerCapacity8;
+  			}
+  			else return imageMinerCapacity;
+  		}
   		else if (i == World.EXCAVATER) return imageExcavaterCapacity;
   		else if (i == World.BUILDER) return imageBuilderCapacity;
   		else return imageBasherCapacity;
@@ -263,6 +298,7 @@ public class SkillBar implements Renderable{
   	public void setAnimateCapacity(int value){
   		if (capacityClicSetter == World.BOMBER) iBomb = value;
   		else if (capacityClicSetter == World.STOPPER) iStop = value;
+  		else if (capacityClicSetter == World.MINER) iMine = value;
   	}
   	
   	
