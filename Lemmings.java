@@ -33,15 +33,9 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected static BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
 	protected static BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
 	
-	protected static BufferedImage imageRightYellow;		//Image du Walker avancant sur la droite
-	protected static BufferedImage imageRightStepYellow;		//Image du Walker avancant sur la droite en marchant
-	protected static BufferedImage imageLeftYellow;		//Image du Walker avancant sur la gauche
-	protected static BufferedImage imageLeftStepYellow;		//Image du Walker avancant sur la gauche en marchant
+		//Image du Walker avancant sur la gauche en marchant
 	
-	protected static BufferedImage imageRightRed;		//Image du Walker avancant sur la droite
-	protected static BufferedImage imageRightStepRed;		//Image du Walker avancant sur la droite en marchant
-	protected static BufferedImage imageLeftRed;		//Image du Walker avancant sur la gauche
-	protected static BufferedImage imageLeftStepRed;		//Image du Walker avancant sur la gauche en marchant
+		//Image du Walker avancant sur la gauche en marchant
 	
 	
 	protected static BufferedImage deathFirst;
@@ -84,15 +78,9 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			imageLeft = ImageIO.read(new File("lemmings/lemmings2.png"));
 			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
 			
-			imageRightRed = ImageIO.read(new File("lemmings/lemmings1Red.png"));				//recupere les images des Walker a differents etats
-			imageRightStepRed = ImageIO.read(new File("lemmings/lemmings1stepRed.png"));
-			imageLeftRed = ImageIO.read(new File("lemmings/lemmings2Red.png"));
-			imageLeftStepRed = ImageIO.read(new File("lemmings/lemmings2stepRed.png"));
 			
-			imageRightYellow = ImageIO.read(new File("lemmings/lemmings1Yellow.png"));				//recupere les images des Walker a differents etats
-			imageRightStepYellow = ImageIO.read(new File("lemmings/lemmings1stepYellow.png"));
-			imageLeftYellow = ImageIO.read(new File("lemmings/lemmings2Yellow.png"));
-			imageLeftStepYellow = ImageIO.read(new File("lemmings/lemmings2stepYellow.png"));
+							//recupere les images des Walker a differents etats
+			
 			
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
 			deathSecond = ImageIO.read(new File("lemmings/death2.png"));

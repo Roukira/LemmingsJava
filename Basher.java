@@ -12,6 +12,12 @@ public class Basher extends Digger{
 	private static BufferedImage basherImage0reverse;
 	private static BufferedImage basherImage1reverse;
 	private static BufferedImage basherImage2reverse;
+	
+	private static BufferedImage imageRightBasher;		//Image du Walker avancant sur la droite
+	private static BufferedImage imageRightStepBasher;		//Image du Walker avancant sur la droite en marchant
+	private static BufferedImage imageLeftBasher;		//Image du Walker avancant sur la gauche
+	private static BufferedImage imageLeftStepBasher;
+	
 	private int iBash;
 	private static final int iBASH_MAX = 40;
 	
@@ -32,6 +38,11 @@ public class Basher extends Digger{
 			basherImage0reverse = ImageIO.read(new File("lemmings/basher0reverse.png"));
 			basherImage1reverse = ImageIO.read(new File("lemmings/basher1reverse.png"));
 			basherImage2reverse = ImageIO.read(new File("lemmings/basher2reverse.png"));
+			
+			imageRightBasher = ImageIO.read(new File("lemmings/lemmings1Basher.png"));				//recupere les images des Walker a differents etats
+			imageRightStepBasher = ImageIO.read(new File("lemmings/lemmings1stepBasher.png"));
+			imageLeftBasher = ImageIO.read(new File("lemmings/lemmings2Basher.png"));
+			imageLeftStepBasher = ImageIO.read(new File("lemmings/lemmings2stepBasher.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 		//this.job = 2;
@@ -155,16 +166,16 @@ public class Basher extends Digger{
 	public void resetMap(){}
 	
 	public BufferedImage getImageRight(){
-		return imageRightRed;
+		return imageRightBasher;
 	}
 	public BufferedImage getImageRightStep(){
-		return imageRightStepRed;
+		return imageRightStepBasher;
 	}
 	public BufferedImage getImageLeft(){
-		return imageLeftRed;
+		return imageLeftBasher;
 	}
 	public BufferedImage getImageLeftStep(){
-		return imageLeftStepRed;
+		return imageLeftStepBasher;
 	}
 	
 }

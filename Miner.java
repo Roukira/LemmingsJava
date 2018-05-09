@@ -23,6 +23,12 @@ public class Miner extends Digger{
 	private static BufferedImage arrowDown;
 	private static BufferedImage arrowUpHover;
 	private static BufferedImage arrowDownHover;
+	
+	protected static BufferedImage imageRightMiner;		//Image du Walker avancant sur la droite
+	protected static BufferedImage imageRightStepMiner;		//Image du Walker avancant sur la droite en marchant
+	protected static BufferedImage imageLeftMiner;		//Image du Walker avancant sur la gauche
+	protected static BufferedImage imageLeftStepMiner;	
+	
 	private boolean arrowHovered = false;
 	
 	private int iMine;
@@ -65,6 +71,11 @@ public class Miner extends Digger{
 			arrowUpHover = ImageIO.read(new File("lemmings/arrowUpHover.png"));
 			arrowDown = ImageIO.read(new File("lemmings/arrowDown.png"));
 			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
+			
+			imageRightMiner = ImageIO.read(new File("lemmings/lemmings1Miner.png"));
+			imageRightStepMiner = ImageIO.read(new File("lemmings/lemmings1stepMiner.png"));
+			imageLeftMiner = ImageIO.read(new File("lemmings/lemmings2Miner.png"));
+			imageLeftStepMiner = ImageIO.read(new File("lemmings/lemmings2stepMiner.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -276,16 +287,16 @@ public class Miner extends Digger{
 	}
 	
 	public BufferedImage getImageRight(){
-		return imageRightYellow;
+		return imageRightMiner;
 	}
 	public BufferedImage getImageRightStep(){
-		return imageRightStepYellow;
+		return imageRightStepMiner;
 	}
 	public BufferedImage getImageLeft(){
-		return imageLeftYellow;
+		return imageLeftMiner;
 	}
 	public BufferedImage getImageLeftStep(){
-		return imageLeftStepYellow;
+		return imageLeftStepMiner;
 	}
 	
 }
