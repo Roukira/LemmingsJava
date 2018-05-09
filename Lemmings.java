@@ -21,6 +21,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected boolean inWorld;			//si il est entre dans le terrain
 	protected boolean outside;			//si il a reussi a sortir
 	protected int iDeath = 0;
+	protected boolean bombDeath = false;
 	protected int height;		//Taille de l'image d'un Lemming standard
 	protected int width;			//Largeur de l'image d'un Lemming standard
 	protected boolean inAir = false;			//Boolean pour savoir si le lemmingsest en train de tomber
@@ -32,6 +33,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected static BufferedImage imageRightStep;		//Image du Walker avancant sur la droite en marchant
 	protected static BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
 	protected static BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
+	
+	protected static BufferedImage imageExplosion;
 	
 		//Image du Walker avancant sur la gauche en marchant
 	
@@ -79,7 +82,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			imageLeftStep = ImageIO.read(new File("lemmings/lemmings2step.png"));
 			
 			
-							//recupere les images des Walker a differents etats
+			imageExplosion = ImageIO.read(new File("lemmings/explosion.png"));
 			
 			
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
@@ -152,9 +155,15 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public boolean drawDeath(Graphics2D g){
 	
 		if (iDeath != 0){
-			//if(getClass().toString().contains("class Stopper")) System.out.println("death");
-			if (iDeath >= 20) g.drawImage(deathFirst,posX-imageRight.getWidth()/2,posY-height,null);
-			else g.drawImage(deathSecond,posX-imageRight.getWidth()/2,posY-height,null);
+			if (bombDeath){
+				g.drawImage(imageExplosion,posX-imageExplosion.getWidth()/2,posY-imageExplosion.getHeight()/2,null);
+			}
+			else{
+				//if(getClass().toString().contains("class Stopper")) System.out.println("death");
+				if (iDeath >= 20) g.drawImage(deathFirst,posX-imageRight.getWidth()/2,posY-height,null);
+				else g.drawImage(deathSecond,posX-imageRight.getWidth()/2,posY-height,null);
+				
+			}
 			iDeath--;
 			return true;
 		}
@@ -269,6 +278,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 				}
 			}
 			if (this instanceof Affecter) ((Affecter)this).resetMap();
+			bombDeath = true;
 			kill();
 			bombCountdown =-1;
 		}
