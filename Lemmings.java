@@ -153,8 +153,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 		if (iDeath != 0){
 			//if(getClass().toString().contains("class Stopper")) System.out.println("death");
-			if (iDeath >= 20) g.drawImage(deathFirst,posX-width/2,posY-height,null);
-			else g.drawImage(deathSecond,posX-width/2,posY-height,null);
+			if (iDeath >= 20) g.drawImage(deathFirst,posX-imageRight.getWidth()/2,posY-height,null);
+			else g.drawImage(deathSecond,posX-imageRight.getWidth()/2,posY-height,null);
 			iDeath--;
 			return true;
 		}
