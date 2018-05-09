@@ -59,6 +59,12 @@ public class SkillBar implements Renderable{
 	private int iMine = -1;
 	
 	private static BufferedImage imageExcavaterCapacity;
+	private static BufferedImage imageExcavaterCapacity1;
+	private static BufferedImage imageExcavaterCapacity2;
+	private static BufferedImage imageExcavaterCapacity3;
+	private static BufferedImage imageExcavaterCapacity4;
+	private int iExcavate = -1;
+	
 	
 	private static BufferedImage border;
 	private static BufferedImage whiteBorder;
@@ -126,7 +132,11 @@ public class SkillBar implements Renderable{
 			imageMinerCapacity7 = ImageIO.read(new File("skillbar/minerCapacity7.png"));
 			imageMinerCapacity8 = imageMinerCapacity2;
 			
-			imageExcavaterCapacity = ImageIO.read(new File("skillbar/excavaterCapacity.png")); 			
+			imageExcavaterCapacity = ImageIO.read(new File("skillbar/excavaterCapacity.png"));
+			imageExcavaterCapacity1 = ImageIO.read(new File("skillbar/excavaterCapacity1.png"));
+			imageExcavaterCapacity2 = ImageIO.read(new File("skillbar/excavaterCapacity2.png"));
+			imageExcavaterCapacity3 = imageExcavaterCapacity;
+			imageExcavaterCapacity4 = ImageIO.read(new File("skillbar/excavaterCapacity4.png"));			
 			
 			resetMapButtonDefault = ImageIO.read(new File("world/resetMapbutton.png"));
 			resetMapButtonHover = ImageIO.read(new File("world/resetMapbuttonHover.png"));
@@ -179,7 +189,7 @@ public class SkillBar implements Renderable{
 		g.drawImage(resetMapButton,world.getWidth()-40,60,null);
 	}
 	
-			public void drawSelectZone(Graphics2D g, int posXmouse, int posYmouse){
+	public void drawSelectZone(Graphics2D g, int posXmouse, int posYmouse){
 	//=======partie select ======
 		World world = gs.getWindow().getCurrentWorld();
 		
@@ -278,7 +288,20 @@ public class SkillBar implements Renderable{
   			}
   			else return imageMinerCapacity;
   		}
-  		else if (i == World.EXCAVATER) return imageExcavaterCapacity;
+  		else if (i == World.EXCAVATER){
+  			if (iExcavate>=0){
+  				
+  				if (iExcavate == iAnimateMAX) iExcavate = 0;
+  				else iExcavate++;
+  				
+  				if (iExcavate<=iAnimateMAX/(5*1.0)) return imageExcavaterCapacity1;
+  				else if (iExcavate<=2*iAnimateMAX/(5*1.0)) return imageExcavaterCapacity2;
+  				else if (iExcavate<=3*iAnimateMAX/(5*1.0)) return imageExcavaterCapacity3;
+  				else if (iExcavate<=4*iAnimateMAX/(5*1.0)) return imageExcavaterCapacity4;
+  				else return imageExcavaterCapacity1;
+  			}
+  			else return imageExcavaterCapacity;
+  		}
   		else if (i == World.BUILDER) return imageBuilderCapacity;
   		else return imageBasherCapacity;
   	}
@@ -299,6 +322,7 @@ public class SkillBar implements Renderable{
   		if (capacityClicSetter == World.BOMBER) iBomb = value;
   		else if (capacityClicSetter == World.STOPPER) iStop = value;
   		else if (capacityClicSetter == World.MINER) iMine = value;
+  		else if (capacityClicSetter == World.EXCAVATER) iExcavate = value;
   	}
   	
   	
