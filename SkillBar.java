@@ -26,8 +26,19 @@ public class SkillBar implements Renderable{
 	private static BufferedImage imageCapacity;
 	private static BufferedImage imageCapacityBorder;
 	private static BufferedImage imageCapacitySelectBorder;
+	
 	private static BufferedImage imageBasherCapacity;
+	private static BufferedImage imageBasherCapacity1;
+	private static BufferedImage imageBasherCapacity2;
+	private static BufferedImage imageBasherCapacity3;
+	private int iBash = -1;
+	
 	private static BufferedImage imageBuilderCapacity;
+	private static BufferedImage imageBuilderCapacity1;
+	private static BufferedImage imageBuilderCapacity2;
+	private static BufferedImage imageBuilderCapacity3;
+	private static BufferedImage imageBuilderCapacity4;
+	private int iBuild = -1;
 	
 	private static BufferedImage imageBombCapacity;
 	private static BufferedImage imageBombCapacity2;
@@ -103,8 +114,17 @@ public class SkillBar implements Renderable{
 			
 			imageCapacityBorder = ImageIO.read(new File("skillbar/capacityBorder.png"));
 			imageCapacitySelectBorder = ImageIO.read(new File("skillbar/capacitySelectBorder.png"));
+			
 			imageBasherCapacity = ImageIO.read(new File("skillbar/basherCapacity.png"));
+			imageBasherCapacity1 = imageBasherCapacity;
+			imageBasherCapacity2 = ImageIO.read(new File("skillbar/basherCapacity2.png"));
+			imageBasherCapacity3 = ImageIO.read(new File("skillbar/basherCapacity3.png"));
+			
 			imageBuilderCapacity = ImageIO.read(new File("skillbar/builderCapacity.png"));
+			imageBuilderCapacity1 = imageBuilderCapacity;
+			imageBuilderCapacity2 = ImageIO.read(new File("skillbar/builderCapacity2.png"));
+			imageBuilderCapacity3 = ImageIO.read(new File("skillbar/builderCapacity3.png"));
+			imageBuilderCapacity4 = ImageIO.read(new File("skillbar/builderCapacity4.png"));
 			
 			imageBombCapacity = ImageIO.read(new File("skillbar/bombCapacity.png"));
 			imageBombCapacity2 = ImageIO.read(new File("skillbar/bombCapacity2.png"));
@@ -302,8 +322,36 @@ public class SkillBar implements Renderable{
   			}
   			else return imageExcavaterCapacity;
   		}
-  		else if (i == World.BUILDER) return imageBuilderCapacity;
-  		else return imageBasherCapacity;
+  		else if (i == World.BUILDER){
+  			if (iBuild>=0){
+  				
+  				if (iBuild == iAnimateMAX) iBuild = 0;
+  				else iBuild++;
+  				
+  				if (iBuild<=iAnimateMAX/(5*1.0)) return imageBuilderCapacity1;
+  				else if (iBuild<=2*iAnimateMAX/(5*1.0)) return imageBuilderCapacity2;
+  				else if (iBuild<=3*iAnimateMAX/(5*1.0)) return imageBuilderCapacity3;
+  				else return imageBuilderCapacity4;	
+  			}
+  			else return imageBuilderCapacity;
+  		}
+  		else if (i == World.BASHER){
+  			if (iBash>=0){
+  				
+  				if (iBash == iAnimateMAX) iBash = 0;
+  				else iBash++;
+  				
+  				if (iBash<=iAnimateMAX/(4*1.0)) return imageBasherCapacity1;
+  				else if (iBash<=2*iAnimateMAX/(4*1.0)) return imageBasherCapacity2;
+  				else if (iBash<=3*iAnimateMAX/(4*1.0)) return imageBasherCapacity3;
+  				else return imageBasherCapacity;
+  			}
+  			else return imageBasherCapacity;
+  		}
+  		else{
+  			System.out.println("job not existing");
+  			return imageCapacity;
+  		}
   	}
   	
   	public int getPosXCapacity(int i){
@@ -323,6 +371,8 @@ public class SkillBar implements Renderable{
   		else if (capacityClicSetter == World.STOPPER) iStop = value;
   		else if (capacityClicSetter == World.MINER) iMine = value;
   		else if (capacityClicSetter == World.EXCAVATER) iExcavate = value;
+  		else if (capacityClicSetter == World.BUILDER) iBuild = value;
+  		else if (capacityClicSetter == World.BASHER) iBash = value;
   	}
   	
   	
