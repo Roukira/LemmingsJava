@@ -91,13 +91,13 @@ public class InputGame extends Input{
 			}
 		}
 		if (cursorOnLemmings){
-        		if (getCapacityClicSetter()==0) setCursor( CurseurSelect );
-        		else setCursor( CurseurSelectRed );
-        	}
-        	else{
-        		if (getCapacityClicSetter()==0) setCursor( CurseurInit );
-        		else setCursor( CurseurInitRed );
-        	}
+        	if (getCapacityClicSetter()==-1) setCursor( CurseurSelect );
+        	else setCursor( CurseurSelectRed );
+        }
+        else{
+        	if (getCapacityClicSetter()==-1) setCursor( CurseurInit );
+        	else setCursor( CurseurInitRed );
+        }
 	}
 	
 	public void draw(Graphics2D g){
@@ -271,9 +271,11 @@ public class InputGame extends Input{
         				world.changeJob(l,World.EXCAVATER);
 					System.out.println("turn into EXCAVATER");
 					return;
-				}
-        			
-        		}
+				}	
         	}
+        }
+        if (posYmouse >= world.getHeight()){
+        	setCapacityClicSetter(-1);
+        }
 	}
 }
