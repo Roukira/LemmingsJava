@@ -34,7 +34,6 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	protected static BufferedImage imageLeft;		//Image du Walker avancant sur la gauche
 	protected static BufferedImage imageLeftStep;		//Image du Walker avancant sur la gauche en marchant
 	
-	protected static BufferedImage imageExplosion;
 	
 		//Image du Walker avancant sur la gauche en marchant
 	
@@ -42,13 +41,15 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	
 	
 	protected static BufferedImage deathFirst;
-	protected static BufferedImage deathSecond;	
+	protected static BufferedImage deathSecond;
+		
 	protected int bombCountdown=-1;
-	protected static BufferedImage boom5;
-	protected static BufferedImage boom4;
-	protected static BufferedImage boom3;
-	protected static BufferedImage boom2;
 	protected static BufferedImage boom1;
+	protected static BufferedImage boom2;
+	protected static BufferedImage boom3;
+	protected static BufferedImage boom4;
+	protected static BufferedImage boom5;
+	protected static BufferedImage imageExplosion;
 	public static final int bombRadius = 25;
 	
 
@@ -88,6 +89,11 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			deathFirst = ImageIO.read(new File("lemmings/death1.png"));
 			deathSecond = ImageIO.read(new File("lemmings/death2.png"));
 			
+			boom1 = ImageIO.read(new File("lemmings/bombEffect1.png"));
+			boom2 = ImageIO.read(new File("lemmings/bombEffect2.png"));
+			boom3 = ImageIO.read(new File("lemmings/bombEffect3.png"));
+			boom4 = ImageIO.read(new File("lemmings/bombEffect4.png"));
+			boom5 = ImageIO.read(new File("lemmings/bombEffect5.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -119,8 +125,8 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(drawDeath(g)) return;
 		if(!inWorld) return;
 		if(!alive) return;
-		drawBomb(g);
 		drawMove(g);
+		drawBomb(g);
 	}
 	
 	
@@ -128,11 +134,26 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(bombCountdown>0){
 			g.setColor(Color.white);
 			g.setFont(new Font("default", Font.BOLD, 14));
-			if (Window.getTps()-bombCountdown<60) g.drawString(""+5,posX-width/2,posY-2*height);
-			else if (Window.getTps()-bombCountdown<120) g.drawString(""+4,posX-width/2,posY-2*height);
-			else if (Window.getTps()-bombCountdown<180) g.drawString(""+3,posX-width/2,posY-2*height);
-			else if (Window.getTps()-bombCountdown<240) g.drawString(""+2,posX-width/2,posY-2*height);
-			else if (Window.getTps()-bombCountdown<300) g.drawString(""+1,posX-width/2,posY-2*height);
+			if (Window.getTps()-bombCountdown<60){
+				g.drawString(""+5,posX-width/2,posY-2*height);
+				g.drawImage(boom1, posX-(width/2)-direction*6,posY-height,null);
+			}
+			else if (Window.getTps()-bombCountdown<120){
+				g.drawString(""+4,posX-width/2,posY-2*height);
+				g.drawImage(boom2, posX-(width/2)-direction*6,posY-height,null);
+			}
+			else if (Window.getTps()-bombCountdown<180){
+				g.drawString(""+3,posX-width/2,posY-2*height);
+				g.drawImage(boom3, posX-(width/2)-direction*6,posY-height,null);
+			}
+			else if (Window.getTps()-bombCountdown<240){
+				g.drawString(""+2,posX-width/2,posY-2*height);
+				g.drawImage(boom4, posX-(width/2)-direction*6,posY-height,null);
+			}
+			else if (Window.getTps()-bombCountdown<300){
+				g.drawString(""+1,posX-width/2,posY-2*height);
+				g.drawImage(boom5, posX-(width/2)-direction*6,posY-height,null);
+			}
 		}
 	}
 	
