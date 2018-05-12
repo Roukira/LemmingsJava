@@ -15,6 +15,12 @@ public class Stopper extends Lemmings implements Affecter{
 	private static BufferedImage image1;		//Image du Stopper avancant sur la droite en marchant
 	private static BufferedImage image2;		//Image du Stopper avancant sur la gauche
 	private static BufferedImage image3;		//Image du Stopper avancant sur la gauche en marchant
+	
+	private static BufferedImage imageRightStopper;		//Image du Walker avancant sur la droite
+	private static BufferedImage imageRightStepStopper;		//Image du Walker avancant sur la droite en marchant
+	private static BufferedImage imageLeftStopper;		//Image du Walker avancant sur la gauche
+	private static BufferedImage imageLeftStepStopper;
+	
 	private boolean affectMapBool = false;
 	private int iStopBegin = 0;
 	private int iStop = 0;
@@ -28,6 +34,11 @@ public class Stopper extends Lemmings implements Affecter{
 			image1 = ImageIO.read(new File("lemmings/stopper1.png"));
 			image2 = ImageIO.read(new File("lemmings/stopper2.png"));
 			image3 = ImageIO.read(new File("lemmings/stopper3.png"));
+			
+			imageRightStopper = ImageIO.read(new File("lemmings/lemmings1Stopper.png"));
+			imageRightStepStopper = ImageIO.read(new File("lemmings/lemmings1stepStopper.png"));
+			imageLeftStopper = ImageIO.read(new File("lemmings/lemmings2Stopper.png"));
+			imageLeftStepStopper = ImageIO.read(new File("lemmings/lemmings2stepStopper.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -116,15 +127,15 @@ public class Stopper extends Lemmings implements Affecter{
 	}
 	
 	public BufferedImage getImageRight(){
-		return imageRight;
+		return imageRightStopper;
 	}
 	public BufferedImage getImageRightStep(){
-		return imageRightStep;
+		return imageRightStepStopper;
 	}
 	public BufferedImage getImageLeft(){
-		return imageLeft;
+		return imageLeftStopper;
 	}
 	public BufferedImage getImageLeftStep(){
-		return imageLeftStep;
+		return imageLeftStepStopper;
 	}
 }

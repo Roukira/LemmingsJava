@@ -9,7 +9,13 @@ public class Excavater extends Digger{
 	private static BufferedImage excavaterImage0;
 	private static BufferedImage excavaterImage1;
 	private static BufferedImage excavaterImage2;
-	private static BufferedImage excavaterImage3;        
+	private static BufferedImage excavaterImage3;   
+	
+	private static BufferedImage imageRightExcavater;		//Image du Walker avancant sur la droite
+	private static BufferedImage imageRightStepExcavater;		//Image du Walker avancant sur la droite en marchant
+	private static BufferedImage imageLeftExcavater;		//Image du Walker avancant sur la gauche
+	private static BufferedImage imageLeftStepExcavater;
+	     
 	private int iExca;
 	private static final int iExca_MAX = 40;
 	private static final int DIGG_DEEP = 2;
@@ -23,6 +29,11 @@ public class Excavater extends Digger{
 			excavaterImage1 = ImageIO.read(new File("lemmings/excavater1.png"));
 			excavaterImage2 = ImageIO.read(new File("lemmings/excavater2.png"));
 			excavaterImage3 = ImageIO.read(new File("lemmings/excavater3.png"));
+			
+			imageRightExcavater = ImageIO.read(new File("lemmings/lemmings1Excavater.png"));
+			imageRightStepExcavater = ImageIO.read(new File("lemmings/lemmings1stepExcavater.png"));
+			imageLeftExcavater = ImageIO.read(new File("lemmings/lemmings2Excavater.png"));
+			imageLeftStepExcavater = ImageIO.read(new File("lemmings/lemmings2stepExcavater.png"));
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
@@ -71,7 +82,7 @@ public class Excavater extends Digger{
 	
 	public void affectMap(){
 		for (int i=-width/2;i<=width/2;i++){
-			for (int j = 0; j<= DIGG_DEEP ;j++){
+			for (int j = 1; j<= DIGG_DEEP ;j++){
 				if (w.getPos(posX+i,posY+j)==-1 
 					|| w.getPos(posX+i,posY+j)==3
 					|| w.getPos(posX+i,posY+j)==5){
@@ -88,16 +99,16 @@ public class Excavater extends Digger{
 	public void resetMap(){}	
 
 	public BufferedImage getImageRight(){
-		return imageRight;
+		return imageRightExcavater;
 	}
 	public BufferedImage getImageRightStep(){
-		return imageRightStep;
+		return imageRightStepExcavater;
 	}
 	public BufferedImage getImageLeft(){
-		return imageLeft;
+		return imageLeftExcavater;
 	}
 	public BufferedImage getImageLeftStep(){
-		return imageLeftStep;
+		return imageLeftStepExcavater;
 	}
 	
 }
