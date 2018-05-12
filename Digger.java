@@ -11,11 +11,6 @@ public abstract class Digger extends Lemmings implements Affecter{
 	
 
 //================== CONSTRUCTEURS ======================
-
-	public Digger(int posX, int posY){
-		super(posX,posY);
-		
-	}
 	
 	public Digger(Lemmings l){
 		super(l);

@@ -43,6 +43,8 @@ public class World implements Renderable{
 	private int minerLimit;
 	private int excavaterLimit;
 	
+	private int minerDirection = 1;
+	
 	private boolean finished = false;
 	private boolean started = false;
 	private int victoryCondition;
@@ -289,6 +291,10 @@ public class World implements Renderable{
 		started = true;
 	}
 	
+	public void setMinerDirection(int directionY){
+		minerDirection = directionY;
+	}
+	
 	public int getVictoryCondition(){
 		return victoryCondition;
 	}
@@ -416,7 +422,7 @@ public class World implements Renderable{
 		else if(state == MINER){ 
 			if(minerLimit>0){
 				minerLimit--;
-				newLemming = new Miner(l);
+				newLemming = new Miner(l,minerDirection);
 				System.out.println("changeJob to MINER");
 			}
 		}

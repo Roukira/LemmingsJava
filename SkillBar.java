@@ -68,6 +68,7 @@ public class SkillBar implements Renderable{
 	private static BufferedImage imageMinerCapacity7;
 	private static BufferedImage imageMinerCapacity8;
 	private int iMine = -1;
+	private int minerDirection = 1;
 	
 	private static BufferedImage imageExcavaterCapacity;
 	private static BufferedImage imageExcavaterCapacity1;
@@ -76,6 +77,12 @@ public class SkillBar implements Renderable{
 	private static BufferedImage imageExcavaterCapacity4;
 	private int iExcavate = -1;
 	
+	
+	private static BufferedImage arrowUp;
+	private static BufferedImage arrowDown;
+	private static BufferedImage arrowUpHover;
+	private static BufferedImage arrowDownHover;
+	private boolean arrowHovered = false;
 	
 	private static BufferedImage border;
 	private static BufferedImage whiteBorder;
@@ -164,6 +171,11 @@ public class SkillBar implements Renderable{
 			fastForwardButtonDefault = ImageIO.read(new File("world/fastforwardbutton.png"));
 			fastForwardButtonHover = ImageIO.read(new File("world/fastforwardbuttonHover.png"));
 			
+			arrowUp = ImageIO.read(new File("lemmings/arrowUp.png"));
+			arrowUpHover = ImageIO.read(new File("lemmings/arrowUpHover.png"));
+			arrowDown = ImageIO.read(new File("lemmings/arrowDown.png"));
+			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
+			
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
@@ -207,6 +219,21 @@ public class SkillBar implements Renderable{
 		g.drawImage(fastForwardButton,world.getWidth()-40,20,null);
 		
 		g.drawImage(resetMapButton,world.getWidth()-40,60,null);
+		drawArrow(g);
+	}
+	
+	public void drawArrow(Graphics2D g){
+		if (getPosXCapacity(World.MINER)<0) return;
+		int x = getArrowPosX();
+		int y = getArrowPosY();
+		if (minerDirection == 1){
+			if (arrowHovered) g.drawImage(arrowUpHover,x,y,null);
+			else g.drawImage(arrowUp,x,y,null);
+		}
+		else {
+			if (arrowHovered) g.drawImage(arrowDownHover,x,y,null);
+			else g.drawImage(arrowDown,x,y,null);
+		}
 	}
 	
 	public void drawSelectZone(Graphics2D g, int posXmouse, int posYmouse){
@@ -366,6 +393,18 @@ public class SkillBar implements Renderable{
   		return imageStopperCapacity.getWidth();
   	}
   	
+  	public int getCapacityHeight(){
+  		return imageStopperCapacity.getHeight();
+  	}
+  	
+  	public int getMinerDirection(){
+  		return minerDirection;
+  	}
+  	
+  	public void changeMinerDirection(){
+  		minerDirection = -minerDirection;
+  	}
+  	
   	public void setAnimateCapacity(int value){
   		if (capacityClicSetter == World.BOMBER) iBomb = value;
   		else if (capacityClicSetter == World.STOPPER) iStop = value;
@@ -374,6 +413,27 @@ public class SkillBar implements Renderable{
   		else if (capacityClicSetter == World.BUILDER) iBuild = value;
   		else if (capacityClicSetter == World.BASHER) iBash = value;
   	}
+  	
+  	public void setArrowHovered(boolean hovered){
+  		arrowHovered = hovered;
+  	}
+  	
+  	public int getArrowWidth(){
+  		return arrowUp.getWidth(); 
+  	}
+  	
+  	public int getArrowHeight(){
+  		return arrowUp.getHeight();
+  	}
+  	
+  	public int getArrowPosX(){
+  		return getPosXCapacity(World.MINER-1)+getCapacityWidth()-getArrowWidth();
+  	}
+  	
+  	public int getArrowPosY(){
+  		return getPosYCapacity()+getCapacityHeight()-getArrowHeight();
+  	}
+  	
   	
   	
 }

@@ -19,17 +19,10 @@ public class Miner extends Digger{
 	private static BufferedImage minerReversedImageUp;
 	private static BufferedImage minerReversedImageDown;
 	
-	private static BufferedImage arrowUp;
-	private static BufferedImage arrowDown;
-	private static BufferedImage arrowUpHover;
-	private static BufferedImage arrowDownHover;
-	
 	protected static BufferedImage imageRightMiner;		//Image du Walker avancant sur la droite
 	protected static BufferedImage imageRightStepMiner;		//Image du Walker avancant sur la droite en marchant
 	protected static BufferedImage imageLeftMiner;		//Image du Walker avancant sur la gauche
 	protected static BufferedImage imageLeftStepMiner;	
-	
-	private boolean arrowHovered = false;
 	
 	private int iMine;
 	private int MINE_MAX = 30;
@@ -41,20 +34,7 @@ public class Miner extends Digger{
 	
 	
 	//===================== CONSTRUCTEURS ==========================
-	
-	public Miner(int posX, int posY){
-		super(posX,posY);
 		
-		height = minerImage1.getHeight();
-		width = minerImage1.getWidth();
-		
-		directionY = 1;
-		iMine = MINE_MAX;
-		radiusX = width/4;
-		radiusY = height;
-		
-	}
-	
 	public static void loadAssets(){
 		try{
 			minerImage1 = ImageIO.read(new File("lemmings/miner1.png"));
@@ -67,11 +47,6 @@ public class Miner extends Digger{
 			minerReversedImageUp = ImageIO.read(new File("lemmings/minerReverseUp.png"));
 			minerReversedImageDown = ImageIO.read(new File("lemmings/minerReverseDown.png"));
 			
-			arrowUp = ImageIO.read(new File("lemmings/arrowUp.png"));
-			arrowUpHover = ImageIO.read(new File("lemmings/arrowUpHover.png"));
-			arrowDown = ImageIO.read(new File("lemmings/arrowDown.png"));
-			arrowDownHover = ImageIO.read(new File("lemmings/arrowDownHover.png"));
-			
 			imageRightMiner = ImageIO.read(new File("lemmings/lemmings1Miner.png"));
 			imageRightStepMiner = ImageIO.read(new File("lemmings/lemmings1stepMiner.png"));
 			imageLeftMiner = ImageIO.read(new File("lemmings/lemmings2Miner.png"));
@@ -80,13 +55,13 @@ public class Miner extends Digger{
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
-	public Miner(Lemmings l){
+	public Miner(Lemmings l, int directionY){
 		super(l);
 		
 		height = minerImage1.getHeight();
 		width = minerImage1.getWidth();
 		
-		directionY = 1;
+		this.directionY = directionY;
 		iMine = MINE_MAX;
 		radiusX = width/4;
 		radiusY = height;
@@ -152,11 +127,6 @@ public class Miner extends Digger{
 	}
 	
 	public void drawAction(Graphics2D g){
-		drawMine(g);
-		drawArrow(g);
-	}
-	
-	public void drawMine(Graphics2D g){
 		if (direction == 1){
 			if (iMine<(int)(1+MINE_MAX/3)){
 				if (directionY == 1) g.drawImage(minerImageUp,posX-(width/2),posY-height,null);
@@ -173,38 +143,6 @@ public class Miner extends Digger{
 			else g.drawImage(minerReversedImage1,posX-(width/2),posY-height,null);
 		}
 	}
-	
-	public void drawArrow(Graphics2D g){
-		int x;
-		int y = posY-height/2;
-		if (direction == 1){
-			x = posX+width/2;
-			if (!w.onBounds(x,y)) x = posX-width/2-arrowDownHover.getWidth();
-			if (directionY == 1){
-				if(arrowHovered) g.drawImage(arrowDownHover,x,y,null);
-				else g.drawImage(arrowDown,x,y,null);
-		}
-			else{
-				if(arrowHovered) g.drawImage(arrowUpHover,x,y,null);
-				else g.drawImage(arrowUp,x,y,null);
-			}
-		}
-		else{
-			x = posX-width/2-arrowDownHover.getWidth();
-			if (!w.onBounds(x,y)) x = posX+width/2;
-			if (directionY == 1){
-				if(arrowHovered) g.drawImage(arrowDownHover,x,y,null);
-				else g.drawImage(arrowDown,x,y,null);
-			}
-			else{
-				if(arrowHovered) g.drawImage(arrowUpHover,x,y,null);
-				else g.drawImage(arrowUp,x,y,null);
-			}
-		}
-		
-	}
-	
-	
 	
 	public void affectMap(){
 		if (direction == 1){
@@ -257,26 +195,6 @@ public class Miner extends Digger{
 		directionY = -directionY;
 	}
 	
-	public void setArrowHovered(boolean arrowHovered){
-		this.arrowHovered = arrowHovered;
-	}
-	
-	public int getArrowPosX(){
-		if (direction == 1) return posX+width/2;
-		else return posX-width/2-arrowDownHover.getWidth();
-	}
-	
-	public int getArrowPosY(){
-		return posY-height/2;
-	}
-	
-	public int getArrowHeight(){
-		return arrowUp.getHeight();
-	}
-	
-	public int getArrowWidth(){
-		return arrowUp.getWidth();
-	}
 	
 	public BufferedImage getImageRight(){
 		return imageRightMiner;

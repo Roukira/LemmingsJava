@@ -23,12 +23,6 @@ public class Basher extends Digger{
 	
 
 //================== CONSTRUCTEURS ======================
-
-	public Basher(int posX, int posY){
-		super(posX,posY);
-		height = basherImage0.getHeight();
-		width = basherImage0.getWidth();
-	}
 	
 	public static void loadAssets(){
 		try{

@@ -22,13 +22,6 @@ public class Stopper extends Lemmings implements Affecter{
 
 //================== CONSTRUCTEURS ======================
 
-	public Stopper(int posX, int posY){
-		super(posX,posY);
-		
-		this.height = image0.getHeight();
-		this.width = image0.getWidth();
-	}
-	
 	public static void loadAssets(){
 		try{
 			image0 = ImageIO.read(new File("lemmings/stopper0.png"));

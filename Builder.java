@@ -33,13 +33,6 @@ public class Builder extends Lemmings implements Affecter{
 	private String nbStepsString = ""+nbSteps;
 
 //================== CONSTRUCTEURS ======================
-
-	public Builder(int posX, int posY){
-		super(posX,posY);
-		this.job = World.BUILDER;
-		height = builderImage0.getHeight();
-		width = builderImage0.getWidth();
-	}
 	
 	public static void loadAssets(){
 		try{
@@ -172,7 +165,6 @@ public void affectMap(){
 		width = imageRight.getWidth();
 		height = imageRight.getHeight();
 		res = super.fall();
-		System.out.println("fall vaut "+res);
 		width = tmpWidht;
 		height = tmpHeight;
 		return res;

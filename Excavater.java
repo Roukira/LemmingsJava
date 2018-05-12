@@ -17,12 +17,6 @@ public class Excavater extends Digger{
 
 //================== CONSTRUCTEURS ======================
 
-	public Excavater(int posX, int posY){
-		super(posX,posY);
-		height = excavaterImage0.getHeight();
-		width = excavaterImage0.getWidth();
-	}
-	
 	public static void loadAssets(){
 		try{
 			excavaterImage0 = ImageIO.read(new File("lemmings/excavater0.png"));

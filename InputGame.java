@@ -146,8 +146,19 @@ public class InputGame extends Input{
         public void updateButtons(){
         	changeResetMapButton();
         	changeFastForwardButton();
+        	changeArrowButton();
         }
         
+        public void changeArrowButton(){
+       		World world = w.getCurrentWorld();
+        	if (posXmouse >= gs.getSkillBar().getArrowPosX() && posXmouse <= gs.getSkillBar().getArrowPosX()+gs.getSkillBar().getArrowWidth() && posYmouse >= world.getHeight()+gs.getSkillBar().getArrowPosY() && posYmouse <= world.getHeight()+gs.getSkillBar().getArrowPosY()+gs.getSkillBar().getArrowHeight()){
+        		System.out.println("true");
+        		gs.getSkillBar().setArrowHovered(true);
+        	}
+        	else{
+        		gs.getSkillBar().setArrowHovered(false);
+        	}
+        }
         public void changeResetMapButton(){
         	World world = w.getCurrentWorld();
         	if(posXmouse >= world.getWidth()-40 && posXmouse <=world.getWidth()-10 && posYmouse>=world.getHeight()+gs.getSkillBar().getCapacityWidth() && posYmouse <=world.getHeight()+90){
@@ -172,27 +183,14 @@ public class InputGame extends Input{
         	posXmouse = (int)(e.getX()/ratioX);
         	posYmouse = (int)(e.getY()/ratioY);
         	updateButtons();
-        	World world = w.getCurrentWorld();
-        	Lemmings l;
-		if(world == null) return;
-        	for(int i=0;i<world.getLemmingsList().length;i++){
-			l = world.getLemmingsList()[i];
-        		if (lemmingsInRange(l)){
-        			if (l instanceof Miner){
-        				Miner m = (Miner)l;
-        				if (posXmouse >= m.getArrowPosX() &&
-        				posXmouse <= m.getArrowPosX()+m.getArrowWidth() &&
-        				posYmouse >= m.getArrowPosY() && 
-        				posYmouse <= m.getArrowPosY()+m.getArrowHeight()){
-        					
-        					m.setArrowHovered(true);
-        				}
-        				else{
-        					m.setArrowHovered(false);
-        				}
-        			}
-        		}
+        }
+        
+        public boolean arrowPressed(World world, int posXclic, int posYclic){
+        	if (posXmouse >= gs.getSkillBar().getArrowPosX() && posXmouse <= gs.getSkillBar().getArrowPosX()+gs.getSkillBar().getArrowWidth() && posYmouse >= world.getHeight()+gs.getSkillBar().getArrowPosY() && posYmouse <= world.getHeight()+gs.getSkillBar().getArrowPosY()+gs.getSkillBar().getArrowHeight()){
+        		gs.getSkillBar().changeMinerDirection();
+        		return true;
         	}
+        	return false;
         }
         
         public void mouseClicked(MouseEvent e) {
@@ -205,6 +203,7 @@ public class InputGame extends Input{
 		if(world == null) return;
 		if (resetMapPressed(world, posXclic, posYclic)) return;
 		if (fastForwardPressed(world, posXclic, posYclic)) return;
+		if (arrowPressed(world, posXclic, posYclic)) return;
 		
 		for (int i=0;i<SkillBar.nbJobs;i++){
 			if (gs.getSkillBar().getPosXCapacity(i)>=0){
@@ -225,16 +224,6 @@ public class InputGame extends Input{
 			posYlem = l.getPosY();	
 			//ce if doit etre le meme que celui qui dit si le curseur est sur un lemmings
         		if (lemmingsInRange(l)){
-        			if (l instanceof Miner){
-        				Miner m = (Miner)l;
-        				if (posXclic >= m.getArrowPosX() && 
-        				posXclic <= m.getArrowPosX()+m.getArrowWidth() && 
-        				posYclic >= m.getArrowPosY() && 
-        				posYclic <= m.getArrowPosY()+m.getArrowHeight()){
-        					m.changeDirectionY();
-        				}
-        				
-        			}
         			if ( World.WALKER != l.getJob() && e.getButton()==3 && l.getInWorld()){ 
         			//si la methode getButton retourne 3 c est le clic gauche	
         				world.changeJob(l,World.WALKER);
@@ -264,7 +253,8 @@ public class InputGame extends Input{
 					return;
 				}
 				else if (World.MINER != l.getJob() && getCapacityClicSetter() == World.MINER && l.getInWorld() && e.getButton()==1){
-        				world.changeJob(l,World.MINER);
+        			world.setMinerDirection(gs.getSkillBar().getMinerDirection());
+        			world.changeJob(l,World.MINER);
 					System.out.println("turn into MINER");
 					return;
 				}else if (World.EXCAVATER != l.getJob() && getCapacityClicSetter() == World.EXCAVATER && l.getInWorld() && e.getButton()==1){
