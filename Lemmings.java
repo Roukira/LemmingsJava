@@ -126,9 +126,11 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 		if(!inWorld) return;
 		if(!alive) return;
 		drawMove(g);
+		if (action) drawAction(g);
 		drawBomb(g);
 	}
 	
+	public abstract void drawAction(Graphics2D g);
 	
 	public void drawBomb(Graphics2D g){
 		if(bombCountdown>0){
@@ -136,23 +138,23 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 			g.setFont(new Font("default", Font.BOLD, 14));
 			if (Window.getTps()-bombCountdown<60){
 				g.drawString(""+5,posX-width/2,posY-2*height);
-				g.drawImage(boom1, posX-(width/2)-direction*6,posY-height,null);
+				g.drawImage(boom1, posX-imageRight.getWidth(),posY-height,null);
 			}
 			else if (Window.getTps()-bombCountdown<120){
 				g.drawString(""+4,posX-width/2,posY-2*height);
-				g.drawImage(boom2, posX-(width/2)-direction*6,posY-height,null);
+				g.drawImage(boom2, posX-imageRight.getWidth(),posY-height,null);
 			}
 			else if (Window.getTps()-bombCountdown<180){
 				g.drawString(""+3,posX-width/2,posY-2*height);
-				g.drawImage(boom3, posX-(width/2)-direction*6,posY-height,null);
+				g.drawImage(boom3, posX-imageRight.getWidth(),posY-height,null);
 			}
 			else if (Window.getTps()-bombCountdown<240){
 				g.drawString(""+2,posX-width/2,posY-2*height);
-				g.drawImage(boom4, posX-(width/2)-direction*6,posY-height,null);
+				g.drawImage(boom4, posX-imageRight.getWidth(),posY-height,null);
 			}
 			else if (Window.getTps()-bombCountdown<300){
 				g.drawString(""+1,posX-width/2,posY-2*height);
-				g.drawImage(boom5, posX-(width/2)-direction*6,posY-height,null);
+				g.drawImage(boom5, posX-imageRight.getWidth(),posY-height,null);
 			}
 		}
 	}

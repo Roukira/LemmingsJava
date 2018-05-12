@@ -67,16 +67,7 @@ public class Excavater extends Digger{
 	
 	}
 	
-	public void draw(Graphics2D g){
-	//Dessine le lemming
-		super.draw(g);
-		if (!alive) return;
-		if (!inWorld) return;
-		if (inAir) return;
-		if (affectMapBool) drawExcavater(g);
-	}
-	
-	public void drawExcavater(Graphics2D g){
+	public void drawAction(Graphics2D g){
 		if (iExca<(int)(iExca_MAX/4)) g.drawImage(excavaterImage3,posX-(width/2),posY-height,null);
 		else if (iExca<(int)(2*iExca_MAX/4)) g.drawImage(excavaterImage2,posX-(width/2),posY-height,null);
 		else if (iExca<(int)(3*iExca_MAX/4)) g.drawImage(excavaterImage1,posX-(width/2),posY-height,null);

@@ -48,39 +48,16 @@ public class Stopper extends Lemmings implements Affecter{
 
 //===================== METHODES =========================
 	
-	public void draw(Graphics2D g){
-	//Dessine le lemming
-		super.draw(g);
-		if (!alive) return;
-		if (!inWorld) return;
-		if (inAir) return;
-		if (affectMapBool) drawStop(g);
-		
-	}
-	
-	public boolean drawStop(Graphics2D g){
-		if(!action) return false;
+	public void drawAction(Graphics2D g){
+		if(!action) return;
 		else if(iStopBegin<20){		
 			g.drawImage(image0,posX-width/2,posY-height,null);
 			iStopBegin++;
-			return true;
 		}
-		else if((Window.getTps()-iStop)%80 < 20){	
-			g.drawImage(image1,posX-width/2,posY-height,null);
-			return true;
-		}
-		else if((Window.getTps()-iStop)%80 < 40){	
-			g.drawImage(image3,posX-width/2,posY-height,null);
-			return true;
-		}
-		else if((Window.getTps()-iStop)%80 < 60){	
-			g.drawImage(image2,posX-width/2,posY-height,null);
-			return true;
-		}
-		else{
-			g.drawImage(image3,posX-width/2,posY-height,null);
-			return true;
-		}
+		else if((Window.getTps()-iStop)%80 < 20) g.drawImage(image1,posX-width/2,posY-height,null);
+		else if((Window.getTps()-iStop)%80 < 40) g.drawImage(image3,posX-width/2,posY-height,null);
+		else if((Window.getTps()-iStop)%80 < 60) g.drawImage(image2,posX-width/2,posY-height,null);
+		else g.drawImage(image3,posX-width/2,posY-height,null);
 	}
 	
 	public void affectMap(){

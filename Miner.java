@@ -151,17 +151,9 @@ public class Miner extends Digger{
 		return true;
 	}
 	
-	public void draw(Graphics2D g){
-	//Dessine le lemming
-		super.draw(g);
-		if (!alive) return;
-		if (!inWorld) return;
-		if (inAir) return;
-		if (affectMapBool){
-			drawMine(g);
-			drawArrow(g);
-		}
-		
+	public void drawAction(Graphics2D g){
+		drawMine(g);
+		drawArrow(g);
 	}
 	
 	public void drawMine(Graphics2D g){

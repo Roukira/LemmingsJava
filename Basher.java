@@ -112,16 +112,7 @@ public class Basher extends Digger{
 		return true;
 	}
 	
-	public void draw(Graphics2D g){
-	//Dessine le lemmingjordan
-		super.draw(g);
-		if (!alive) return;
-		if (!inWorld) return;
-		if (inAir) return;
-		if (affectMapBool) drawBash(g);
-	}
-	
-	public void drawBash(Graphics2D g){
+	public void drawAction(Graphics2D g){
 		if (direction == 1){
 			if (iBash<(int)(1+2*iBASH_MAX/3)) g.drawImage(basherImage2,posX-(width/2),posY-height,null);
 			else if (iBash<(int)(1+iBASH_MAX/3)) g.drawImage(basherImage1,posX-(width/2),posY-height,null);

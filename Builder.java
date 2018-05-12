@@ -73,16 +73,7 @@ public class Builder extends Lemmings implements Affecter{
 
 //===================== METHODES =========================
 	
-	public void draw(Graphics2D g){
-	//Dessine le lemming
-		super.draw(g);
-		if (!alive) return;
-		if (!inWorld) return;
-		if (inAir) return;
-		drawBuild(g);
-	}
-	
-	public void drawBuild(Graphics2D g){
+	public void drawAction(Graphics2D g){
 		if (nbSteps==0){
 			if(iWait>140) g.drawImage(builderWait0,posX-(width/2),posY-height,null);
 			else if (iWait>130) g.drawImage(builderWait1,posX-(width/2),posY-height,null);

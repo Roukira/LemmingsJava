@@ -29,6 +29,9 @@ public class Walker extends Lemmings{			//Classe des Walker (elle sera abstraite
 		if (climbDown()) return;
 		direction = -direction;
 	}
+	
+	public void drawAction(Graphics2D g){}
+	
 	public BufferedImage getImageRight(){
 		return imageRight;
 	}
