@@ -13,10 +13,7 @@ public class InputMainMenu extends Input{
 	
 	public InputMainMenu(Window w, MainMenu m){
 		super(w);
-		this.m = m; 
-		/*m.getCanvas().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		m.getCanvas().addMouseListener(this);
-		m.getCanvas().addMouseMotionListener(this);*/
+		this.m = m;
 	}
 	
 	public void update(){}
@@ -43,36 +40,44 @@ public class InputMainMenu extends Input{
 	}
     	
 	public void changeWorldButton(){
-        	if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
+        	if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=100 && posYmouse <=150){
         		m.showSelectButton(1);
         	}
         	else{
             		m.showDefaultButton(1);
         	}
-		if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
+			if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=160 && posYmouse <=210){
             		m.showSelectButton(2);
         	}
         	else{
             		m.showDefaultButton(2);
         	}
-        	if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
+        	if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=220 && posYmouse <=270){
             		m.showSelectButton(3);
        		} 
        		else{
             		m.showDefaultButton(3);
         	}
+        	if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=280 && posYmouse <=330){
+            		m.showSelectButton(4);
+       		} 
+       		else{
+            		m.showDefaultButton(4);
+        	}
+        	if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=100 && posYmouse <=150){
+            		m.showSelectButton(5);
+       		} 
+       		else{
+            		m.showDefaultButton(5);
+        	}
         }
 
 	public void worldSelection(){
-       		if(posXmouse >= 250 && posXmouse <=370 && posYmouse>=100 && posYmouse <=150){
-            		w.newCurrentWorld(1);
-		}
-		else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=160 && posYmouse <=210){
-			w.newCurrentWorld(2);
-		}
-		else if (posXmouse >= 250 && posXmouse <=370 && posYmouse>=220 && posYmouse <=270){
-			w.newCurrentWorld(3);
-		}
-        }
-
+			if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=100 && posYmouse <=150) w.newCurrentWorld(1);
+			else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=160 && posYmouse <=210) w.newCurrentWorld(2);
+        	else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=220 && posYmouse <=270) w.newCurrentWorld(3);
+            else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=280 && posYmouse <=330) w.newCurrentWorld(4);
+            else if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=100 && posYmouse <=150) w.newCurrentWorld(5);
+  	}
+  	
 }
