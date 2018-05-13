@@ -18,6 +18,7 @@ public class World implements Renderable{
 	private int width;									//largeur
 	private int id;	
 	private Lemmings[] list;									//identifiant
+	private Item[] itemList;
 	private BufferedImage mapImage;							//Image en .png de la carte a charger
 	
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
@@ -96,6 +97,13 @@ public class World implements Renderable{
 		stats = new Stats(this);
 	}
 	
+	public void startWorld(){
+		for (Item i:itemList){
+			i.startItem();
+		}
+		started = true;
+	}
+	
 	public void setSettings(){
 		BufferedReader br = null;
 		FileReader fr = null;
@@ -126,6 +134,12 @@ public class World implements Renderable{
 			spitFireX = settings[14];
 			spitFireY = settings[15];
 			spitFire = new SpitFire(spitFireX, spitFireY, this);
+			
+			//provisoire
+			itemList = new Item[3];
+			itemList[0] = spawn;
+			itemList[1] = end;
+			itemList[2] = spitFire;
 			
 		}catch (IOException e){e.printStackTrace();}
 		finally{
@@ -295,10 +309,6 @@ public class World implements Renderable{
 	
 	public boolean getStarted(){
 		return started;
-	}
-	
-	public void startWorld(){
-		started = true;
 	}
 	
 	public void setMinerDirection(int directionY){

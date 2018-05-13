@@ -37,8 +37,6 @@ public class SpitFire extends Item{
 			
 		}catch(Exception e){e.printStackTrace();}
 		//fixInMap();
-		width = imageSpitFire.getWidth();
-		height = imageSpitFire.getHeight();
 	}
 	
 	public SpitFire(int posX, int posY, World world){
@@ -47,14 +45,21 @@ public class SpitFire extends Item{
 		this.world = world;
 		System.out.println("**************************************************");
 		
+		
+		
+	}
+	
+	public void startItem(){
+		
+		width = imageSpitFire.getWidth();
+		height = imageSpitFire.getHeight();
+		
 		world.addObjectToWorld(posX, posY, world.GROUND_CST, imageSpitFire, 1);
 		fireRangeX = imageFire1.getWidth();
 		fireRangeY = imageFire1.getHeight();
 		posXfire = posX-width/2-fireRangeX/2;
 		posYfire = posY-height/2+fireRangeY/2;
-		
 	}
-	
 	
 	public void fixInMap(){
 		//rendre dur pour les lemmings

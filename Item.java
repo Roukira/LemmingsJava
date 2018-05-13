@@ -34,5 +34,7 @@ public abstract class Item extends Thing{
 		}
 		System.out.println("");
 	}
+	
+	public void startItem(){}
 
 }
