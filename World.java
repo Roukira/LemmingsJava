@@ -29,7 +29,7 @@ public class World implements Renderable{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 16;
+	public static final int settingsLines = 18;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -131,11 +131,11 @@ public class World implements Renderable{
 			basherLimit = settings[11];
 			minerLimit = settings[12];
 			excavaterLimit = settings[13];
-			spitFireX = settings[14];
-			spitFireY = settings[15];
-			spitFire = new SpitFire(spitFireX, spitFireY, this);
-			spiteFireLemmingsFilling();
-			
+			if( settings[14]>=1){
+				spitFireX = settings[16];
+				spitFireY = settings[17];
+				spitFire = new SpitFire(spitFireX, spitFireY, this, settings[15]);
+			}
 			//provisoire
 			itemList = new Item[3];
 			itemList[0] = spawn;

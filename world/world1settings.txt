@@ -12,6 +12,10 @@
 0
 0
 0
+0
+0
+0
+0
 
 //explication
 
@@ -29,3 +33,7 @@ BuilderLimit
 BasherLimit
 MinerLimit
 ExcavaterLimit
+nb Spitfire (pour l instant 0 ou 1)
+cadance de tir
+posX du spitFire
+posY du spitFire

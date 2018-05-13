@@ -23,6 +23,8 @@ public class SpitFire extends Item{
 	private int posYfire;
 	private World world;
 	
+	private int spitFireRhythm;
+	
 	private static int height;
 	private static int width; 
 	
@@ -39,14 +41,14 @@ public class SpitFire extends Item{
 		//fixInMap();
 	}
 	
-	public SpitFire(int posX, int posY, World world){
-		
+	public SpitFire(int posX, int posY, World world, int rhythm){
 		super(posX,posY);
 		this.world = world;
-		
-		
-		
-		
+		spitFireRhythm = rhythm;
+	}
+	
+	public SpitFire(int posX, int posY, World world){
+		this(posX,posY,world,3);
 	}
 	
 	public void startItem(){
@@ -76,7 +78,7 @@ public class SpitFire extends Item{
 	
 	public void update(){
 		//specifier la taille de la range + kill ceux dedans
-		if (iFire<=0) iFire = 3*SPEEDFIRE;
+		if (iFire<=0) iFire = spitFireRhythm*SPEEDFIRE;
 		if (iFire<SPEEDFIRE) burning();
         	iFire--;      
         	//System.out.println("iFire vaut "+iFire);  	
