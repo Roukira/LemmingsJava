@@ -1,6 +1,7 @@
 250
 50
 250
+1
 305
 100
 15
@@ -21,6 +22,7 @@
 
 posX du spawn
 posY du spawn
+type outsider
 posX du outsider
 posY du outsider
 frequence du spawnage

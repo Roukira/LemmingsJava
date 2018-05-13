@@ -70,6 +70,12 @@ public class InputMainMenu extends Input{
        		else{
             		m.showDefaultButton(5);
         	}
+        	if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=160 && posYmouse <=210){
+            		m.showSelectButton(6);
+       		} 
+       		else{
+            		m.showDefaultButton(6);
+        	}
         }
 
 	public void worldSelection(){
@@ -78,6 +84,7 @@ public class InputMainMenu extends Input{
         	else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=220 && posYmouse <=270) w.newCurrentWorld(3);
             else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=280 && posYmouse <=330) w.newCurrentWorld(4);
             else if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=100 && posYmouse <=150) w.newCurrentWorld(5);
+  	    else if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=160 && posYmouse <=210) w.newCurrentWorld(6);
   	}
   	
 }

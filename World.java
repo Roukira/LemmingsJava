@@ -29,7 +29,7 @@ public class World implements Renderable{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 18;
+	public static final int settingsLines = 19;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
@@ -39,6 +39,7 @@ public class World implements Renderable{
 	private int spitFireY;
 	private int outsideX;
 	private int outsideY;
+	private int outsideType;
 	
 	private int stopperLimit;
 	private int bomberLimit;
@@ -48,6 +49,8 @@ public class World implements Renderable{
 	private int excavaterLimit;
 	
 	private int minerDirection = 1;
+	
+	
 	
 	private boolean finished = false;
 	private boolean started = false;
@@ -118,23 +121,24 @@ public class World implements Renderable{
 			}
 			spawnX = settings[0];
 			spawnY = settings[1];
-			spawn = new Spawner(spawnX,spawnY,settings[4]);
-			outsideX = settings[2];
-			outsideY = settings[3];
-			loadLemmings(settings[5]);
-			end = new Outside(outsideX,outsideY,list,this);
-			airIndex = settings[6];
-			victoryCondition = settings[7];
-			stopperLimit = settings[8];
-			bomberLimit = settings[9];
-			builderLimit = settings[10];
-			basherLimit = settings[11];
-			minerLimit = settings[12];
-			excavaterLimit = settings[13];
-			if( settings[14]>=1){
-				spitFireX = settings[16];
-				spitFireY = settings[17];
-				spitFire = new SpitFire(spitFireX, spitFireY, this, settings[15]);
+			spawn = new Spawner(spawnX,spawnY,settings[5]);
+			outsideType = settings[2];
+			outsideX = settings[3];
+			outsideY = settings[4];
+			loadLemmings(settings[6]);
+			end = new Outside(outsideX,outsideY,list,this,outsideType);
+			airIndex = settings[7];
+			victoryCondition = settings[8];
+			stopperLimit = settings[9];
+			bomberLimit = settings[10];
+			builderLimit = settings[11];
+			basherLimit = settings[12];
+			minerLimit = settings[13];
+			excavaterLimit = settings[14];
+			if( settings[15]>=1){
+				spitFireX = settings[17];
+				spitFireY = settings[18];
+				spitFire = new SpitFire(spitFireX, spitFireY, this, settings[16]);
 			}
 			//provisoire
 			itemList = new Item[3];

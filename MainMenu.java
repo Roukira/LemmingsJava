@@ -15,21 +15,28 @@ public class MainMenu extends Screen{
 	private static BufferedImage world3;
 	private static BufferedImage world4;
 	private static BufferedImage world5;
+	private static BufferedImage world6;
+	
 	private static BufferedImage world1Select;
 	private static BufferedImage world2Select;
 	private static BufferedImage world3Select;
 	private static BufferedImage world4Select;
 	private static BufferedImage world5Select;
+	private static BufferedImage world6Select;
+	
 	private static BufferedImage world1Button;
 	private static BufferedImage world2Button;
 	private static BufferedImage world3Button;
 	private static BufferedImage world4Button;
 	private static BufferedImage world5Button;
+	private static BufferedImage world6Button;
+	
 	private boolean w1default = true;
 	private boolean w2default = true;
 	private boolean w3default = true;
 	private boolean w4default = true;
 	private boolean w5default = true;
+	private boolean w6default = true;
 	
 	public static final int RES_WIDTH = 600;
 	public static final int RES_HEIGHT = 400;
@@ -42,6 +49,7 @@ public class MainMenu extends Screen{
 		world3Button = world3;
 		world4Button = world4;
 		world5Button = world5;
+		world6Button = world6;
 		
 		input = new InputMainMenu(gw,this);
 	}
@@ -52,13 +60,15 @@ public class MainMenu extends Screen{
 			world1 = ImageIO.read(new File("mainmenu/ButtonWorld1.png"));
 			world2 = ImageIO.read(new File("mainmenu/ButtonWorld2.png"));
 			world3 = ImageIO.read(new File("mainmenu/ButtonWorld3.png"));
-			world4 = world3; //soon world4
-			world5 = world3; //world5
+			world4 = ImageIO.read(new File("mainmenu/ButtonWorld4.png"));
+			world5 = ImageIO.read(new File("mainmenu/ButtonWorld5.png"));
+			world6 = ImageIO.read(new File("mainmenu/ButtonWorld6.png"));
 			world1Select = ImageIO.read(new File("mainmenu/ButtonWorld1Select.png"));
 			world2Select = ImageIO.read(new File("mainmenu/ButtonWorld2Select.png"));
 			world3Select = ImageIO.read(new File("mainmenu/ButtonWorld3Select.png"));
-			world4Select = world3Select;
-			world5Select = world3Select;
+			world4Select = ImageIO.read(new File("mainmenu/ButtonWorld4Select.png"));
+			world5Select = ImageIO.read(new File("mainmenu/ButtonWorld5Select.png"));
+			world6Select = ImageIO.read(new File("mainmenu/ButtonWorld6Select.png"));
  		}catch(Exception e){e.printStackTrace();}
 	}
 	
@@ -69,6 +79,7 @@ public class MainMenu extends Screen{
 		screenGraphics.drawImage(world3Button,100,220,null);
 		screenGraphics.drawImage(world4Button,100,280,null);
 		screenGraphics.drawImage(world5Button,300,100,null);
+		screenGraphics.drawImage(world6Button,300,160,null);
 	}
 	
 	public void showSelectButton( int worldNumber){
@@ -92,6 +103,10 @@ public class MainMenu extends Screen{
 			world5Button = world5Select;
 			w5default = false;
 		}
+		else if(worldNumber==6 && w6default){
+			world6Button = world6Select;
+			w6default = false;
+		}
 	}
 	
 	public void showDefaultButton(int worldNumber){
@@ -114,6 +129,10 @@ public class MainMenu extends Screen{
 		else if(worldNumber==5 && !w5default){
 			world5Button = world5;
 			w5default = true;
+		}
+		else if(worldNumber==6 && !w6default){
+			world6Button = world6;
+			w6default = true;
 		}
 	}
 
