@@ -81,6 +81,7 @@ public class LoadingScreen extends Screen implements Runnable{
           	  		Thread.sleep(1000);
         		}catch(InterruptedException e){e.printStackTrace();}
 		}
+		System.out.println("moving to gamescene, game is ready to load");
 		gw.moveToGameScene();
 	}
 	

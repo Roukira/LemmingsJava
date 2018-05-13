@@ -139,7 +139,7 @@ public class Window implements Updatable{
         	
         	currentScreen.getInput().update();
         	
-        	world.getSpitFire().update();
+        	if (world.getSpitFire() != null) world.getSpitFire().update();
         	
         	world.getOutside().update();
         	

@@ -135,16 +135,25 @@ public class World implements Renderable{
 			basherLimit = settings[12];
 			minerLimit = settings[13];
 			excavaterLimit = settings[14];
+			
 			if( settings[15]>=1){
 				spitFireX = settings[17];
 				spitFireY = settings[18];
 				spitFire = new SpitFire(spitFireX, spitFireY, this, settings[16]);
+				
+				itemList = new Item[3];
+				itemList[0] = spawn;
+				itemList[1] = end;
+				itemList[2] = spitFire;
+			}
+			else{
+				itemList = new Item[2];
+				itemList[0] = spawn;
+				itemList[1] = end;
 			}
 			//provisoire
-			itemList = new Item[3];
-			itemList[0] = spawn;
-			itemList[1] = end;
-			itemList[2] = spitFire;
+			
+			
 			
 		}catch (IOException e){e.printStackTrace();}
 		finally{

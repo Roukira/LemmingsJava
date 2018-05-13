@@ -34,6 +34,9 @@ public class Outside extends Item{
 		this.w = w;
 		fillArray(list);
 		this.typeOutside = typeOutside;
+	}
+	
+	public void startItem(){
 		setOutsideType();
 	}
 	
@@ -92,6 +95,7 @@ public class Outside extends Item{
 	}
 	
 	public void setOutsideType(){
+		System.out.println("typeOutside : "+typeOutside);
 		if (typeOutside == 1){
 			imageFirst = imageFirst1;
 			imageSecond = imageSecond1;

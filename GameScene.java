@@ -34,7 +34,7 @@ public class GameScene extends Screen{
 			world.draw(gamegraphics); //dessine le monde
 			world.getSpawner().draw(gamegraphics);
 			world.getOutside().draw(gamegraphics);
-			world.getSpitFire().draw(gamegraphics);
+			if (world.getSpitFire() != null) world.getSpitFire().draw(gamegraphics);
 			for(int i=0;i<world.getLemmingsList().length;i++){
 				world.getLemmingsList()[i].draw(gamegraphics); //dessine les lemmings
 			}
