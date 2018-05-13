@@ -28,11 +28,14 @@ public class World implements Renderable{
 	public static final int STOPPER_WALL_RIGHT_CST = 5;							//constantes pour mieux lire
 	public static final int STOPPER_WALL_LEFT_CST = 3;
 	public int airIndex;
-	public static final int settingsLines = 14;
+	public static final int settingsLines = 16;
 	private Spawner spawn;
 	private Outside end;
 	private int spawnX;
 	private int spawnY;
+	private SpitFire spitFire;
+	private int spitFireX;
+	private int spitFireY;
 	private int outsideX;
 	private int outsideY;
 	
@@ -120,6 +123,9 @@ public class World implements Renderable{
 			basherLimit = settings[11];
 			minerLimit = settings[12];
 			excavaterLimit = settings[13];
+			spitFireX = settings[14];
+			spitFireY = settings[15];
+			spitFire = new SpitFire(spitFireX, spitFireY, this);
 			
 		}catch (IOException e){e.printStackTrace();}
 		finally{
@@ -273,6 +279,10 @@ public class World implements Renderable{
 
 	public Spawner getSpawner(){
 		return spawn;
+	}
+	
+	public SpitFire getSpitFire(){
+		return spitFire;
 	}
 	
 	public Outside getOutside(){

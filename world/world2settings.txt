@@ -12,6 +12,8 @@
 8
 8
 8
+300
+200
 
 //explication
 
@@ -29,3 +31,5 @@ BuilderLimit
 BasherLimit
 MinerLimit
 ExcavaterLimit
+posX du spitFire
+posY du spitFire

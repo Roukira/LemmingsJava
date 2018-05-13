@@ -57,9 +57,9 @@ public class LoadingScreen extends Screen implements Runnable{
 	
 	public void loadItemsAssets(){
 		Item.loadAssets();
-		
 		Outside.loadAssets();
 		Spawner.loadAssets();
+		SpitFire.loadAssets();
 	}
 	
 	public void loadInputsAssets(){
