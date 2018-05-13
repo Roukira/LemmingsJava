@@ -34,6 +34,12 @@ public class MainMenu extends Screen{
 	public static final int RES_WIDTH = 600;
 	public static final int RES_HEIGHT = 400;
 	
+	public static final int ButtonPosX = 150;
+	public static final int spacingX = 200;
+	
+	public static final int ButtonPosY = 100;
+	public static final int spacingY = 60;
+	
 	public MainMenu(Window gw,int width,int height){
 		super(gw,width,height);
 		loadAssets();
@@ -52,23 +58,23 @@ public class MainMenu extends Screen{
 			world1 = ImageIO.read(new File("mainmenu/ButtonWorld1.png"));
 			world2 = ImageIO.read(new File("mainmenu/ButtonWorld2.png"));
 			world3 = ImageIO.read(new File("mainmenu/ButtonWorld3.png"));
-			world4 = world3; //soon world4
-			world5 = world3; //world5
+			world4 = ImageIO.read(new File("mainmenu/ButtonWorld4.png"));
+			world5 = ImageIO.read(new File("mainmenu/ButtonWorld5.png"));
 			world1Select = ImageIO.read(new File("mainmenu/ButtonWorld1Select.png"));
 			world2Select = ImageIO.read(new File("mainmenu/ButtonWorld2Select.png"));
 			world3Select = ImageIO.read(new File("mainmenu/ButtonWorld3Select.png"));
-			world4Select = world3Select;
-			world5Select = world3Select;
+			world4Select = ImageIO.read(new File("mainmenu/ButtonWorld4Select.png"));
+			world5Select = ImageIO.read(new File("mainmenu/ButtonWorld5Select.png"));
  		}catch(Exception e){e.printStackTrace();}
 	}
 	
 	public void render(){
 		screenGraphics.drawImage(mainMenuBG,0,0,null);
-		screenGraphics.drawImage(world1Button,100,100,null);
-		screenGraphics.drawImage(world2Button,100,160,null);
-		screenGraphics.drawImage(world3Button,100,220,null);
-		screenGraphics.drawImage(world4Button,100,280,null);
-		screenGraphics.drawImage(world5Button,300,100,null);
+		screenGraphics.drawImage(world1Button,ButtonPosX,ButtonPosY,null);
+		screenGraphics.drawImage(world2Button,ButtonPosX,ButtonPosY+spacingY,null);
+		screenGraphics.drawImage(world3Button,ButtonPosX,ButtonPosY+2*spacingY,null);
+		screenGraphics.drawImage(world4Button,ButtonPosX,ButtonPosY+3*spacingY,null);
+		screenGraphics.drawImage(world5Button,ButtonPosX+spacingX,ButtonPosY,null);
 	}
 	
 	public void showSelectButton( int worldNumber){
@@ -115,6 +121,14 @@ public class MainMenu extends Screen{
 			world5Button = world5;
 			w5default = true;
 		}
+	}
+	
+	public int getButtonWidth(){
+		return world1.getWidth();
+	}
+	
+	public int getButtonHeight(){
+		return world1.getHeight();
 	}
 
 }

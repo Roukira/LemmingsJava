@@ -40,31 +40,31 @@ public class InputMainMenu extends Input{
 	}
     	
 	public void changeWorldButton(){
-        	if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=100 && posYmouse <=150){
+        	if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY && posYmouse <=MainMenu.ButtonPosY+m.getButtonHeight()){
         		m.showSelectButton(1);
         	}
         	else{
             		m.showDefaultButton(1);
         	}
-			if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=160 && posYmouse <=210){
+			if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY+MainMenu.spacingY && posYmouse <=MainMenu.ButtonPosY+MainMenu.spacingY+m.getButtonHeight()){
             		m.showSelectButton(2);
         	}
         	else{
             		m.showDefaultButton(2);
         	}
-        	if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=220 && posYmouse <=270){
+        	if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY+2*MainMenu.spacingY && posYmouse <=MainMenu.ButtonPosY+2*MainMenu.spacingY+m.getButtonHeight()){
             		m.showSelectButton(3);
        		} 
        		else{
             		m.showDefaultButton(3);
         	}
-        	if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=280 && posYmouse <=330){
+        	if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY+3*MainMenu.spacingY && posYmouse <=MainMenu.ButtonPosY+3*MainMenu.spacingY+m.getButtonHeight()){
             		m.showSelectButton(4);
        		} 
        		else{
             		m.showDefaultButton(4);
         	}
-        	if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=100 && posYmouse <=150){
+        	if (posXmouse >= MainMenu.ButtonPosX+MainMenu.spacingX && posXmouse <=MainMenu.ButtonPosX+MainMenu.spacingX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY && posYmouse <=MainMenu.ButtonPosY+m.getButtonHeight()){
             		m.showSelectButton(5);
        		} 
        		else{
@@ -73,11 +73,11 @@ public class InputMainMenu extends Input{
         }
 
 	public void worldSelection(){
-			if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=100 && posYmouse <=150) w.newCurrentWorld(1);
-			else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=160 && posYmouse <=210) w.newCurrentWorld(2);
-        	else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=220 && posYmouse <=270) w.newCurrentWorld(3);
-            else if (posXmouse >= 100 && posXmouse <=220 && posYmouse>=280 && posYmouse <=330) w.newCurrentWorld(4);
-            else if (posXmouse >= 300 && posXmouse <=420 && posYmouse>=100 && posYmouse <=150) w.newCurrentWorld(5);
+			if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY && posYmouse <=MainMenu.ButtonPosY+m.getButtonHeight()) w.newCurrentWorld(1);
+			else if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY+MainMenu.spacingY && posYmouse <=MainMenu.ButtonPosY+MainMenu.spacingY+m.getButtonHeight()) w.newCurrentWorld(2);
+        	else if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY+2*MainMenu.spacingY && posYmouse <=MainMenu.ButtonPosY+2*MainMenu.spacingY+m.getButtonHeight()) w.newCurrentWorld(3);
+            else if (posXmouse >= MainMenu.ButtonPosX && posXmouse <=MainMenu.ButtonPosX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY+3*MainMenu.spacingY && posYmouse <=MainMenu.ButtonPosY+3*MainMenu.spacingY+m.getButtonHeight()) w.newCurrentWorld(4);
+            else if (posXmouse >= MainMenu.ButtonPosX+MainMenu.spacingX && posXmouse <=MainMenu.ButtonPosX+MainMenu.spacingX+m.getButtonWidth() && posYmouse>=MainMenu.ButtonPosY && posYmouse <=MainMenu.ButtonPosY+m.getButtonHeight()) w.newCurrentWorld(5);
   	}
   	
 }
