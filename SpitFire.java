@@ -84,7 +84,11 @@ public class SpitFire extends Item{
 	
 	public void burning(){
 		//kill ceux dans la range du fire
-        	for (Lemmings l:list){
+		Lemmings[] listLemmings;
+		Lemmings l;
+		listLemmings = world.getLemmingsList();
+        	for (int i=0;i<listLemmings.length;i++){
+        		l=listLemmings[i];
 			if (l.getPosX() >=  posXfire-fireRangeX/2
 				&& l.getPosX() <= posXfire+fireRangeX/2
 				&& l.getPosY() >= posYfire-fireRangeY
