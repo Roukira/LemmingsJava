@@ -134,6 +134,7 @@ public class World implements Renderable{
 			spitFireX = settings[14];
 			spitFireY = settings[15];
 			spitFire = new SpitFire(spitFireX, spitFireY, this);
+			spiteFireLemmingsFilling();
 			
 			//provisoire
 			itemList = new Item[3];
@@ -158,6 +159,7 @@ public class World implements Renderable{
 		list = new Lemmings[nb];
 		for (int i=0;i<nb;i++){
 			addLemmings(i,new Walker(spawnX,spawnY));
+			
 		}
 		/*for (int j=0;j<nb;j++){
 			if ((j%2)==1) {
@@ -285,6 +287,10 @@ public class World implements Renderable{
 	
 	public void spawnLemmings(){
 		spawn.addLemmings(list);
+	}
+	
+	public void spiteFireLemmingsFilling(){
+		spitFire.addLemmings(list);
 	}
 	
 	public Lemmings[] getLemmingsList(){

@@ -67,10 +67,10 @@ public class Stopper extends Lemmings implements Affecter{
 	public void affectMap(){
 		for(int i = 0;i<height;i++) {
 			w.setMapTypeAtPos(posX-(width/2),posY-i,w.STOPPER_WALL_LEFT_CST);
-			w.setMapPixelColor(posX-(width/2),posY-i,Color.red);
+			//w.setMapPixelColor(posX-(width/2),posY-i,Color.red);
 			
 			w.setMapTypeAtPos(posX+(width/2),posY-i,w.STOPPER_WALL_RIGHT_CST);
-			w.setMapPixelColor(posX+(width/2),posY-i,Color.red);
+			//w.setMapPixelColor(posX+(width/2),posY-i,Color.red);
 		}
 	}
 	
