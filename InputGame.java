@@ -152,7 +152,6 @@ public class InputGame extends Input{
         public void changeArrowButton(){
        		World world = w.getCurrentWorld();
         	if (posXmouse >= gs.getSkillBar().getArrowPosX() && posXmouse <= gs.getSkillBar().getArrowPosX()+gs.getSkillBar().getArrowWidth() && posYmouse >= world.getHeight()+gs.getSkillBar().getArrowPosY() && posYmouse <= world.getHeight()+gs.getSkillBar().getArrowPosY()+gs.getSkillBar().getArrowHeight()){
-        		System.out.println("true");
         		gs.getSkillBar().setArrowHovered(true);
         	}
         	else{
@@ -186,6 +185,7 @@ public class InputGame extends Input{
         }
         
         public boolean arrowPressed(World world, int posXclic, int posYclic){
+        	if (gs.getSkillBar().getPosXCapacity(World.MINER-1)<0) return false;
         	if (posXmouse >= gs.getSkillBar().getArrowPosX() && posXmouse <= gs.getSkillBar().getArrowPosX()+gs.getSkillBar().getArrowWidth() && posYmouse >= world.getHeight()+gs.getSkillBar().getArrowPosY() && posYmouse <= world.getHeight()+gs.getSkillBar().getArrowPosY()+gs.getSkillBar().getArrowHeight()){
         		gs.getSkillBar().changeMinerDirection();
         		return true;
