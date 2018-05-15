@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public abstract class Digger extends Lemmings implements Affecter{
+	/*this abstract class is a Lemmings sub class, subclasses jobs will be responsible of digging walls*/
 
-
-//================== CONSTRUCTEURS ======================
+//================== CONSTRUCTORS ======================
 	
 	public Digger(Lemmings l){
 		super(l);
@@ -16,6 +16,7 @@ public abstract class Digger extends Lemmings implements Affecter{
 	}
 	
 	public boolean checkForStopperWall(){
+		//this method checks if the obstacle is a stopper wall
 		for (int i =0;i<(height);i++){
 			if(w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)== w.STOPPER_WALL_LEFT_CST || w.getPos(posX+direction*(imageRight.getWidth()/2),posY-i)== w.STOPPER_WALL_RIGHT_CST){
 					return true;

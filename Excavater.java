@@ -6,19 +6,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Excavater extends Digger{
+	/*this class is a Lemmings sub class, its job is to destoy walls in his way forward*/
+	
+	//excavater images
 	private static BufferedImage excavaterImage0;
 	private static BufferedImage excavaterImage1;
 	private static BufferedImage excavaterImage2;
 	private static BufferedImage excavaterImage3;   
 	
-	private static BufferedImage imageRightExcavater;		//Image du Walker avancant sur la droite
-	private static BufferedImage imageRightStepExcavater;		//Image du Walker avancant sur la droite en marchant
-	private static BufferedImage imageLeftExcavater;		//Image du Walker avancant sur la gauche
+	//basic lemmings images changed to his color
+	private static BufferedImage imageRightExcavater;
+	private static BufferedImage imageRightStepExcavater;
+	private static BufferedImage imageLeftExcavater;
 	private static BufferedImage imageLeftStepExcavater;
 	     
-	private int iExca;
-	private static final int iExca_MAX = 40;
-	private static final int DIGG_DEEP = 2;
+	private int iExca;										//counter for each ground digging animation, used to know when to change picture, and when to affect the map.
+	private static final int iExca_MAX = 40;				//constant to know which state of the animation we are in, the lower the faster the animation will be.
+	private static final int DIGG_DEEP = 2;					//digging height per iteration
 	
 
 //================== CONSTRUCTEURS ======================
