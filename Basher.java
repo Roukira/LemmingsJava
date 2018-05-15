@@ -28,7 +28,7 @@ public class Basher extends Digger{
 	private int iBash;							//counter for each wall bashing animation, used to know when to change picture, and when to affect the map.
 	private static final int iBASH_MAX = 40;	//constant to know which state of the animation we are in, the lower the faster the animation will be.
 	
-	private static final int bashWidth = 8;
+	private static final int bashWidth = 6;
 	
 
 //================== CONSTRUCTORS ======================
@@ -82,7 +82,7 @@ public class Basher extends Digger{
 				return;
 			}
 			if (iBash == 0){
-				posX+=bashWidth*direction;
+				posX+=bashWidth*direction-1;
 				iBash = iBASH_MAX;
 				if (goAhead()){
 					w.changeJob(this,World.WALKER);
@@ -146,12 +146,12 @@ public class Basher extends Digger{
 		if (iBash == (int)(iBASH_MAX/(4*1.0))){
 			diggYend = (int)(1+height/3);
 		}
-		else if (iBash == (int)(2*iBASH_MAX/(4*1.0))){ 
+		else if (iBash == (int)(2*iBASH_MAX/(4))){ 
 			diggYstart = (int)(1+height/3);  
 			diggYend = (int)(2*height/3);
 			diggX = (3*bashWidth)/2;
 		}
-		else if (iBash == (int)(3*iBASH_MAX/(4*1.0))){
+		else if (iBash == (int)(3*iBASH_MAX/(4))){
 			diggYstart = (int)(2*height/3);
 		}
 		else return;	
