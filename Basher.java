@@ -26,9 +26,10 @@ public class Basher extends Digger{
 	private static BufferedImage imageLeftStepBasher;
 	
 	private int iBash;							//counter for each wall bashing animation, used to know when to change picture, and when to affect the map.
-	private static final int iBASH_MAX = 40;	//constant to know which state of the animation we are in, the lower the faster the animation will be.
+	private static final int iBASH_MAX = 15;	//constant to know which state of the animation we are in, the lower the faster the animation will be.
 	
-	private static final int bashWidth = 6;
+	private static final int bashWidth = 3;
+	private static final int rangeBash = 4;
 	
 
 //================== CONSTRUCTORS ======================
@@ -82,7 +83,7 @@ public class Basher extends Digger{
 				return;
 			}
 			if (iBash == 0){
-				posX+=bashWidth*direction-1;
+				posX+=bashWidth*direction;
 				iBash = iBASH_MAX;
 				if (goAhead()){
 					w.changeJob(this,World.WALKER);
@@ -155,12 +156,8 @@ public class Basher extends Digger{
 			diggYstart = (int)(2*height/3);
 		}
 		else return;	
-		for (int i=-width/2;i<=diggX;i++){
+		for (int i=rangeBash;i<diggX+rangeBash;i++){
 			for (int j = diggYstart; j<=diggYend;j++){
-				if (!w.canDestructPixel(posX+direction*i,posY-j)){
-					w.changeJob(this,World.WALKER);
-					return;
-				}
 				w.setMapTypeAtPos(posX+direction*i,posY-j,w.AIR_CST);
 				w.setMapPixelColor(posX+direction*i,posY-j,w.AIR_LIST.get(w.airIndex));
 			}
