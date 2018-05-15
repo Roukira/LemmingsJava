@@ -9,6 +9,7 @@ public class Miner extends Digger{
 	
 	private int directionY;
 	
+	//image for miner actions
 	private static BufferedImage minerImage1;
 	private static BufferedImage minerImage2;
 	private static BufferedImage minerImageUp;
@@ -19,23 +20,25 @@ public class Miner extends Digger{
 	private static BufferedImage minerReversedImageUp;
 	private static BufferedImage minerReversedImageDown;
 	
+	//colored lemmings walker like the miner
 	protected static BufferedImage imageRightMiner;		//Image du Walker avancant sur la droite
 	protected static BufferedImage imageRightStepMiner;		//Image du Walker avancant sur la droite en marchant
 	protected static BufferedImage imageLeftMiner;		//Image du Walker avancant sur la gauche
 	protected static BufferedImage imageLeftStepMiner;	
 	
-	private int iMine;
+	private int iMine;	//counter for each wall mining animation, used to know when to change picture, and when to affect the map.
 	private int MINE_MAX = 30;
-	private int MineCounter = 40;
+	private int MineCounter = 40;	//counter to limit the time the miner mine
 	
-	private int radiusY;
-	private int radiusX;
+	private int radiusY;		//the range of the mining on the y axis
+	private int radiusX;		//the range of the mining on the x axis
 	private int stepHeight = 2;
 	
 	
-	//===================== CONSTRUCTEURS ==========================
+	//===================== ASSET LOADER ==========================
 		
 	public static void loadAssets(){
+		//loading Basher assets
 		try{
 			minerImage1 = ImageIO.read(new File("lemmings/miner1.png"));
 			minerImage2 = ImageIO.read(new File("lemmings/miner2.png"));
@@ -55,6 +58,8 @@ public class Miner extends Digger{
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
+	//===================== CONSTRUCTEURS ==========================
+	
 	public Miner(Lemmings l, int directionY){
 		super(l);
 		
@@ -67,42 +72,44 @@ public class Miner extends Digger{
 		radiusY = height;
 	}
 	
+	
 	//=================== METHODES ==========================
 
 	public void move(){
-		if (!inWorld) return;
-		if(!action){
-			if (fall()) return;
-			if (goAhead()) return;
-			this.job = World.MINER;
+	//move method, describing the way the Miner moves
+		if (!inWorld) return;			//check if he is in world
+		if(!action){			//then if he hasn't begin the action
+			if (fall()) return;		//if falling keep falling
+			if (goAhead()) return;		//if no obstacle to mine keep going ahead
+			this.job = World.MINER;		//else start mining
 			this.action = true;
 			move();
 		}else{
 			if (fall()){
-				System.out.println("turn into walker from fall");
+				//if start to fall after the action begin stop the action
 				w.changeJob(this,World.WALKER);
 				return;
 			}
 			if (iMine == 0){
 				affectMap();
-				iMine = MINE_MAX;
-				MineCounter--;
+				iMine = MINE_MAX;	//to start a new animation
+				MineCounter--;		//update MineCounter
 				if (MineCounter == 0){
-					System.out.println("turn into walker from out of mine");
+					//change his job after a period of time define with MineCounter
 					w.changeJob(this,World.WALKER);
 				}
 				int newPosX = posX+direction*(radiusX+width/4);
 				int newPosY = posY-directionY*stepHeight;
 				if (!w.onBounds(newPosX,newPosY)){
-					System.out.println("turn into walker from imine");
+					//if try to mine out of the map change his job
 					w.changeJob(this,World.WALKER);
 				}
 				posX += direction*(radiusX+width/4);
 				posY -= directionY*stepHeight;
-				System.out.println("Avancement");
+				//change his postion after mining
 				return;
 			}
-			iMine--;
+			iMine--;		//update the animation counter
 			
 		}
 		
@@ -111,12 +118,17 @@ public class Miner extends Digger{
 	
 	public boolean goAhead(){
 		if (!super.walk()){
+			//if cannot walk check if can climbUp
 			if (!super.climbUp()){
+				//if cannot ClimUP check if can climbDown
 				if(!super.climbDown()){
+					//if cannot climbDown check if it is because of a stopper wall
 					if (super.checkForStopperWall()){
+						//if yes goback to find another wall
 						direction = -direction;
 					}
 					else{
+						//if all this false then miner can't go ahead
 						return false;
 					}
 				}
@@ -126,6 +138,7 @@ public class Miner extends Digger{
 	}
 	
 	public void drawAction(Graphics2D g){
+	//draw action method using iMine to adapt the animation
 		if (direction == 1){
 			if (iMine<(int)(1+MINE_MAX/3)){
 				if (directionY == 1) g.drawImage(minerImageUp,posX-(width/2),posY-height,null);
@@ -144,12 +157,15 @@ public class Miner extends Digger{
 	}
 	
 	public void affectMap(){
+	//method affecting the world's map
 		if (direction == 1){
 			if (directionY == 1){
 				for (int i = posX;i<=posX+width/2+radiusX;i++){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
 						if (w.canDestructPixel(i,j)){
+							//change the mined place so lemmings can go throught
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
+							//and change his color
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
 					}
@@ -159,7 +175,9 @@ public class Miner extends Digger{
 				for (int i = posX;i<=posX+width/2+radiusX;i++){
 					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
 						if (w.canDestructPixel(i,j)){
+							//change the mined place so lemmings can go throught
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
+							//and change his color
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
 					}
@@ -171,7 +189,9 @@ public class Miner extends Digger{
 				for (int i = posX;i>=posX-width/2-radiusX;i--){
 					for (int j = posY-stepHeight-radiusY;j<=posY-stepHeight;j++){
 						if (w.canDestructPixel(i,j)){
+							//change the mined place so lemmings can go throught
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
+							//and change his color
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
 					}
@@ -181,7 +201,9 @@ public class Miner extends Digger{
 				for (int i = posX;i>=posX-width/2-radiusX;i--){
 					for (int j = posY+stepHeight-radiusY;j<=posY+stepHeight;j++){
 						if (w.canDestructPixel(i,j)){
+							//change the mined place so lemmings can go throught
 							w.setMapTypeAtPos(i,j,w.AIR_CST);
+							//and change his color
 							w.setMapPixelColor(i,j,w.AIR_LIST.get(w.airIndex));
 						}
 					}
@@ -194,6 +216,8 @@ public class Miner extends Digger{
 		directionY = -directionY;
 	}
 	
+	
+	//==================method tochange the walker Lemmings color=====================
 	
 	public BufferedImage getImageRight(){
 		return imageRightMiner;
