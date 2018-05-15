@@ -22,6 +22,7 @@ public class World implements Renderable{
 	private BufferedImage mapImage;							//Image en .png de la carte a charger
 	
 	public static final ArrayList<Color> AIR_LIST = new ArrayList<Color>();			//liste des constantes d'air
+	public static final int INVALID_POS_CST = -1;
 	public static final int AIR_CST = 0;							//constantes pour mieux lire
 	public static final int GROUND_CST = 1;
 	public static final int WALL_RIGHT_CST = 4;							//constantes pour mieux lire
@@ -218,8 +219,8 @@ public class World implements Renderable{
 	public int getPos(int posX, int posY){
 	//Fonction qui en fonction de x et y renvoie 1 si la couleur sur la case x,y est considéré comme de l'aire
 	//le truc des couleur va etre dans la construction du monde pour l'initialisation de map[][] (pour ne pas recalculer a chaque fois)
-		if (posX >=0 && posX <width && posY>=0 && posY< height) return map[posX][posY];
-		return -1;
+		if (onBounds(posX,posY)) return map[posX][posY];
+		return INVALID_POS_CST;
   		
 	}
 	
@@ -367,7 +368,7 @@ public class World implements Renderable{
 	
 	public boolean canDestructPixel(int posX, int posY){
 		if (!onBounds(posX,posY)) return false;
-		if (getPos(posX,posY)==-1 || getPos(posX,posY)==3 || getPos(posX,posY)==5) return false;
+		if (getPos(posX,posY)==INVALID_POS_CST || getPos(posX,posY)==3 || getPos(posX,posY)==5) return false;
 		return true;
 	}
 	
@@ -479,14 +480,14 @@ public class World implements Renderable{
 			System.out.println(l.toString()+" | reset la map");
 			((Affecter)l).resetMap();
 		}
-		int index = -1;
+		int index = INVALID_POS_CST;
 		for(int i=0;i<list.length;i++){
 			if (list[i].getId()==l.getId()){
 				index = i;
 				break;
 			}
 		}
-		if((index == -1) || (newLemming==null)){
+		if((index == INVALID_POS_CST) || (newLemming==null)){
 			System.out.println("Out of lemmings of this type");
 			return;
 		}

@@ -130,9 +130,9 @@ public class Basher extends Digger{
 		//drawAction method describes the way the Basher is drawn during his job
 	
 		if (direction == 1){
-			if (iBash<=(int)(iBASH_MAX/(4*1.0))) g.drawImage(basherImage2,posX-(width/2),posY-height,null);					//stage 1
+			if (iBash<=(int)(iBASH_MAX/(4*1.0))) g.drawImage(basherImage2,posX-(width/2),posY-height,null);					//stage 3
 			else if (iBash<=(int)(2*iBASH_MAX/(4*1.0))) g.drawImage(basherImage1,posX-(width/2),posY-height,null);			//stage 2
-			else if (iBash<=(int)(3*iBASH_MAX/(4*1.0))) g.drawImage(basherImage0,posX-(width/2),posY-height,null);			//stage 3
+			else if (iBash<=(int)(3*iBASH_MAX/(4*1.0))) g.drawImage(basherImage0,posX-(width/2),posY-height,null);			//stage 1
 			else g.drawImage(basherImage3,posX-(width/2),posY-height,null);													//stage 4
 		}else{
 			if (iBash<=(int)(iBASH_MAX/(4*1.0))) g.drawImage(basherImage2reverse,posX-(width/2),posY-height,null);
@@ -144,20 +144,20 @@ public class Basher extends Digger{
 	
 	
 	public void affectMap(){
-		
+		//affectMap method digs the ground
 		int diggYend = height;																		//dig Y position's end
 		int diggYstart = 0;																			//dig Y position's beginning
 		int diggX = bashWidth;																		//dig X width
 		
-		if (iBash == (int)(iBASH_MAX/(4*1.0))){														//if stage 1
+		if (iBash == (int)(iBASH_MAX/(4*1.0))){														//if stage 3
 			diggYend = (int)(1+height/3);
 		}
-		else if (iBash == (int)(2*iBASH_MAX/(4))){ 													//if stage 2
+		else if (iBash == (int)(2*iBASH_MAX/(4*1.0))){ 													//if stage 2
 			diggYstart = (int)(1+height/3);  
 			diggYend = (int)(2*height/3);
 			diggX = (3*bashWidth)/2;
 		}
-		else if (iBash == (int)(3*iBASH_MAX/(4))){													//if stage 3
+		else if (iBash == (int)(3*iBASH_MAX/(4*1.0))){													//if stage 1
 			diggYstart = (int)(2*height/3);
 		}
 		else return;																				//stage 4 does nothing
