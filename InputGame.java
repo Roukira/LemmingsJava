@@ -185,7 +185,7 @@ public class InputGame extends Input{
         }
         
         public boolean arrowPressed(World world, int posXclic, int posYclic){
-        	if (gs.getSkillBar().getPosXCapacity(World.MINER-1)<0) return false;
+        	if (gs.getSkillBar().getPosXCapacity(World.MINER)<0) return false;
         	if (posXmouse >= gs.getSkillBar().getArrowPosX() && posXmouse <= gs.getSkillBar().getArrowPosX()+gs.getSkillBar().getArrowWidth() && posYmouse >= world.getHeight()+gs.getSkillBar().getArrowPosY() && posYmouse <= world.getHeight()+gs.getSkillBar().getArrowPosY()+gs.getSkillBar().getArrowHeight()){
         		gs.getSkillBar().changeMinerDirection();
         		return true;
@@ -209,7 +209,7 @@ public class InputGame extends Input{
 			if (gs.getSkillBar().getPosXCapacity(i)>=0){
 				if (posXclic > gs.getSkillBar().getPosXCapacity(i) && posXclic < gs.getSkillBar().getPosXCapacity(i)+gs.getSkillBar().getCapacityWidth()
 				&& posYclic > world.getHeight()+gs.getSkillBar().getPosYCapacity() && posYclic < world.getHeight()+gs.getSkillBar().getPosYCapacity()+gs.getSkillBar().getCapacityWidth()){
-					setCapacityClicSetter(i+1);
+					setCapacityClicSetter(i);
 					return;
 				}
 			}

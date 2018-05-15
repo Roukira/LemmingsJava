@@ -185,7 +185,7 @@ public class SkillBar implements Renderable{
 		World w = gs.getWindow().getCurrentWorld();
 		int newPosX = leftPadding;
 		for (int i = 0;i<nbJobs;i++){
-			if (w.getLemmingsLimit(i+1) >0){
+			if (w.getLemmingsLimit(i) >0){
 				posXcapacityTab[i] = newPosX;
 				newPosX += getCapacityWidth()+spacing;
 			}
@@ -204,15 +204,15 @@ public class SkillBar implements Renderable{
 		world.getStats().draw(g);
 		
 		for (int i = 0;i<nbJobs;i++){
-			if (getPosXCapacity(i)>=0) g.drawImage(getImageCapacity(i+1),getPosXCapacity(i),posYcapacity,null);
+			if (getPosXCapacity(i)>=0) g.drawImage(getImageCapacity(i),getPosXCapacity(i),posYcapacity,null);
 		}
 		
 		g.setColor(Color.white);
 		
 		for (int i = 0;i<nbJobs;i++){
 			if (getPosXCapacity(i)>=0){
-				g.drawString(""+world.getLemmingsJob(i+1),getPosXCapacity(i),posYcapacity+getCapacityWidth()+15);
-				g.drawString(world.getLemmingsLimit(i+1)+" left",getPosXCapacity(i),posYcapacity+getCapacityWidth()+30);
+				g.drawString(""+world.getLemmingsJob(i),getPosXCapacity(i),posYcapacity+getCapacityWidth()+15);
+				g.drawString(world.getLemmingsLimit(i)+" left",getPosXCapacity(i),posYcapacity+getCapacityWidth()+30);
 			}
 		}
 		
@@ -251,7 +251,7 @@ public class SkillBar implements Renderable{
 		
 		for (int i = 0; i<nbJobs;i++){
 			if (getPosXCapacity(i)>=0){
-				if (i+1 == capacityClicSetter){
+				if (i == capacityClicSetter){
 					drawCapacityBorder(g, SELECtBORDER, getPosXCapacity(i)-1,posYcapacity-1);
 				}
 			}
@@ -427,7 +427,7 @@ public class SkillBar implements Renderable{
   	}
   	
   	public int getArrowPosX(){
-  		return getPosXCapacity(World.MINER-1)+getCapacityWidth()-getArrowWidth();
+  		return getPosXCapacity(World.MINER)+getCapacityWidth()-getArrowWidth();
   	}
   	
   	public int getArrowPosY(){

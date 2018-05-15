@@ -56,13 +56,13 @@ public class World implements Renderable{
 	private boolean started = false;
 	private int victoryCondition;
 	
-	public static final int WALKER = 0;
-	public static final int STOPPER = 5;
-	public static final int BOMBER = 1;
-	public static final int BUILDER = 4;
-	public static final int BASHER = 2;
-	public static final int MINER = 3;
-	public static final int EXCAVATER = 6;
+	public static final int WALKER = -1;
+	public static final int STOPPER = 4;
+	public static final int BOMBER = 0;
+	public static final int BUILDER = 3;
+	public static final int BASHER = 1;
+	public static final int MINER = 2;
+	public static final int EXCAVATER = 5;
 	
 	Stats stats;
 	
