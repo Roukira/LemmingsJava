@@ -7,8 +7,6 @@ import java.io.File;
 
 public abstract class Digger extends Lemmings implements Affecter{
 
-	protected boolean affectMapBool = false;
-	
 
 //================== CONSTRUCTEURS ======================
 	

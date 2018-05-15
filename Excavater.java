@@ -48,9 +48,8 @@ public class Excavater extends Digger{
 
 	public void move(){
 		if (!inWorld) return;
-		if(!affectMapBool){
+		if(!action){
 			if (fall()) return;
-			affectMapBool = true;
 			this.job = World.EXCAVATER;
 			this.action = true;
 			move();

@@ -71,10 +71,9 @@ public class Miner extends Digger{
 
 	public void move(){
 		if (!inWorld) return;
-		if(!affectMapBool){
+		if(!action){
 			if (fall()) return;
 			if (goAhead()) return;
-			affectMapBool = true;
 			this.job = World.MINER;
 			this.action = true;
 			move();
