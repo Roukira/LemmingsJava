@@ -65,22 +65,52 @@ public class Stopper extends Lemmings implements Affecter{
 	}
 	
 	public void affectMap(){
-		for(int i = 0;i<height;i++) {
-			w.setMapTypeAtPos(posX-(width/2),posY-i,w.STOPPER_WALL_LEFT_CST);
-			//w.setMapPixelColor(posX-(width/2),posY-i,Color.red);
+		int xLeft = posX-(width/2);
+		int xRight = posX+(width/2);
+		int y = posY-height;
+		boolean wallRightCanGo = true;
+		boolean wallLeftCanGo = false;
+		while(wallRightCanGo || wallLeftCanGo) {
+			if (w.getPos(xLeft,y) == World.AIR_CST){
+				w.setMapTypeAtPos(xLeft,y,w.STOPPER_WALL_LEFT_CST);
+				wallLeftCanGo = true;
+			}
+			else wallLeftCanGo = false;
+			w.setMapPixelColor(xLeft,y,Color.red);
 			
-			w.setMapTypeAtPos(posX+(width/2),posY-i,w.STOPPER_WALL_RIGHT_CST);
-			//w.setMapPixelColor(posX+(width/2),posY-i,Color.red);
+			if (w.getPos(xRight,y) == World.AIR_CST){
+				w.setMapTypeAtPos(xRight,y,w.STOPPER_WALL_RIGHT_CST);
+				wallRightCanGo = true;
+			}
+			else wallRightCanGo = false;
+			w.setMapPixelColor(xRight,y,Color.red);
+			
+			y++;
 		}
 	}
 	
 	public void resetMap(){
-		for(int i = 0;i<height;i++){
-			w.setMapTypeAtPos(posX-(width/2),posY-i,w.AIR_CST);
-			w.setMapPixelColor(posX-(width/2),posY-i,Color.blue);
+		int xLeft = posX-(width/2);
+		int xRight = posX+(width/2);
+		int y = posY-height;
+		boolean wallRightCanGo = true;
+		boolean wallLeftCanGo = false;
+		while(wallRightCanGo || wallLeftCanGo) {
+			if (w.getPos(xLeft,y) == World.STOPPER_WALL_LEFT_CST){
+				w.setMapTypeAtPos(xLeft,y,w.AIR_CST);
+				wallLeftCanGo = true;
+			}
+			else wallLeftCanGo = false;
+			w.setMapPixelColor(xLeft,y,Color.blue);
 			
-			w.setMapTypeAtPos(posX+(width/2),posY-i,w.AIR_CST);
-			w.setMapPixelColor(posX+(width/2),posY-i,Color.blue);
+			if (w.getPos(xRight,y) == World.STOPPER_WALL_RIGHT_CST){
+				w.setMapTypeAtPos(xRight,y,w.AIR_CST);
+				wallRightCanGo = true;
+			}
+			else wallRightCanGo = false;
+			w.setMapPixelColor(xRight,y,Color.blue);
+			
+			y++;
 		}
 	}
 	

@@ -118,6 +118,11 @@ public class Basher extends Digger{
 			if (action) System.out.println(toString()+" is changing direction due to stopper wall");
 			return true;
 		}
+		else if (!w.onBounds(posX+direction*(imageRight.getWidth()/2),posY)){
+			direction = -direction;
+			System.out.println(toString()+" is changing direction due to map limits");
+			return true;
+		}
 		return false;
 	}
 	
