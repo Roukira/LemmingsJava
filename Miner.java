@@ -21,9 +21,9 @@ public class Miner extends Digger{
 	private static BufferedImage minerReversedImageDown;
 	
 	//colored lemmings walker like the miner
-	protected static BufferedImage imageRightMiner;		//Image du Walker avancant sur la droite
-	protected static BufferedImage imageRightStepMiner;		//Image du Walker avancant sur la droite en marchant
-	protected static BufferedImage imageLeftMiner;		//Image du Walker avancant sur la gauche
+	protected static BufferedImage imageRightMiner;
+	protected static BufferedImage imageRightStepMiner;
+	protected static BufferedImage imageLeftMiner;
 	protected static BufferedImage imageLeftStepMiner;	
 	
 	private int iMine;	//counter for each wall mining animation, used to know when to change picture, and when to affect the map.
@@ -32,7 +32,7 @@ public class Miner extends Digger{
 	
 	private int radiusY;		//the range of the mining on the y axis
 	private int radiusX;		//the range of the mining on the x axis
-	private int stepHeight = 2;
+	private int stepHeight = 2;	//Miner step Height when moving forward
 	
 	
 	//===================== ASSET LOADER ==========================

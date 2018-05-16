@@ -23,13 +23,16 @@ public class Builder extends Lemmings implements Affecter{
 	private static BufferedImage builderWait3;
 	
 	private static BufferedImage buildStep;
-	private boolean outOfBounds = false;
 	private boolean changeJobBool = false;
+	private boolean changedDirection = false;
+	
 	private int nbSteps = 20;
 	
-	private int iBuild = 80;
+	private static final int BUILD_MAX = 40;
+	private int iBuild = BUILD_MAX;
 	
-	private int iWait = 150;
+	private static final int WAIT_MAX = 150;
+	private int iWait = WAIT_MAX;
 	private String nbStepsString = ""+nbSteps;
 
 //================== CONSTRUCTEURS ======================
@@ -68,31 +71,31 @@ public class Builder extends Lemmings implements Affecter{
 	
 	public void drawAction(Graphics2D g){
 		if (nbSteps==0){
-			if(iWait>140) g.drawImage(builderWait0,posX-(width/2),posY-height,null);
-			else if (iWait>130) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
-			else if (iWait>120) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
-			else if (iWait>100) g.drawImage(builderWait3,posX-(width/2),posY-height,null);
-			else if (iWait>90) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
-			else if (iWait>80) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
-			else if(iWait>70) g.drawImage(builderWait0,posX-(width/2),posY-height,null);
-			else if (iWait>60) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
-			else if (iWait>50) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
-			else if (iWait>30) g.drawImage(builderWait3,posX-(width/2),posY-height,null);
-			else if (iWait>20) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
-			else if (iWait>10) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
+			if(iWait>12*WAIT_MAX/13) g.drawImage(builderWait0,posX-(width/2),posY-height,null);
+			else if (iWait>11*WAIT_MAX/13) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
+			else if (iWait>10*WAIT_MAX/13) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
+			else if (iWait>9*WAIT_MAX/13) g.drawImage(builderWait3,posX-(width/2),posY-height,null);
+			else if (iWait>8*WAIT_MAX/13) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
+			else if (iWait>7*WAIT_MAX/13) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
+			else if (iWait>6*WAIT_MAX/13) g.drawImage(builderWait0,posX-(width/2),posY-height,null);
+			else if (iWait>5*WAIT_MAX/13) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
+			else if (iWait>4*WAIT_MAX/13) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
+			else if (iWait>3*WAIT_MAX/13) g.drawImage(builderWait3,posX-(width/2),posY-height,null);
+			else if (iWait>2*WAIT_MAX/13) g.drawImage(builderWait2,posX-(width/2),posY-height,null);
+			else if (iWait>WAIT_MAX/13) g.drawImage(builderWait1,posX-(width/2),posY-height,null);
 			else g.drawImage(builderWait0,posX-(width/2),posY-height,null);
 			return;
 		}
 		if (direction == 1){
-			if (iBuild<20) g.drawImage(builderImage3,posX-(width/2),posY-height,null);
-			else if (iBuild<40) g.drawImage(builderImage2,posX-(width/2),posY-height,null);
-			else if (iBuild<60) g.drawImage(builderImage1,posX-(width/2),posY-height,null);
+			if (iBuild<BUILD_MAX/4) g.drawImage(builderImage3,posX-(width/2),posY-height,null);
+			else if (iBuild<2*BUILD_MAX/4) g.drawImage(builderImage2,posX-(width/2),posY-height,null);
+			else if (iBuild<3*BUILD_MAX/4) g.drawImage(builderImage1,posX-(width/2),posY-height,null);
 			else g.drawImage(builderImage0,posX-(width/2),posY-height,null);
 		}
 		else{
-			if (iBuild<20) g.drawImage(builderImageReverse3,posX-(width/2),posY-height,null);
-			else if (iBuild<40) g.drawImage(builderImageReverse2,posX-(width/2),posY-height,null);
-			else if (iBuild<60) g.drawImage(builderImageReverse1,posX-(width/2),posY-height,null);
+			if (iBuild<BUILD_MAX/4) g.drawImage(builderImageReverse3,posX-(width/2),posY-height,null);
+			else if (iBuild<2*BUILD_MAX/4) g.drawImage(builderImageReverse2,posX-(width/2),posY-height,null);
+			else if (iBuild<3*BUILD_MAX/4) g.drawImage(builderImageReverse1,posX-(width/2),posY-height,null);
 			else g.drawImage(builderImageReverse0,posX-(width/2),posY-height,null);
 		}
 		g.setColor(Color.white);
@@ -118,11 +121,25 @@ public void affectMap(){
 		int startX;
 		if (direction == 1) startX = posX+buildStep.getWidth()/2;
 		else startX = posX-3*buildStep.getWidth()/2;
-		if (!w.addObjectToWorld(startX,posY-buildStep.getHeight(), type_CST, buildStep, direction)){ 
-			System.out.println("Out of bounds");
-			outOfBounds = true;
+		if (!w.addObjectToWorld(startX,posY-buildStep.getHeight()+1, type_CST, buildStep, direction)){ 
 			int newPosX = checkLastValidPosX();
-			if (newPosX !=-1) posX = newPosX -direction*buildStep.getWidth();
+			if (newPosX !=-1){
+				int temPosX = posX;
+				int temPosY = posY;
+				posX = newPosX;
+				w.setMapPixelColor(posX,posY,Color.yellow);
+				if (super.climbUp()){
+					System.out.println("climbed up");
+					changeJobBool = true;
+					return;
+				}
+				else{
+					posX = temPosX;
+					posY = temPosY;
+					direction = -direction;
+					changedDirection = true;
+				}
+			}
 			else changeJobBool = true;
 			
 		}
@@ -131,16 +148,16 @@ public void affectMap(){
 	
 	public int checkLastValidPosX(){
 		if (direction == 1){
-			for (int i = posX+buildStep.getWidth();i>=posX;i--){
-				if(w.getPos(i,posY)==0){
-					return i;
+			for (int i = posX;i<=posX+2*buildStep.getWidth();i++){
+				if(w.getPos(i,posY) == World.GROUND_CST){
+					return i-1;
 				}
 			}
 		}
 		else{
-			for (int i = posX-buildStep.getWidth();i<=posX;i++){
-				if(w.getPos(i,posY)==0){
-					return i;
+			for (int i = posX;i>=posX-2*buildStep.getWidth();i--){
+				if(w.getPos(i,posY) == World.GROUND_CST){
+					return i-1;
 				}
 			}
 		}
@@ -158,21 +175,12 @@ public void affectMap(){
 		return true;
 	}
 	
-	public boolean fall(){
-		boolean res;
-		int tmpWidht = width;
-		int tmpHeight = height;
-		width = imageRight.getWidth();
-		height = imageRight.getHeight();
-		res = super.fall();
-		width = tmpWidht;
-		height = tmpHeight;
-		return res;
-	}
-	
 	public void move(){
 		if (!inWorld) return;
-		if (fall()) return;
+		if (fall()){
+			if (action) w.changeJob(this,w.WALKER);
+			return;
+		}
 		//if (!haveEnoughPlace()){
 		action=true;
 		
@@ -184,7 +192,7 @@ public void affectMap(){
 		}
 		
 		if (!haveEnoughPlaceAbove()){
-			System.out.println("Changement de builder a Walker babe");
+			System.out.println("Changement de builder a Walker");
 			w.changeJob(this,w.WALKER);
 			return;
 		}
@@ -197,14 +205,10 @@ public void affectMap(){
 			}
 			nbSteps--;
 			nbStepsString = ""+nbSteps;
-			posX+=direction*buildStep.getWidth();
+			if (!changedDirection) posX+=direction*buildStep.getWidth();
+			else changedDirection = false;
 			posY-=buildStep.getHeight();
-			iBuild = 80;
-		}
-		if(outOfBounds){
-			//w.changeJob(this,w.WALKER);
-			direction = -direction;
-			outOfBounds = false;
+			iBuild = BUILD_MAX;
 		}
 		else iBuild--;
 		
