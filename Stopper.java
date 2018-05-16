@@ -136,6 +136,7 @@ public class Stopper extends Lemmings implements Affecter{
 				this.job = World.STOPPER;
 				this.action = true;
 				affectMap();
+				direction = -direction;
 			}
 			else{
 				if (walk()) return;
