@@ -47,10 +47,10 @@ public class Outside extends Item{
 			imageThird1 = ImageIO.read(new File("world/outside1-3.png"));
 			imageForth1 = ImageIO.read(new File("world/outside1-4.png"));
 			
-			imageFirst6 = ImageIO.read(new File("world/outside1-1.png"));
-			imageSecond6 = ImageIO.read(new File("world/outside1-2.png"));
-			imageThird6 = ImageIO.read(new File("world/outside1-3.png"));
-			imageForth6 = ImageIO.read(new File("world/outside1-4.png"));
+			imageFirst6 = ImageIO.read(new File("world/outside6-1.png"));
+			imageSecond6 = ImageIO.read(new File("world/outside6-2.png"));
+			imageThird6 = ImageIO.read(new File("world/outside6-3.png"));
+			imageForth6 = ImageIO.read(new File("world/outside6-4.png"));
 			
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -72,7 +72,7 @@ public class Outside extends Item{
 				Lemmings l = list.get(i);
 			
 				//System.out.println(l.toString()+" | "+l.getJob());
-				if(l.getInWorld() && l.getPosX()==posX && l.getPosY()==posY){
+				if(l.getInWorld() && l.getPosX()>=posX-5 && l.getPosX()<=posX+5 && l.getPosY()<=posY && l.getPosY()>=posY-3){
 					//System.out.println(l.toString()+" | "+l.getJob());
 					l.win();
 					list.remove(i);
@@ -88,10 +88,10 @@ public class Outside extends Item{
 	
 	public void draw(Graphics2D g){
 	//Dessine l'image avec l'image .png choisi au debut
-		if(Window.getTps()%40<10) g.drawImage(imageFirst1,posX-(int)(imageFirst1.getWidth()/2),posY+1-(int)(imageFirst1.getHeight()),null);
-		if(Window.getTps()%40<20) g.drawImage(imageSecond1,posX-(int)(imageSecond1.getWidth()/2),posY+1-(int)(imageSecond1.getHeight()),null);
-		if(Window.getTps()%40<30) g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY+1-(int)(imageThird.getHeight()),null);
-		else g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY+1-(int)(imageForth.getHeight()),null);
+		if(Window.getTps()%40<10) g.drawImage(imageFirst,posX-(int)(imageFirst.getWidth()/2),posY-(int)(imageFirst.getHeight()),null);
+		if(Window.getTps()%40<20) g.drawImage(imageSecond,posX-(int)(imageSecond.getWidth()/2),posY-(int)(imageSecond.getHeight()),null);
+		if(Window.getTps()%40<30) g.drawImage(imageThird,posX-(int)(imageThird.getWidth()/2),posY-(int)(imageThird.getHeight()),null);
+		else g.drawImage(imageForth,posX-(int)(imageForth.getWidth()/2),posY-(int)(imageForth.getHeight()),null);
 	}
 	
 	public void setOutsideType(){

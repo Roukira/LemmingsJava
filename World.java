@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class World implements Renderable{
 	//classe qui represente le monde actuel dans la fenetre principale
@@ -187,6 +189,15 @@ public class World implements Renderable{
 		}*/
 		
 	}
+	
+	/*public void son(){
+		try{
+			Media song = new Media(new File("world/LemmingsMusic.mp3").toURI().toString());
+			MediaPlayer mediaPlayer = new MediaPlayer(song);
+			mediaPlayer.play();
+		}catch(Exception e){e.printStackTrace();}
+		
+	}*/
 	
 	public void initAirCst(){
 	//initialise les constantes d'air pour avoir plus de choix (background et tout)
