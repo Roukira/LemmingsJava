@@ -6,7 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Miner extends Digger{
-	
+
+//==================== ATTRIBUTES ========================
+
 	private int directionY;
 	
 	//image for miner actions
@@ -35,7 +37,8 @@ public class Miner extends Digger{
 	private int stepHeight = 2;	//Miner step Height when moving forward
 	
 	
-	//===================== ASSET LOADER ==========================
+	
+	//===================== CONSTRUCTORS ==========================
 		
 	public static void loadAssets(){
 		//loading Basher assets
@@ -58,8 +61,6 @@ public class Miner extends Digger{
 		}catch(Exception e){e.printStackTrace();}
 	}
 	
-	//===================== CONSTRUCTEURS ==========================
-	
 	public Miner(Lemmings l, int directionY){
 		super(l);
 		
@@ -73,7 +74,7 @@ public class Miner extends Digger{
 	}
 	
 	
-	//=================== METHODES ==========================
+	//=================== METHODS ==========================
 
 	public void move(){
 	//move method, describing the way the Miner moves

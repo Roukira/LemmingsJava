@@ -7,6 +7,8 @@ import java.io.File;
 public class Basher extends Digger{
 	/*this class is a Lemmings sub class, its job is to destoy walls in his way forward*/
 	
+//==================== ATTRIBUTES ========================
+	
 	//basher images
 	private static BufferedImage basherImage0;
 	private static BufferedImage basherImage1;

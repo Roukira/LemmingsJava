@@ -8,6 +8,8 @@ import java.io.File;
 public class Excavater extends Digger{
 	/*this class is a Lemmings sub class, its job is to destoy walls in his way forward*/
 	
+	
+//==================== ATTRIBUTES ========================
 	//excavater images
 	private static BufferedImage excavaterImage0;
 	private static BufferedImage excavaterImage1;
