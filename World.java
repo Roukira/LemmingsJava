@@ -7,8 +7,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 
 public class World implements Renderable{
 	//classe qui represente le monde actuel dans la fenetre principale

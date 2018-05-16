@@ -202,7 +202,7 @@ public abstract class Lemmings extends Thing{			//Classe des Lemmings (elle sera
 	public boolean fall(){
 		
 		for (int i=0;i<(imageRight.getWidth()/2);i++){
-			if(w.getPos(posX-i,posY+1)!=0 || w.getPos(posX+i,posY+1)!=0){
+			if(w.getPos(posX-i,posY+1)!=World.AIR_CST || w.getPos(posX+i,posY+1)!=World.AIR_CST){
 				if (iFall<maxFall && posY+2<=w.getHeight()) {
 					iFall = 0;
 				}

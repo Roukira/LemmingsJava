@@ -121,13 +121,14 @@ public void affectMap(){
 		int startX;
 		if (direction == 1) startX = posX+buildStep.getWidth()/2;
 		else startX = posX-3*buildStep.getWidth()/2;
-		if (!w.addObjectToWorld(startX,posY-buildStep.getHeight()+1, type_CST, buildStep, direction)){ 
+		if (!w.addObjectToWorld(startX,posY-buildStep.getHeight(), type_CST, buildStep, direction)){ 
 			int newPosX = checkLastValidPosX();
 			if (newPosX !=-1){
 				int temPosX = posX;
 				int temPosY = posY;
 				posX = newPosX;
-				w.setMapPixelColor(posX,posY,Color.yellow);
+				posY -= buildStep.getHeight();
+				//w.setMapPixelColor(posX,posY,Color.yellow);
 				if (super.climbUp()){
 					System.out.println("climbed up");
 					changeJobBool = true;
