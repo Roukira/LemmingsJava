@@ -99,17 +99,18 @@ public class Stopper extends Lemmings implements Affecter{
 		while(wallRightCanGo || wallLeftCanGo) {
 			if (w.getPos(xLeft,y) == World.STOPPER_WALL_LEFT_CST){
 				w.setMapTypeAtPos(xLeft,y,w.AIR_CST);
+				//w.setMapPixelColor(xLeft,y,Color.blue);
 				wallLeftCanGo = true;
 			}
 			else wallLeftCanGo = false;
-			w.setMapPixelColor(xLeft,y,Color.blue);
+			
 			
 			if (w.getPos(xRight,y) == World.STOPPER_WALL_RIGHT_CST){
 				w.setMapTypeAtPos(xRight,y,w.AIR_CST);
+				//w.setMapPixelColor(xRight,y,Color.blue);
 				wallRightCanGo = true;
 			}
 			else wallRightCanGo = false;
-			w.setMapPixelColor(xRight,y,Color.blue);
 			
 			y++;
 		}

@@ -61,7 +61,6 @@ public class Builder extends Lemmings implements Affecter{
 	
 	public Builder(Lemmings l){
 		super(l);
-		this.job = World.BUILDER;
 		height = builderImage0.getHeight();
 		width = builderImage0.getWidth();
 		System.out.println("new builder...");
