@@ -114,18 +114,16 @@ public class Stopper extends Lemmings implements Affecter{
 		boolean wallRightCanGo = true;								//boolean to know if ground has been reached
 		boolean wallLeftCanGo = true;
 		while(wallRightCanGo || wallLeftCanGo) {						//if any of both walls can keep going
-			if (w.getPos(xLeft,y) == World.AIR_CST){					//check if left wall can continue
+			if (wallLeftCanGo && w.getPos(xLeft,y) == World.AIR_CST){					//check if left wall can continue
 				w.setMapTypeAtPos(xLeft,y,w.STOPPER_WALL_LEFT_CST);			//and set a wall there
-				//w.setMapPixelColor(xLeft,y,Color.red);
-				wallLeftCanGo = true;							//and refresh boolean depending on whether it could continue or not
+				w.setMapPixelColor(xLeft,y,Color.red);					//and refresh boolean depending on whether it could continue or not
 			}
 			else wallLeftCanGo = false;
 			
 			
-			if (w.getPos(xRight,y) == World.AIR_CST){					//same as left wall but on right
+			if (wallRightCanGo && w.getPos(xRight,y) == World.AIR_CST){					//same as left wall but on right
 				w.setMapTypeAtPos(xRight,y,w.STOPPER_WALL_RIGHT_CST);
-				//w.setMapPixelColor(xRight,y,Color.red);
-				wallRightCanGo = true;
+				w.setMapPixelColor(xRight,y,Color.red);
 			}
 			else wallRightCanGo = false;
 			
@@ -139,20 +137,18 @@ public class Stopper extends Lemmings implements Affecter{
 		int xRight = posX+(width/2);
 		int y = posY-height;
 		boolean wallRightCanGo = true;
-		boolean wallLeftCanGo = false;
+		boolean wallLeftCanGo = true;
 		while(wallRightCanGo || wallLeftCanGo) {
-			if (w.getPos(xLeft,y) == World.STOPPER_WALL_LEFT_CST){
+			if (wallLeftCanGo && w.getPos(xLeft,y) == World.STOPPER_WALL_LEFT_CST){
 				w.setMapTypeAtPos(xLeft,y,w.AIR_CST);					//except walls are replaced by the old air there was
-				//w.setMapPixelColor(xLeft,y,Color.blue);
-				wallLeftCanGo = true;
+				w.setMapPixelColor(xLeft,y,Color.blue);
 			}
 			else wallLeftCanGo = false;
 			
 			
-			if (w.getPos(xRight,y) == World.STOPPER_WALL_RIGHT_CST){
+			if (wallRightCanGo && w.getPos(xRight,y) == World.STOPPER_WALL_RIGHT_CST){
 				w.setMapTypeAtPos(xRight,y,w.AIR_CST);
-				//w.setMapPixelColor(xRight,y,Color.blue);
-				wallRightCanGo = true;
+				w.setMapPixelColor(xRight,y,Color.blue);
 			}
 			else wallRightCanGo = false;
 			

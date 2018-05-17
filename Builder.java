@@ -76,6 +76,13 @@ public class Builder extends Lemmings implements Affecter{
 		if (!action){								//if Builder has not started his job yet
 			if (!inWorld) return;						//and he is on the ground
 			if (fall()) return;
+			int posXTemp = searchStairsMiddlePosition();
+			if (posXTemp != World.INVALID_POS_CST){
+				posX = posXTemp;
+				System.out.println("adjusted position on stairs");
+			}
+			else System.out.println("no stairs");
+			
 			this.action = true;						//then he can start his job
 			this.job = World.BUILDER;
 			iBuild = BUILD_MAX;
@@ -159,7 +166,7 @@ public class Builder extends Lemmings implements Affecter{
 		
 	}
 	
-public void affectMap(){
+	public void affectMap(){
 		//affectMap method for building the stairs
 		int type_CST;					//select the type of stairs 
 		if (direction==1) type_CST = w.WALL_LEFT_CST;	//left or right depending on direction
@@ -214,6 +221,22 @@ public void affectMap(){
 			}
 		}
 		return World.INVALID_POS_CST;							//if no reasonable closest position to the wall
+	}
+	
+	public int searchStairsMiddlePosition(){
+		//searchStairsMiddlePosition method returns the good position to start building on stairs
+		int posLeftStairs = World.INVALID_POS_CST;										//left and right stairs position
+		int posRightStairs = World.INVALID_POS_CST;										//initialized to invalid
+		for (int i = posX-buildStep.getWidth(); i<=posX+buildStep.getWidth();i++){						//check around posX	
+			if (w.getPos(i,posY+1) == World.WALL_LEFT_CST || w.getPos(i,posY+1) == World.WALL_RIGHT_CST){			//for the stairs left and right borders
+				if (posLeftStairs == World.INVALID_POS_CST) posLeftStairs = i;						//and get them
+				else posRightStairs = i;
+			}
+		}
+		if (posLeftStairs == World.INVALID_POS_CST || posRightStairs == World.INVALID_POS_CST) return World.INVALID_POS_CST;	//if no borders founds, return invalid
+		//w.setMapPixelColor(posLeftStairs,posY+1,Color.yellow);
+		//w.setMapPixelColor(posRightStairs,posY+1,Color.yellow);
+		return (posLeftStairs+posRightStairs)/2 +1;										//else return the middle position
 	}
 	
 	public void resetMap(){}								//Builder can't remove modifications he applied
