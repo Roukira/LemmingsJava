@@ -23,10 +23,10 @@ public class Stopper extends Lemmings implements Affecter{
 	private static BufferedImage imageLeftStopper;
 	private static BufferedImage imageLeftStepStopper;
 	
-	private static final int STOP_BEGIN_MAX = 20;		//constant to know which state of the blocking starting animation, the lower the faster the animation will be.
-	private int iStopBegin;								//counter for starting to block animation
-	private static final int STOP_MAX = 80;				//constant to know which state of the blocking animation we are in, the lower the faster the animation will be.
-	private int iStop;									//counter for blocking animation
+	private static final int STOP_BEGIN_MAX = 20;	//constant to know which state of the blocking starting animation, the lower the faster the animation will be.
+	private int iStopBegin;				//counter for starting to block animation
+	private static final int STOP_MAX = 80;		//constant to know which state of the blocking animation we are in, the lower the faster the animation will be.
+	private int iStop;				//counter for blocking animation
 	
 
 //================== CONSTRUCTORS ======================
@@ -60,30 +60,30 @@ public class Stopper extends Lemmings implements Affecter{
 	//move method, describing the way the Stopper moves
 		if (!inWorld) return;
 		if (!alive) return;
-		if(!action){													//if he hasn't started his job
-			if (fall()) return;												//and he is on a the ground
-			if (haveEnoughPlace()){											//with sufficient space to block others without issues
+		if(!action){							//if he hasn't started his job
+			if (fall()) return;					//and he is on a the ground
+			if (haveEnoughPlace()){					//with sufficient space to block others without issues
 				this.job = World.STOPPER;
-				this.action = true;											//then he starts blocking others
+				this.action = true;				//then he starts blocking others
 				iStopBegin = STOP_BEGIN_MAX;
 				iStop = STOP_MAX;
 				affectMap();
-				direction = -direction;										//and prepares to change direction when his job is done
+				direction = -direction;				//and prepares to change direction when his job is done
 			}
-			else{															//if he didn't have sufficient place
-				if (walk()) return;											//he searches for that place by walking
-				if (climbUp()) return;										//climbing up
-				if (climbDown()) return;									//or climbing down
-				direction = -direction;										//or even changing direction until he finds enough place
+			else{							//if he didn't have sufficient place
+				if (walk()) return;				//he searches for that place by walking
+				if (climbUp()) return;				//climbing up
+				if (climbDown()) return;			//or climbing down
+				direction = -direction;				//or even changing direction until he finds enough place
 			}
 			
 		}
-		else{																//during his job
-			if (fall()){													//if he can suddenly fall (example : a bomb)
-				posY--;														//he resets the map according to his old position
+		else{								//during his job
+			if (fall()){						//if he can suddenly fall (example : a bomb)
+				posY--;						//he resets the map according to his old position
 				resetMap();
 				posY++;
-				w.changeJob(this,World.WALKER);								//and stops blocking
+				w.changeJob(this,World.WALKER);			//and stops blocking
 				return;
 			}
 			if (iStop == 0) iStop = STOP_MAX;
@@ -108,41 +108,41 @@ public class Stopper extends Lemmings implements Affecter{
 	
 	public void affectMap(){
 		//affectMap method generates the hidden walls
-		int xLeft = posX-(width/2);											//left wall position
-		int xRight = posX+(width/2);										//right wall position
-		int y = posY-height;												//starting point on Y axis
-		boolean wallRightCanGo = true;										//boolean to know if ground has been reached
+		int xLeft = posX-(width/2);								//left wall position
+		int xRight = posX+(width/2);								//right wall position
+		int y = posY-height;									//starting point on Y axis
+		boolean wallRightCanGo = true;								//boolean to know if ground has been reached
 		boolean wallLeftCanGo = true;
-		while(wallRightCanGo || wallLeftCanGo) {							//if any of both walls can keep going
-			if (w.getPos(xLeft,y) == World.AIR_CST){						//check if left wall can continue
+		while(wallRightCanGo || wallLeftCanGo) {						//if any of both walls can keep going
+			if (w.getPos(xLeft,y) == World.AIR_CST){					//check if left wall can continue
 				w.setMapTypeAtPos(xLeft,y,w.STOPPER_WALL_LEFT_CST);			//and set a wall there
 				//w.setMapPixelColor(xLeft,y,Color.red);
-				wallLeftCanGo = true;										//and refresh boolean depending on whether it could continue or not
+				wallLeftCanGo = true;							//and refresh boolean depending on whether it could continue or not
 			}
 			else wallLeftCanGo = false;
 			
 			
-			if (w.getPos(xRight,y) == World.AIR_CST){						//same as left wall but on right
+			if (w.getPos(xRight,y) == World.AIR_CST){					//same as left wall but on right
 				w.setMapTypeAtPos(xRight,y,w.STOPPER_WALL_RIGHT_CST);
 				//w.setMapPixelColor(xRight,y,Color.red);
 				wallRightCanGo = true;
 			}
 			else wallRightCanGo = false;
 			
-			y++;															//update height at which walls generate
+			y++;										//update height at which walls generate
 		}
 	}
 	
 	public void resetMap(){
 		//resetMap method removes generated walls
-		int xLeft = posX-(width/2);											//everything works the same as generating the wall
+		int xLeft = posX-(width/2);								//everything works the same as generating the wall
 		int xRight = posX+(width/2);
 		int y = posY-height;
 		boolean wallRightCanGo = true;
 		boolean wallLeftCanGo = false;
 		while(wallRightCanGo || wallLeftCanGo) {
 			if (w.getPos(xLeft,y) == World.STOPPER_WALL_LEFT_CST){
-				w.setMapTypeAtPos(xLeft,y,w.AIR_CST);						//except walls are replaced by the old air there was
+				w.setMapTypeAtPos(xLeft,y,w.AIR_CST);					//except walls are replaced by the old air there was
 				//w.setMapPixelColor(xLeft,y,Color.blue);
 				wallLeftCanGo = true;
 			}

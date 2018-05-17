@@ -29,13 +29,13 @@ public class Builder extends Lemmings implements Affecter{
 	private boolean changeJobBool = false;		//boolean to know if he should change to Walker
 	private boolean changedDirection = false;	//boolean to know if he should change the direction he builds in
 	
-	private int nbSteps = 20;					//counter for number of stairs he builds
+	private int nbSteps = 20;			//counter for number of stairs he builds
 	
 	private static final int BUILD_MAX = 40;	//constant to know which state of the animation we are in, the lower the faster the animation will be.
-	private int iBuild;							//animation state
+	private int iBuild;				//animation state
 	
 	private static final int WAIT_MAX = 150;	//same for idle waiting animation
-	private int iWait;							//same
+	private int iWait;				//same
 	private String nbStepsString = ""+nbSteps;	//number of stairs remaining String displayed on top of builder
 
 //================== CONSTRUCTORS ======================
@@ -73,49 +73,46 @@ public class Builder extends Lemmings implements Affecter{
 	
 	public void move(){
 		//move method, describing the way the Builder moves
-		if (!action){																	//if Builder has not started his job yet
-			if (!inWorld) return;														//and he is on the ground
+		if (!action){								//if Builder has not started his job yet
+			if (!inWorld) return;						//and he is on the ground
 			if (fall()) return;
-			this.action = true;															//then he can start his job
+			this.action = true;						//then he can start his job
 			this.job = World.BUILDER;
 			iBuild = BUILD_MAX;
 			iWait = WAIT_MAX;
 		}
-		else{																			//if he is building stairs
-			if (fall()){																//and he can fall then he stops his job
-				System.out.println("Builder changing to Walker due to falling");
+		else{									//if he is building stairs
+			if (fall()){							//and he can fall then he stops his job
 				w.changeJob(this,w.WALKER);
 				return;
 			}
-			if(nbSteps==0){																//if he has reached nbSteps stairs he stops his job as well
-				if(iWait>0) iWait--;													//after his idle waiting animation is done
+			if(nbSteps==0){							//if he has reached nbSteps stairs he stops his job as well
+				if(iWait>0) iWait--;					//after his idle waiting animation is done
 				else w.changeJob(this,w.WALKER);
 				return;
 			}
 			
-			if (!haveEnoughPlaceAbove()){												//if he is under a ceiling, he stops his job to avoid getting stuck.		
-				System.out.println("Changement de builder a Walker");
+			if (!haveEnoughPlaceAbove()){					//if he is under a ceiling, he stops his job to avoid getting stuck.		
 				w.changeJob(this,w.WALKER);
 				return;
 			}
-			if(iBuild == 0){															//if his building animation is done,
-				affectMap();															//he puts the stairs
-				if (changeJobBool){														//and stops his job if he can climb up.
-					System.out.println("Walker because not enough place");
+			if(iBuild == 0){						//if his building animation is done,
+				affectMap();						//he puts the stairs
+				if (changeJobBool){					//and stops his job if he can climb up.
 					w.changeJob(this,w.WALKER);
 					return;
 				}
-				nbSteps--;																//number of stairs left updated
-				nbStepsString = ""+nbSteps;												//string updated
-				if (!changedDirection){													//if changing direction is necessary due to an obstacle, he does it
-					posX+=direction*buildStep.getWidth();								//by replacing himself in the stairs under the ones he just placed
+				nbSteps--;						//number of stairs left updated
+				nbStepsString = ""+nbSteps;				//string updated
+				if (!changedDirection){					//if changing direction is necessary due to an obstacle, he does it
+					posX+=direction*buildStep.getWidth();		//by replacing himself in the stairs under the ones he just placed
 					posY-=buildStep.getHeight();
 				}
 				else changedDirection = false;
 				
-				iBuild = BUILD_MAX;														//restart animation when done
+				iBuild = BUILD_MAX;					//restart animation when done
 			}
-			else iBuild--;																//updates animation
+			else iBuild--;							//updates animation
 		}
 		
 	}
@@ -164,33 +161,33 @@ public class Builder extends Lemmings implements Affecter{
 	
 public void affectMap(){
 		//affectMap method for building the stairs
-		int type_CST;																					//select the type of stairs 
-		if (direction==1) type_CST = w.WALL_LEFT_CST;													//left or right depending on direction
+		int type_CST;					//select the type of stairs 
+		if (direction==1) type_CST = w.WALL_LEFT_CST;	//left or right depending on direction
 		else type_CST = w.WALL_RIGHT_CST;
 		
-		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= World.AIR_CST	//if he is building on opposite stairs
+		if (w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= World.AIR_CST		//if he is building on opposite stairs
 			&& w.getPos(posX+direction*buildStep.getWidth(),posY-buildStep.getHeight())!= type_CST){	//then the stairs at this location is GROUND
 			type_CST = w.GROUND_CST;
 		}
-		int startX;																						//starting location for drawing the stairs
-		if (direction == 1) startX = posX+buildStep.getWidth()/2;										//depending on direction
+		int startX;											//starting location for drawing the stairs
+		if (direction == 1) startX = posX+buildStep.getWidth()/2;					//depending on direction
 		else startX = posX-3*buildStep.getWidth()/2;
 		if (!w.addObjectToWorld(startX,posY-buildStep.getHeight(), type_CST, buildStep, direction)){ 	//if the stairs were obstructed by a wall
-			int newPosX = checkLastValidPosX();															//get the closest position to that wall
-			if (newPosX !=World.INVALID_POS_CST){														//and check if it is a valid position
-				int temPosX = posX;																		//to move him there
+			int newPosX = checkLastValidPosX();							//get the closest position to that wall
+			if (newPosX !=World.INVALID_POS_CST){							//and check if it is a valid position
+				int temPosX = posX;								//to move him there
 				int temPosY = posY;
 				posX = newPosX;
 				posY -= buildStep.getHeight();
 				//w.setMapPixelColor(posX,posY,Color.yellow);
-				if (super.climbUp()){																	//and try to climb up	
-					changeJobBool = true;																//which would result in changing job
+				if (super.climbUp()){								//and try to climb up	
+					changeJobBool = true;							//which would result in changing job
 					return;
 				}
-				else{																					//if he can't climb it up,
-					posX = temPosX;																		//return to previous stairs position
+				else{										//if he can't climb it up,
+					posX = temPosX;								//return to previous stairs position
 					posY = temPosY;
-					direction = -direction;																//and change direction
+					direction = -direction;							//and change direction
 					changedDirection = true;
 				}
 			}
@@ -205,7 +202,7 @@ public void affectMap(){
 		if (direction == 1){
 			for (int i = posX;i<=posX+2*buildStep.getWidth();i++){			//up to 2x the width of stairs
 				if(w.getPos(i,posY) == World.GROUND_CST){
-					return i-1;												//i-1 to get the previous position
+					return i-1;						//i-1 to get the previous position
 				}
 			}
 		}
@@ -216,10 +213,10 @@ public void affectMap(){
 				}
 			}
 		}
-		return World.INVALID_POS_CST;										//if no reasonable closest position to the wall
+		return World.INVALID_POS_CST;							//if no reasonable closest position to the wall
 	}
 	
-	public void resetMap(){}												//Builder can't remove modifications he applied
+	public void resetMap(){}								//Builder can't remove modifications he applied
 	
 	public boolean haveEnoughPlaceAbove(){
 		//haveEnoughPlaceAbove method checks if the Builder has no ceiling obstructing his way while building

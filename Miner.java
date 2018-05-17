@@ -28,7 +28,7 @@ public class Miner extends Digger{
 	protected static BufferedImage imageLeftMiner;
 	protected static BufferedImage imageLeftStepMiner;	
 	
-	private int iMine;	//counter for each wall mining animation, used to know when to change picture, and when to affect the map.
+	private int iMine;		//counter for each wall mining animation, used to know when to change picture, and when to affect the map.
 	private int MINE_MAX = 30;
 	private int MineCounter = 40;	//counter to limit the time the miner mine
 	
@@ -79,7 +79,7 @@ public class Miner extends Digger{
 	public void move(){
 	//move method, describing the way the Miner moves
 		if (!inWorld) return;			//check if he is in world
-		if(!action){			//then if he hasn't begin the action
+		if(!action){				//then if he hasn't begin the action
 			if (fall()) return;		//if falling keep falling
 			if (goAhead()) return;		//if no obstacle to mine keep going ahead
 			this.job = World.MINER;		//else start mining
@@ -93,8 +93,8 @@ public class Miner extends Digger{
 			}
 			if (iMine == 0){
 				affectMap();
-				iMine = MINE_MAX;	//to start a new animation
-				MineCounter--;		//update MineCounter
+				iMine = MINE_MAX;				//to start a new animation
+				MineCounter--;					//update MineCounter
 				if (MineCounter == 0){
 					//change his job after a period of time define with MineCounter
 					w.changeJob(this,World.WALKER);
@@ -110,7 +110,7 @@ public class Miner extends Digger{
 				//change his postion after mining
 				return;
 			}
-			iMine--;		//update the animation counter
+			iMine--;						//update the animation counter
 			
 		}
 		

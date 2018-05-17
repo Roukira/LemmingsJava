@@ -27,7 +27,7 @@ public class Basher extends Digger{
 	private static BufferedImage imageLeftBasher;
 	private static BufferedImage imageLeftStepBasher;
 	
-	private int iBash;							//counter for each wall bashing animation, used to know when to change picture, and when to affect the map.
+	private int iBash;				//counter for each wall bashing animation, used to know when to change picture, and when to affect the map.
 	private static final int iBASH_MAX = 15;	//constant to know which state of the animation we are in, the lower the faster the animation will be.
 	
 	private static final int bashWidth = 3;
@@ -59,9 +59,9 @@ public class Basher extends Digger{
 	
 	public Basher(Lemmings l){
 		//Basher constructor, copied from the former lemming
-		super(l);																//copies former lemming attributes
-		height = basherImage0.getHeight();										//updates height
-		width = basherImage0.getWidth();										//updates width
+		super(l);								//copies former lemming attributes
+		height = basherImage0.getHeight();					//updates height
+		width = basherImage0.getWidth();					//updates width
 	}
 
 
@@ -70,30 +70,30 @@ public class Basher extends Digger{
 	public void move(){
 		//move method, describing the way the Basher moves
 		
-		if (!inWorld) return;										//if Basher is not bashing wall yet
-		if(!action){												//check if he can fall, or move forward
+		if (!inWorld) return;							//if Basher is not bashing wall yet
+		if(!action){								//check if he can fall, or move forward
 			if (fall()) return;										
 			if (goAhead()) return;
 			this.job = World.BASHER;
-			this.action = true;										//if he can start bashing wall, start his job.
+			this.action = true;						//if he can start bashing wall, start his job.
 			iBash = iBASH_MAX;
 		}
 		else{
-			if (fall()){											//if he is bashing wall, check if he can fall
+			if (fall()){							//if he is bashing wall, check if he can fall
 				System.out.println(toString()+" is falling.");
-				w.changeJob(this,World.WALKER);						//if he can, change to Walker
+				w.changeJob(this,World.WALKER);				//if he can, change to Walker
 				return;
 			}
-			if (iBash == 0){										//else if he reached end of his animation, move him bashWidth pixels on his direction
-				posX+=bashWidth*direction;							//and start a new animation
+			if (iBash == 0){						//else if he reached end of his animation, move him bashWidth pixels on his direction
+				posX+=bashWidth*direction;				//and start a new animation
 				iBash = iBASH_MAX;
-				if (goAhead()){										//unless he can walk, which means his job is done
+				if (goAhead()){						//unless he can walk, which means his job is done
 					w.changeJob(this,World.WALKER);
 					return;
 				}
 			}
-			else affectMap();										//during animation, affectMap is called to bash the walls
-			iBash--;												//update the animation counter
+			else affectMap();						//during animation, affectMap is called to bash the walls
+			iBash--;							//update the animation counter
 			
 		}
 		
@@ -103,24 +103,24 @@ public class Basher extends Digger{
 	public boolean goAhead(){
 		//goAhead method says if the Basher can move forward (if he can, it means his job is done), and if he can, he will.
 		
-		if (super.walk()){																	//if he can move forward
+		if (super.walk()){							//if he can move forward
 			if (action) System.out.println(toString()+" is walking.");
 			return true;
 		}
-		else if (super.climbUp()){															//or he can climb up
+		else if (super.climbUp()){						//or he can climb up
 			if (action) System.out.println(toString()+" is climbing up.");
 			return true;
 		}
-		else if (super.climbDown()){														//or he can climb down
+		else if (super.climbDown()){						//or he can climb down
 			if (action) System.out.println(toString()+" is climbing down.");
 			return true;
 		}
-		else if (super.checkForStopperWall()){												//or the obstacle is a Stopper wall (which he shouldn't consider an obstacle)
-			direction = -direction;															//then he can moves forward (or changes his direction if it's a Stopper wall)
+		else if (super.checkForStopperWall()){					//or the obstacle is a Stopper wall (which he shouldn't consider an obstacle)
+			direction = -direction;						//then he can moves forward (or changes his direction if it's a Stopper wall)
 			if (action) System.out.println(toString()+" is changing direction due to stopper wall");
 			return true;
 		}
-		else if (!w.onBounds(posX+direction*(imageRight.getWidth()/2),posY)){				//or he reached world limits
+		else if (!w.onBounds(posX+direction*(imageRight.getWidth()/2),posY)){	//or he reached world limits
 			direction = -direction;
 			System.out.println(toString()+" is changing direction due to map limits");
 			return true;
@@ -132,10 +132,10 @@ public class Basher extends Digger{
 		//drawAction method describes the way the Basher is drawn during his job
 	
 		if (direction == 1){
-			if (iBash<=(int)(iBASH_MAX/(4*1.0))) g.drawImage(basherImage2,posX-(width/2),posY-height,null);					//stage 3
+			if (iBash<=(int)(iBASH_MAX/(4*1.0))) g.drawImage(basherImage2,posX-(width/2),posY-height,null);				//stage 3
 			else if (iBash<=(int)(2*iBASH_MAX/(4*1.0))) g.drawImage(basherImage1,posX-(width/2),posY-height,null);			//stage 2
 			else if (iBash<=(int)(3*iBASH_MAX/(4*1.0))) g.drawImage(basherImage0,posX-(width/2),posY-height,null);			//stage 1
-			else g.drawImage(basherImage3,posX-(width/2),posY-height,null);													//stage 4
+			else g.drawImage(basherImage3,posX-(width/2),posY-height,null);								//stage 4
 		}else{
 			if (iBash<=(int)(iBASH_MAX/(4*1.0))) g.drawImage(basherImage2reverse,posX-(width/2),posY-height,null);
 			else if (iBash<=(int)(2*iBASH_MAX/(4*1.0))) g.drawImage(basherImage1reverse,posX-(width/2),posY-height,null);
@@ -147,23 +147,23 @@ public class Basher extends Digger{
 	
 	public void affectMap(){
 		//affectMap method digs the ground
-		int diggYend = height;																		//dig Y position's end
-		int diggYstart = 0;																			//dig Y position's beginning
-		int diggX = bashWidth;																		//dig X width
+		int diggYend = height;								//dig Y position's end
+		int diggYstart = 0;								//dig Y position's beginning
+		int diggX = bashWidth;								//dig X width
 		
-		if (iBash == (int)(iBASH_MAX/(4*1.0))){														//if stage 3
+		if (iBash == (int)(iBASH_MAX/(4*1.0))){						//if stage 3
 			diggYend = (int)(1+height/3);
 		}
-		else if (iBash == (int)(2*iBASH_MAX/(4*1.0))){ 													//if stage 2
+		else if (iBash == (int)(2*iBASH_MAX/(4*1.0))){ 					//if stage 2
 			diggYstart = (int)(1+height/3);  
 			diggYend = (int)(2*height/3);
 			diggX = (3*bashWidth)/2;
 		}
-		else if (iBash == (int)(3*iBASH_MAX/(4*1.0))){													//if stage 1
+		else if (iBash == (int)(3*iBASH_MAX/(4*1.0))){					//if stage 1
 			diggYstart = (int)(2*height/3);
 		}
-		else return;																				//stage 4 does nothing
-		for (int i=rangeBash;i<diggX+rangeBash;i++){												//applying world modifications
+		else return;									//stage 4 does nothing
+		for (int i=rangeBash;i<diggX+rangeBash;i++){					//applying world modifications
 			for (int j = diggYstart; j<=diggYend;j++){
 				w.setMapTypeAtPos(posX+direction*i,posY-j,w.AIR_CST);
 				w.setMapPixelColor(posX+direction*i,posY-j,w.AIR_LIST.get(w.airIndex));
