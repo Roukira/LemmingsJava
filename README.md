@@ -9,4 +9,4 @@ Little university project.
 - Enjoy !
 
 ### Planned updates
-Check Projects tab
+https://github.com/Roukira/LemmingsJava/projects/1
