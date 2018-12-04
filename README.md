@@ -7,7 +7,6 @@ Little university project.
 - javac *.java
 - java Game
 - Enjoy !
-### World separated in background and foreground
 
-#### Planned updates
+### Planned updates
 Check Projects tab
